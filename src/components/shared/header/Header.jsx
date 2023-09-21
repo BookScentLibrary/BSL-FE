@@ -2,14 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../../asset/images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import Signup from "../../user/Signup";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate("/");
+  };
+
   return (
     <React.Fragment>
       <Container>
-        <LogoWrapper>
+        <LogoWrapper onClick={goToHome}>
           <Logo style={{ width: "76px", height: "76px" }} />
           <p>
             책향기
@@ -46,6 +50,13 @@ export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 18px;
+
+  cursor: pointer;
+
+  & > p {
+    letter-spacing: 4px;
+    font-weight: 800;
+  }
 `;
 
 export const MenuWrapper = styled.div`
@@ -53,11 +64,13 @@ export const MenuWrapper = styled.div`
   width: 544px;
   justify-content: center;
   & > p {
+    cursor: pointer;
     width: fit-content;
     margin: 0 56px;
   }
 `;
 export const UserWrapper = styled.div`
+  cursor: pointer;
   width: 200px;
   text-align: right;
 `;

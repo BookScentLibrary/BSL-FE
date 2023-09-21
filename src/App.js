@@ -2,13 +2,16 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import Root from "./Root";
-import CreateAccountForm from "./components/user/Signup";
+import { ThemeProvider } from "styled-components";
+import theme from "./styles/theme";
 
 function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
-        <Root />
+        <ThemeProvider theme={theme}>
+          <Root />
+        </ThemeProvider>
       </BrowserRouter>
     </React.Fragment>
   );
