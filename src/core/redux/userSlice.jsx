@@ -52,6 +52,7 @@ export const testApi = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await userAPI.test(data);
+      console.log(response.data);
       thunkAPI.dispatch(userSlice.actions.setTestMessage(response.data));
     } catch (error) {
       console.log('logInApi : error response', error.response.data);
@@ -74,7 +75,7 @@ export const userSlice = createSlice({
       return;
     },
     setTestMessage: (state, action) => {
-      state.message=action.payload;
+      state.book=action.payload;
       return;
     }
   },

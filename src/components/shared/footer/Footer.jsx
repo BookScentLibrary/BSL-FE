@@ -28,7 +28,7 @@ const Footer = () => {
             <Button color="blue">Notion</Button>
             <Button color="red">Docs</Button>
             <p>
-              <span class="roboto">※</span>
+              <span className="roboto">※</span>
               <span className="title"> 팀명 </span>삼부삼조
             </p>
             <p>　(👑서유나 | 김민경 | 김윤주 | 박정원 | 서지수 | 송정은 )</p>

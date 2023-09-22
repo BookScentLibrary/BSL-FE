@@ -8,7 +8,6 @@ import MainPageTemplate from "../components/main/MainPageTemplate";
 const MainPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const message = useSelector( state => state.user.message);
   
   React.useEffect(() => {
     dispatch(testApi(''));
