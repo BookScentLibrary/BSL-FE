@@ -116,6 +116,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.username && <p>{errorMessage.username}</p>}
+        <br />
 
         <input
           type="password"
@@ -125,6 +126,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.password && <p>{errorMessage.password}</p>}
+        <br />
 
         <input
           type="password"
@@ -134,6 +136,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.password_again && <p>{errorMessage.password_again}</p>}
+        <br />
 
         <input
           type="email"
@@ -143,6 +146,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.email && <p>{errorMessage.email}</p>}
+        <br />
 
         <input
           type="text"
@@ -152,6 +156,8 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.nickname && <p>{errorMessage.nickname}</p>}
+        <br />
+
         <select name="gender" value={user.gender} onChange={handleInputChange}>
           <option value="">성별 선택</option>
           <option value="여">여</option>
@@ -159,6 +165,7 @@ const Signup = () => {
           <option value="선택안함">선택안함</option>
         </select>
         {errorMessage.gender && <p>{errorMessage.gender}</p>}
+        <br />
 
         <input
           type="text"
@@ -168,6 +175,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.phone && <p>{errorMessage.phone}</p>}
+        <br />
 
         <input
           type="text"
@@ -177,6 +185,7 @@ const Signup = () => {
           onChange={handleInputChange}
         />
         {errorMessage.userBirth && <p>{errorMessage.userBirth}</p>}
+        <br />
 
         <input
           type="number"
@@ -185,6 +194,8 @@ const Signup = () => {
           value={user.userAge}
           onChange={handleInputChange}
         />
+        <br />
+
         <input type="submit" value="회원가입" />
         <input type="reset" value="취소" />
       </form>

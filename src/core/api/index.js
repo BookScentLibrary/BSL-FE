@@ -1,6 +1,3 @@
-import * as userAPI from './user';
+import * as userAPI from "./user";
 
-export { 
-    userAPI,
-    
-};
+export { userAPI };
