@@ -28,3 +28,10 @@ export const test = (options) =>
     url: 'http://localhost:8080/book/',
     ...options,
   })
+
+  // export const showReviewListPage = (options) =>
+  // instance({
+  //   method: 'GET',
+  //   url: addPrefix(`/showReviewListPage`),
+  //   ...options,
+  // })

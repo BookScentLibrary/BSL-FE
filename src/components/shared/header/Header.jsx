@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../../asset/images/logo.svg";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,7 +25,11 @@ const Header = () => {
 
         <MenuWrapper>
           <p>자료 검색</p>
-          <p>소식 · 참여</p>
+          <p>소식 · 참여
+          <ul>
+            <li><Link to="/reviewList">리뷰게시판</Link></li>
+          </ul>
+          </p>
           <p>마이페이지</p>
         </MenuWrapper>
 
