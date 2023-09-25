@@ -9,7 +9,7 @@ const Header = () => {
   const goToHome = () => {
     navigate("/");
   };
-
+  //회원가입 연결
   const goToSignup = () => {
     navigate("/signup");
   };
@@ -33,6 +33,7 @@ const Header = () => {
         </MenuWrapper>
 
         <UserWrapper>
+          {/* 회원가입 누르면 회원가입 폼으로 이동 */}
           <p>로그인 | </p> <p onClick={goToSignup}> 회원가입</p>
         </UserWrapper>
       </Container>

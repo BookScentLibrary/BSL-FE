@@ -48,18 +48,20 @@ export const signupApi = createAsyncThunk(
   "user/signup",
   async (user, thunkAPI) => {
     try {
-      const userdata = {
-        username: user.username,
-        password: user.password,
-        password_again: user.password_again,
-        email: user.email,
-        nickname: user.nickname,
-        gender: user.gender,
-        phone: user.phone,
-        userBirth: user.userBirth,
-        userAge: user.userAge,
-      };
-      const response = await userAPI.signUp(userdata);
+      // const userdata = {
+      //   username: user.username,
+      //   password: user.password,
+      //   password_again: user.password_again,
+      //   email: user.email,
+      //   nickname: user.nickname,
+      //   gender: user.gender,
+      //   phone: user.phone,
+      //   userBirth: user.userBirth,
+      //   userAge: user.userAge,
+      // };
+      console.log(user);
+      const response = await userAPI.signUp(user);
+      console.log(response.data);
       thunkAPI.dispatch(userSlice.actions.setUser(response));
       window.location.replace("/signup");
       return;

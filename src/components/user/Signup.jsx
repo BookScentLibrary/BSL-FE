@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signupApi } from "../../core/redux/userSlice";
+import axios from "axios";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Signup = () => {
     gender: "",
     phone: "",
     userBirth: "",
-    userAge: "",
+    userAge: 0,
   });
 
   const [errorMessage, setErrorMessage] = useState({}); // 오류 메시지를 저장하는 상태
@@ -34,75 +35,41 @@ const Signup = () => {
     });
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    // 아이디 검증
-    const usernameRegex = /^[a-zA-Z0-9]{8,20}$/;
-    if (!usernameRegex.test(user.username)) {
-      newErrors.username =
-        "아이디는 영문(대소문자)과 숫자로 8자에서 20자 사이여야 합니다.";
-    }
-
-    // 비밀번호 검증
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    if (!passwordRegex.test(user.password)) {
-      newErrors.password =
-        "비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, *)로 8자에서 20자 사이여야 합니다.";
-    }
-
-    if (user.password !== user.password_again) {
-      newErrors.password_again = "비밀번호가 일치하지 않습니다.";
-    }
-
-    // 이메일 검증
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(user.email)) {
-      newErrors.email = "유효한 이메일 주소를 입력해주세요.";
-    }
-
-    // 닉네임 검증
-    const nicknameRegex = /^[가-힣]{3,8}$/;
-    if (!nicknameRegex.test(user.nickname)) {
-      newErrors.nickname = "닉네임은 한글 3자에서 8자 사이여야 합니다.";
-    }
-
-    // 연락처 검증
-    const phoneRegex = /^[0-9]+$/;
-    if (!phoneRegex.test(user.phone)) {
-      newErrors.phone = "숫자('-'빼고 01011112222)만 입력 가능합니다.";
-    }
-
-    // 생년월일 검증
-    const birthRegex = /^\d{8}$/;
-    if (!birthRegex.test(user.userBirth)) {
-      newErrors.userBirth = "생년월일은 19990101 형식으로 8자 입력해주세요.";
-    }
-
-    // 성별 검증
-    if (
-      user.gender !== "여" &&
-      user.gender !== "남" &&
-      user.gender !== "선택안함"
-    ) {
-      newErrors.gender = "성별을 선택해주세요.";
-    }
-
-    setErrorMessage(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const isValid = validateForm();
+    const data = {
+      username: user.username,
+      password: user.password,
+      email: user.email,
+      nickname: user.nickname,
+      gender: user.gender,
+      phone: user.phone,
+      userBirth: user.userBirth,
+      userAge: user.userAge,
+    };
+    dispatch(signupApi(data));
 
-    if (isValid) {
-      console.log("양식 데이터가 유효합니다:", user);
-      dispatch(signupApi(user));
-    } else {
-      console.log("양식이 유효하지 않습니다.");
-      alert("양식이 유효하지 않습니다.");
-    }
+    console.log(user.userAge);
+    // try {
+    //   // API 호출
+    //   // const response = await axios.post(
+    //   //   "http://localhost:8080/user/signup",
+    //   //   data
+    //   // );
+    //   // API 요청이 성공하면 Redux의 signupApi 액션을 호출
+    //   // 성공 처리
+    //   // console.log("회원가입 성공:", response.data);
+    // } catch (error) {
+    //   if (error.response && error.response.status === 400) {
+    //     const errorData = error.response.data;
+    //     setErrorMessage({
+    //       ...errorMessage,
+    //       ...errorData,
+    //     });
+    //   } else {
+    //     console.error("알 수 없는 오류:", error);
+    //   }
+    // }
   };
 
   return (
@@ -162,7 +129,6 @@ const Signup = () => {
           <option value="">성별 선택</option>
           <option value="여">여</option>
           <option value="남">남</option>
-          <option value="선택안함">선택안함</option>
         </select>
         {errorMessage.gender && <p>{errorMessage.gender}</p>}
         <br />
