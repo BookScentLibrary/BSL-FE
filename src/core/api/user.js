@@ -29,9 +29,3 @@ export const test = (options) =>
     ...options,
   })
 
-  // export const showReviewListPage = (options) =>
-  // instance({
-  //   method: 'GET',
-  //   url: addPrefix(`/showReviewListPage`),
-  //   ...options,
-  // })

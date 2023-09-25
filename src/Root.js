@@ -6,7 +6,7 @@ import Header from "./components/shared/header/Header";
 import Banner from "./components/shared/banner/Banner";
 import Footer from "./components/shared/footer/Footer";
 import Wrapper from "./components/shared/Wrapper";
-import ReviewListPage from "./pages/ReviewListPage";
+//import ReviewListPage from "./pages/ReviewListPage";
 
 
 const Root = () => {
@@ -22,7 +22,7 @@ const Root = () => {
               );
             })}
 
-            <Route path="/reviewList" component={ReviewListPage} />
+            {/* <Route path="/reviewList" component={ReviewListPage} /> */}
             {/* 상태는 ReviewListPage가 들고있고 */}
            
 

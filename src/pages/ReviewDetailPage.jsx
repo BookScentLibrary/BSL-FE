@@ -12,7 +12,7 @@ const StyledItemBoxDiv1 = styled.div`
 
 const StyledItemBoxDiv2 = styled.div`
   display:flex;
-  justify-content;space-between;
+  justify-content:space-between;
 `;
 
 const ReviewDetailPage = () => {
