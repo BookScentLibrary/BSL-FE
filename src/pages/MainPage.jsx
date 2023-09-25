@@ -2,16 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { testApi } from "../core/redux/userSlice";
+import { signupApi, testApi } from "../core/redux/userSlice";
 import MainPageTemplate from "../components/main/MainPageTemplate";
 
 const MainPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   React.useEffect(() => {
-    dispatch(testApi(''));
-  }, [])
+    dispatch(testApi(""));
+    dispatch(signupApi());
+  }, []);
 
   return (
     <div>
@@ -22,6 +23,8 @@ const MainPage = (props) => {
         <br />
         카탈로그
       </CatalogBtn>
+      {message}
+      {signmessage}
     </div>
   );
 };
