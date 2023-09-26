@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../../asset/images/logo.svg";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,10 +10,12 @@ const Header = () => {
   const goToHome = () => {
     navigate("/");
   };
-  //회원가입 연결
   const goToSignup = () => {
     navigate("/signup");
   };
+  const goToSearch = () => {
+    navigate("/search");
+  }
 
   return (
     <React.Fragment>
@@ -27,14 +30,13 @@ const Header = () => {
         </LogoWrapper>
 
         <MenuWrapper>
-          <p>자료 검색</p>
+          <p onClick={goToSearch}>자료 검색</p>
           <p>소식 · 참여</p>
           <p>마이페이지</p>
         </MenuWrapper>
 
         <UserWrapper>
-          {/* 회원가입 누르면 회원가입 폼으로 이동 */}
-          <p>로그인 | </p> <p onClick={goToSignup}> 회원가입</p>
+          <p onClick={goToSignup}>로그인 | 회원가입</p>
         </UserWrapper>
       </Container>
     </React.Fragment>
