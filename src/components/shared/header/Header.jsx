@@ -10,6 +10,9 @@ const Header = () => {
   const goToHome = () => {
     navigate("/");
   };
+  const goToSignup = () => {
+    navigate("/signup");
+  };
   const goToSearch = () => {
     navigate("/search");
   }
@@ -33,7 +36,7 @@ const Header = () => {
         </MenuWrapper>
 
         <UserWrapper>
-          <p>로그인 | 회원가입</p>
+          <p onClick={goToSignup}>로그인 | 회원가입</p>
         </UserWrapper>
       </Container>
     </React.Fragment>

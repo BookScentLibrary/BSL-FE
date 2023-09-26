@@ -1,5 +1,6 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
+import Signup from "./components/user/Signup";
 import ReviewListPage from './pages/ReviewListPage';
 import SearchMain from "./components/search/searchMain";
 
@@ -12,6 +13,10 @@ export default [
   {
     path: "/compcat",
     element: CompCatalog,
+  },
+  {
+    path: "/signup",
+    element: Signup,
   },
   {
     path: "/reviewList",
