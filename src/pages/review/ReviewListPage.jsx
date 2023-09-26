@@ -55,42 +55,7 @@ const ReviewListPage = () => {
 
     setPosts([...posts, post]);
 
-    const handleWrite = async (e) => {
-      e.preventDefault();
-      const data = {
-        postTitle: post.postTitle,
-        content: post.content,
-        email: user.email,
-        nickname: user.nickname,
-        gender: user.gender,
-        phone: user.phone,
-        userBirth: user.userBirth,
-        userAge: user.userAge,
-      };
-      dispatch(signupApi(data));
-
-      console.log(user.userAge);
-     
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/user/signup",
-          data
-        );
-        API 요청이 성공하면 Redux의 signupApi 액션을 호출
-        성공 처리
-        console.log("회원가입 성공:", response.data);
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          const errorData = error.response.data;
-          setErrorMessage({
-            ...errorMessage,
-            ...errorData,
-          });
-        } else {
-          console.error("알 수 없는 오류:", error);
-        }
-      }
-    };
+    
 
 
     // let post = { id: 6, title: "인풋값" }; //이 값을 setPosts()안에 집어넣어야함

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const MainPageTemplate = () => {
-  const book = useSelector((state) => state.user.book);
+  const book = useSelector((state) => state.book.book);
 
   return (
     <React.Fragment>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signupApi } from "../../core/redux/userSlice";
+import { signUpAPI } from "../../core/redux/userSlice";
 import axios from "axios";
 
 const Signup = () => {
@@ -38,6 +38,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
+      userId: null,
       username: user.username,
       password: user.password,
       email: user.email,
@@ -46,8 +47,9 @@ const Signup = () => {
       phone: user.phone,
       userBirth: user.userBirth,
       userAge: user.userAge,
+      permission: 0,
     };
-    dispatch(signupApi(data));
+    dispatch(signUpAPI(data));
 
     console.log(user.userAge);
     // try {

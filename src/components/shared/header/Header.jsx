@@ -10,12 +10,15 @@ const Header = () => {
   const goToHome = () => {
     navigate("/");
   };
+  const goToNews = () => {
+    navigate("/news");
+  }
   const goToSignup = () => {
     navigate("/signup");
   };
   const goToSearch = () => {
     navigate("/search");
-  }
+  };
 
   return (
     <React.Fragment>
@@ -31,7 +34,7 @@ const Header = () => {
 
         <MenuWrapper>
           <p onClick={goToSearch}>자료 검색</p>
-          <p>소식 · 참여</p>
+          <p onClick={goToNews}>소식 · 참여</p>
           <p>마이페이지</p>
         </MenuWrapper>
 
