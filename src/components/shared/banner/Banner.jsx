@@ -5,8 +5,8 @@ const Banner = () => {
   return (
     <React.Fragment>
       <Container>
-        <Image/>
-        <Radius/>
+        <Image />
+        <Radius />
       </Container>
     </React.Fragment>
   );
@@ -27,7 +27,6 @@ export const Image = styled.div`
   background-size: 100%;
   border-radius: 30px 30px 0 0;
 `;
-`
 export const Radius = styled.div`
   position: absolute;
   bottom: 0;
@@ -37,7 +36,6 @@ export const Radius = styled.div`
   background-color: #fff;
   border-radius: 30px 30px 0 0;
   z-index: 1000;
-  
-`
+`;
 
 export default Banner;

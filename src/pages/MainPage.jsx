@@ -23,8 +23,6 @@ const MainPage = (props) => {
         <br />
         카탈로그
       </CatalogBtn>
-      {message}
-      {signmessage}
     </div>
   );
 };
