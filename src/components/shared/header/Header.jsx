@@ -9,6 +9,9 @@ const Header = () => {
   const goToHome = () => {
     navigate("/");
   };
+  const goToSearch = () => {
+    navigate("/search");
+  }
 
   return (
     <React.Fragment>
@@ -23,7 +26,7 @@ const Header = () => {
         </LogoWrapper>
 
         <MenuWrapper>
-          <p>자료 검색</p>
+          <p onClick={goToSearch}>자료 검색</p>
           <p>소식 · 참여</p>
           <p>마이페이지</p>
         </MenuWrapper>
