@@ -5,6 +5,19 @@ const colors = {
 
   black: "#000000",
   white: "#ffffff",
+  gray: "#B8B8BD",
+  grayhover: "#A5A5AA",
+  darkgray: "#585858",
+
+  gray900: "#111827",
+  gray800: "#1f2937",
+  gray700: "#4b5563",
+  gray500: "#6b7280",
+  gray400: "#9CA3AF",
+  gray300: "#D1D5DB",
+  gray200: "#E5E7EB",
+  gray100: "#F3F4F6",
+  gray50: "#FAFAFA",
 
   lightgreen5: "#B2E6A6",
   lightgreen10: "#C3EBBA",
@@ -60,16 +73,6 @@ const colors = {
   darkblue50: "#012684",
   darkblue55: "#011F6B",
   darkblue60: "#011851",
-
-  gray900: "#111827",
-  gray800: "#1f2937",
-  gray700: "#4b5563",
-  gray500: "#6b7280",
-  gray400: "#9CA3AF",
-  gray300: "#D1D5DB",
-  gray200: "#E5E7EB",
-  gray100: "#F3F4F6",
-  gray50: "#FAFAFA",
 };
 
 const fontSizes = {
