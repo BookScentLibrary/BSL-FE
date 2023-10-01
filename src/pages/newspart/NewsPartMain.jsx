@@ -5,7 +5,6 @@ import ReviewListPage from "../review/ReviewListPage";
 
 const NewsPartMain = () => {
   const menuArr = ["공지사항", "프로그램 안내", "리뷰게시판"];
-  // const urlArr = ["/notice", "/program", "/reviewList"];
   const [pageIdx, setPageIdx] = React.useState(0);
   console.log(pageIdx);
   const page = {
@@ -19,7 +18,7 @@ const NewsPartMain = () => {
   return (
     <React.Fragment>
       <Container>
-        <Menu title="소식·참여" menuArr={menuArr} setPageIdx={setPageIdx}/>
+        <Menu title="소식·참여" menuArr={menuArr} pageIdx={pageIdx} setPageIdx={setPageIdx}/>
         {page[pageIdx]}
       </Container>
     </React.Fragment>
