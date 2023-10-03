@@ -17,7 +17,7 @@ const SearchMain = () => {
 
   return (
     <form>
-      <div class="search">
+      <div className="search">
         <input
           type="text"
           name="b_name"

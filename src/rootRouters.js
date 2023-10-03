@@ -4,6 +4,7 @@ import Signup from "./components/user/Signup";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
+import BookMenuMain from "./pages/book/BookMenuMain";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -28,7 +29,11 @@ export default [
     element: ReviewListPage,
   },
   {
-    path:"/search",
-    element: SearchMain
-  }
+    path: "/search",
+    element: SearchMain,
+  },
+  {
+    path: "/book",
+    element: BookMenuMain,
+  },
 ];
