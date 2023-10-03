@@ -36,4 +36,9 @@ export default [
     path: "/book",
     element: BookMenuMain,
   },
+  {
+    path: "/book/detail",
+    element: BookMenuMain,
+  },
+
 ];

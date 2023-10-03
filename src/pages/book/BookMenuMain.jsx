@@ -4,8 +4,11 @@ import styled from "styled-components";
 import SearchMain from "../../components/search/searchMain";
 import Button from "../../components/shared/elements/Button";
 import BookDetail from "./BookDetail";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const BookMenuMain = () => {
+const BookMenuMain = (props) => {
+  const navigate = useNavigate();
+  const pathname = useLocation().pathname;
   const title = "자료 검색";
   const menuArr = ["소장자료", "신간 도서", "인기 대출 도서", "사서 추천 도서"];
   const [pageIdx, setPageIdx] = React.useState(0);
@@ -14,8 +17,21 @@ const BookMenuMain = () => {
     1: "",
     2: "",
     3: "",
-    4: <BookDetail page={pageIdx} setPage={setPageIdx}/>,
+    4: <BookDetail page={pageIdx} setPage={setPageIdx} />,
   };
+
+  const goToDetail = () => {
+    setPageIdx(4);
+    navigate(`/book/detail/`);
+  };
+
+  React.useEffect(() => {
+    if(pathname==="/book") {
+      setPageIdx(0);
+    } else if(pathname==="/book/detail/") {
+      setPageIdx(4);
+    }
+  }, [pathname]);
 
   return (
     <React.Fragment>
@@ -27,7 +43,7 @@ const BookMenuMain = () => {
           setPageIdx={setPageIdx}
         />
         {page[pageIdx]}
-        <Button onClick={() => setPageIdx(4)}>임시 상세페이지</Button>
+        <Button onClick={() => goToDetail()}>임시 상세페이지</Button>
       </Container>
     </React.Fragment>
   );

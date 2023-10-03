@@ -45,7 +45,7 @@ const BookDetailTemplate = (props) => {
 
   React.useEffect(() => {
     dispatch(getSelectedBookReviewAPI(book.bookNo));
-  }, []);
+  }, [dispatch]);
 
   return (
     <S.Container>
