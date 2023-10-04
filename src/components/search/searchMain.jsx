@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import React,{useState} from "react";
 import { setSearchResults, incrementPage } from '/springMVC_STS/projectSTS4/fe/bsl/src/components/search/action';
+import Grid from "./Grid";
  
+
+//무한 스크롤과 검색 기능 분리하기 
 
 
 const InfiniteScroll = (props) => {
