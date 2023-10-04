@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ReviewListPage from "../review/ReviewListPage";
 
 const NewsPartMain = () => {
+  const title = "소식·참여";
   const menuArr = ["공지사항", "프로그램 안내", "리뷰게시판"];
   const [pageIdx, setPageIdx] = React.useState(0);
   console.log(pageIdx);
@@ -19,7 +20,7 @@ const NewsPartMain = () => {
     <React.Fragment>
       <Container>
         <Menu
-          title="소식·참여"
+          title={title}
           menuArr={menuArr}
           pageIdx={pageIdx}
           setPageIdx={setPageIdx}

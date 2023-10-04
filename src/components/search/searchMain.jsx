@@ -78,7 +78,6 @@ const SearchMain = () => {
     ></input>
    <input type='button' value='search' onClick={searchBookForm}></input></div>
     </form>
-       
         <InfiniteScroll
         page={currentPage}
         callback={handleInfiniteScroll}
@@ -97,8 +96,6 @@ const SearchMain = () => {
         <p>{book.bookStatus}</p>
         <p>{book.rentCnt}</p>
         <p>{book.isbn}</p>
-
-
       </div>
     ))}
   </div>
