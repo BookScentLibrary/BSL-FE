@@ -19,7 +19,7 @@ const LibraryInfo = ({ book }) => {
           <td className="info_bookNo">{book.bookNo}</td>
           <td className="info_callNo">{book.callNum}</td>
           <td className="info_bookStatus">
-            {book.bookState === 0 ? "대출가능" : "대출중"}
+            {book.bookStatus === 0 ? "대출가능" : "대출중"}
           </td>
           <td className="info_returnDate">-</td>
           <td className="info_reserv">

@@ -14,7 +14,7 @@ const BookInfoData = ({ book }) => {
           <p>isbn</p>
         </div>
         <div className="data">
-          <p>{book.authors}</p>
+          <p>{book.author}</p>
           <p>
             {book.publisher}, {book.publicationYear}
           </p>
@@ -22,6 +22,7 @@ const BookInfoData = ({ book }) => {
           <p>{book.className}</p>
           <p>{book.isbn}</p>
         </div>
+        
       </FlexContainer>
     </BookInfoText>
   );
