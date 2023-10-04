@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { testAPI } from "../apis";
 import { bookAPI } from "../apis/book";
 
+
 export const initialState = {
   book: {},
   rate: {},
@@ -9,6 +10,7 @@ export const initialState = {
   review: [],
 };
 
+//책과 관련된 액션 정의 
 export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
@@ -22,7 +24,6 @@ export const searchBookAPI = createAsyncThunk(
     }
   }
 );
-
 export const getBookTestAPI = createAsyncThunk(
   "book/test",
   async (data, thunkAPI) => {
@@ -215,6 +216,7 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
     }
   }
 );
+
 
 export const bookSlice = createSlice({
   name: "bookReducer",
