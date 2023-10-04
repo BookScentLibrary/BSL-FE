@@ -46,7 +46,7 @@ const SearchMain = () => {
     const[searchTerm, setSearchTerm] = useState(""); //검색어의 상태
     const dispatch = useDispatch(); 
     const currentPage = useSelector((state) => state.currentPage);
-  const totalPages = useSelector((state) => state.totalPages);
+    const totalPages = useSelector((state) => state.totalPages);
     //searchBooks 액션을 디스패치하여 검색 요청을 서버로 보내고, Redux 상태를 업데이트
 
     const searchBookForm = () => {

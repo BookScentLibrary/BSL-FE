@@ -2,38 +2,56 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { onClick, disabled, color, children, size } = props;
+  const { type, onClick, disabled, color, children, width } = props;
 
   const styles = {
-    disabled,
     color,
-    size,
+    width,
+    type,
   };
 
   return (
-    <React.Fragment>
-      <Btn onClick={onClick} disabled={disabled} {...styles}>
-        {children}
-      </Btn>
-    </React.Fragment>
+    <Btn onClick={onClick} disabled={disabled} {...styles}>
+      {children}
+    </Btn>
   );
 };
 
-export const Btn = styled.button`
+const Btn = styled.button`
   box-sizing: border-box;
-  background: ${({ disabled, color }) =>
+  background: ${({ color, theme }) =>
     color
-      ? color == "red"
-        ? "#FF9393"
-        : "#a1e092"
-      : disabled
-      ? "#aaa"
-      : "#a1e092"};
+      ? color === "red"
+        ? theme.colors.secondary
+        : color === "gray"
+        ? theme.colors.gray
+        : theme.colors.primary
+      : theme.colors.primary};
   border-radius: 4px;
-  padding: 20px 40px;
-  font-size: 20px;
+  width: ${({ width }) => (width ? width : "160px")};
+  height: ${({ type }) =>
+    type
+      ? type === "small"
+        ? "28px"
+        : type === "middle"
+        ? "48px"
+        : "60px"
+      : "60px"};
+  font-size: ${({ type }) =>
+    type ? (type === "small" ? "14px" : "20px") : "20px"};
   color: #fff;
   border: none;
+
+  &:hover {
+    background: ${({ color, theme }) =>
+      color
+        ? color === "red"
+          ? theme.colors.darkred5
+          : color === "gray"
+          ? theme.colors.grayhover
+          : theme.colors.darkgreen5
+        : theme.colors.darkgreen5};
+  }
 `;
 
 export default Button;

@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { testApi } from "../core/redux/userSlice";
+import { useDispatch} from "react-redux";
 import MainPageTemplate from "../components/main/MainPageTemplate";
+import { getBookTestAPI } from "../core/redux/bookSlice";
 
 const MainPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   React.useEffect(() => {
-    dispatch(testApi(''));
-  }, [])
+    dispatch(getBookTestAPI());
+  }, []);
 
   return (
     <div>
@@ -37,8 +37,9 @@ export const CatalogBtn = styled.button`
   color: #fff;
   font-size: 16px;
   font-weight: 700;
-  background-color: #a1e092;
+  background-color: ${({theme}) => theme.colors.secondary};
   box-shadow: 4px 4px 8px 0 #ddd;
+  z-index: 10000;
 `;
 
 export default MainPage;

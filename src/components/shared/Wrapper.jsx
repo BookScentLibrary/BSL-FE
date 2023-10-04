@@ -16,8 +16,8 @@ export default Wrapper;
 const Wrap = styled.div`
   width: 100%;
   min-width: 1232px;
-  height: auto;
-  margin: 0 auto;
+  height: 100%;
+  margin: 60px auto;
   padding-bottom: 280px;
   position: relative;
   @media ${({ theme }) => theme.device.web} {
@@ -32,5 +32,6 @@ const InnerWrapper = styled.div`
   margin: auto;
   padding: 0 30px 120px 30px;
   z-index: 100;
+  height: 100%;
 `;
 

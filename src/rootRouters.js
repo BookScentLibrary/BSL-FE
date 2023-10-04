@@ -1,6 +1,9 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
+import Signup from "./components/user/Signup";
 import SearchMain from "./components/search/searchMain";
+import ReviewListPage from "./pages/review/ReviewListPage";
+import NewsPartMain from "./pages/newspart/NewsPartMain";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -13,9 +16,19 @@ export default [
     element: CompCatalog,
   },
   {
+    path: "/news",
+    element: NewsPartMain,
+  },
+  {
+    path: "/signup",
+    element: Signup,
+  },
+  {
+    path: "/reviewList",
+    element: ReviewListPage,
+  },
+  {
     path:"/search",
     element: SearchMain
-    //나중에 서치 넣어야 함. 
-
   }
 ];

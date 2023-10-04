@@ -6,6 +6,9 @@ import Header from "./components/shared/header/Header";
 import Banner from "./components/shared/banner/Banner";
 import Footer from "./components/shared/footer/Footer";
 import Wrapper from "./components/shared/Wrapper";
+import styled from "styled-components";
+//import ReviewListPage from "./pages/ReviewListPage";
+
 
 const Root = () => {
   return (
@@ -13,17 +16,18 @@ const Root = () => {
       <Header />
       <Banner />
       <Wrapper>
-        <Routes>
-          {routeList.map((item, idx) => {
-            return (
-              <Route key={v4()} path={item.path} element={<item.element />} />
-            );
-          })}
-        </Routes>
-      <Footer />
+          <Routes>
+            {routeList.map((item, idx) => {
+              return (
+                <Route key={v4()} path={item.path} element={<item.element />} />
+              );
+            })}
+          </Routes>
+        <Footer />
       </Wrapper>
     </>
   );
 };
+
 
 export default Root;

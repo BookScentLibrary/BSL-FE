@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { userAPI } from '../api'
-
-
+import { instance } from '../instance';
+import { testAPI } from '../apis';
 
 //책 목록의 상태 정의 
 export const initialState = {
@@ -17,11 +16,11 @@ export const fetchBooks = createAsyncThunk(
   'book/search',
   async (data, thunkAPI) => {
     try {
-      const response = await userAPI.test(data);
-      console.log(response.data);
-      thunkAPI.dispatch(userSlice.actions.setTestMessage(response.data));
+      const response = await instance.get(`/search?${data.data1}&${data.data2}&${data.data3}`);
+      console.log("searchAPI response : ", response.data);
+      
     } catch (error) {
-      console.log('logInApi : error response', error.response.data);
+      console.log('searchAPI : error response', error.response.data);
     }
   },
 );
