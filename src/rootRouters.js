@@ -1,6 +1,7 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import Signup from "./components/user/Signup";
+import SignUp from "./components/user/SignUp";
+import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
@@ -21,8 +22,12 @@ export default [
     element: NewsPartMain,
   },
   {
-    path: "/signup",
-    element: Signup,
+    path: "/signUp",
+    element: SignUp,
+  },
+  {
+    path: "/signIn",
+    element: SignIn,
   },
   {
     path: "/reviewList",
@@ -40,5 +45,4 @@ export default [
     path: "/book/detail",
     element: BookMenuMain,
   },
-
 ];
