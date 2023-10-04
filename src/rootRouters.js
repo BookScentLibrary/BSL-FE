@@ -1,7 +1,9 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import ReviewListPage from './pages/ReviewListPage';
+import Signup from "./components/user/Signup";
 import SearchMain from "./components/search/searchMain";
+import ReviewListPage from "./pages/review/ReviewListPage";
+import NewsPartMain from "./pages/newspart/NewsPartMain";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -12,6 +14,14 @@ export default [
   {
     path: "/compcat",
     element: CompCatalog,
+  },
+  {
+    path: "/news",
+    element: NewsPartMain,
+  },
+  {
+    path: "/signup",
+    element: Signup,
   },
   {
     path: "/reviewList",

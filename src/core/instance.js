@@ -1,46 +1,81 @@
-import axios from 'axios';
-import { config } from './config';
+import axios from "axios";
+import { config } from "./config";
 
-const instance = axios.create({
+
+export const instance = axios.create({
   baseURL: config.server.host,
-  timeout: 20000,
-  withCredentials: true,
+
   headers: {
-    'Content-Type': 'application/json; charset=UTF-8',
-    accept: 'application/json',
+    "content-type": "application/json; charset=UTF-8",
+    accept: "application/json",
+  },
+  withCredentials: false,
+});
+
+export const instances = axios.create({
+  baseURL: config.server.host,
+
+  headers: {
+    "Content-Type": "multipart/form-data",
+    accept: "application/json",
   },
 });
 
 
-//2. 요청 인터셉터
 instance.interceptors.request.use(
-  //요청직전 호출
   (config) => {
-    const token = localStorage.getItem('token');
+    const Token = localStorage.getItem("token");
 
-
-    if(token) {
-      config.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
-        accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
-    }
+    config.headers = {
+      "content-type": "application/json;charset=UTF-8",
+      accept: "application/json",
+      Authorization: `Bearer ${Token}`,
+    };
     return config;
   },
-  //에러 전 호출
   (err) => {
-    return Promise.reject(err);
-  },
+    console.log(err);
+  }
 );
+
+
+instances.interceptors.request.use(
+  (config) => {
+    const Token = localStorage.getItem("token");
+
+    config.headers = {
+      "Content-Type": "multipart/form-data",
+      accept: "application/json",
+      Authorization: `Bearer ${Token}`,
+    };
+    return config;
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+
 
 instance.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    return Promise.reject(error);
-  },
-);
+  (success) => {
+    const response = success.data;
 
-export default instance;
+    if (
+      response.statusCode === 200 &&
+      response.responseMessage === "조회 성공"
+    ) {
+      return response.posts;
+    }
+
+    return success;
+  },
+  (error) => {
+    console.log(error);
+
+    if (error.response.status === 404) {
+      alert.fire("결과를 찾을 수 없습니다.");
+    }
+
+    return error;
+  }
+);
