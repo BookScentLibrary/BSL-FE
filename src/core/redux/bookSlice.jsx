@@ -37,6 +37,19 @@ export const getBookTestAPI = createAsyncThunk(
   }
 );
 
+export const getBookAPI = createAsyncThunk(
+  "book/getBook",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.getBook();
+      console.log(response.data);
+      thunkAPI.dispatch(bookSlice.actions.setBook(response.data));
+    } catch (error) {
+      console.error("getBookAPI : error response", error.response.data);
+    }
+  }
+);
+
 export const getReaderDataAPI = createAsyncThunk(
   "book/readerData",
   async (data, thunkAPI) => {
@@ -210,6 +223,10 @@ export const bookSlice = createSlice({
   initialState,
   reducers: {
     setTestMessage: (state, action) => {
+      state.book = action.payload;
+      return;
+    },
+    setBook: (state, action) => {
       state.book = action.payload;
       return;
     },
