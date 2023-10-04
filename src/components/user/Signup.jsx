@@ -3,33 +3,53 @@ import { useDispatch } from "react-redux";
 import { signUpAPI } from "../../core/redux/userSlice";
 import axios from "axios";
 import styled from "styled-components";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import MenuItem from "@mui/material/MenuItem";
 
-const Signup = () => {
+const SignUp = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [userBirth, setUserBirth] = useState("");
   const dispatch = useDispatch();
   const usernameRef = useRef();
   const passwordRef = useRef();
-  const password_againRef = useRef();
+  const passwordAgainRef = useRef();
   const emailRef = useRef();
   const genderRef = useRef();
   const nicknameRef = useRef();
   const phoneRef = useRef();
   const userBirthRef = useRef();
 
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    password_again: "",
-    email: "",
-    nickname: "",
-    gender: "",
-    phone: "",
-    userBirth: "",
-  });
-
   const [isSuccess, setIsSuccess] = useState(false); // 회원가입 성공 여부 상태
+
+  const [requestResult, setRequestResult] = useState("");
 
   const [usernameDBCheck, setUsernameDBCheck] = useState(false);
   const [nicknameDBCheck, setNicknameDBCheck] = useState(false);
+
+  const genderList = [
+    {
+      value: "여",
+      label: "여",
+    },
+    {
+      value: "남",
+      label: "남",
+    },
+    {
+      value: "선택안함",
+      label: "선택안함",
+    },
+  ];
 
   const usernameCheck = async () => {
     const username = usernameRef.current.value;
@@ -94,121 +114,145 @@ const Signup = () => {
     }
   };
 
-  const handleSignup = async (e) => {
-    //정규식
-    const usernameRegex = /^[a-zA-Z0-9]{8,20}$/;
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    const nicknameRegex = /^[가-힣]{3,8}$/;
-    const phoneRegex = /^[0-9]{11}$/;
-
-    const username = usernameRef.current.value;
-    const password = passwordRef.current.value;
-    const password_again = password_againRef.current.value;
-    const email = emailRef.current.value;
-    const gender = genderRef.current.value;
-    const nickname = nicknameRef.current.value;
-    const phone = phoneRef.current.value;
-    const userBirth = userBirthRef.current.value;
-
-    // 유효성 검사
-    if (
-      username === "" ||
-      password === "" ||
-      password_again === "" ||
-      email === "" ||
-      nickname === "" ||
-      gender === "" ||
-      phone === "" ||
-      userBirth === ""
-    ) {
-      window.alert("모든 칸을 입력해주세요.");
-      return;
-    }
-    if (!usernameRegex.test(username)) {
-      window.alert(
-        "아이디는 영문(대소문자)과 숫자로 8자에서 20자 사이여야 합니다."
-      );
-      return;
-    }
-    if (password !== password_again) {
-      window.alert("비밀번호 확인이 틀립니다.");
-      return;
-    }
-    if (!passwordRegex.test(password)) {
-      window.alert(
-        "비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, *)로 8자에서 20자 사이여야 합니다."
-      );
-      return;
-    }
-    if (!emailRegex.test(email)) {
-      window.alert("이메일 형식이 올바르지 않습니다.");
-      return;
-    }
-    if (!nicknameRegex.test(nickname)) {
-      window.alert("닉네임은 한글 3자에서 8자 사이여야 합니다.");
-      return;
-    }
-    if (!phoneRegex.test(phone)) {
-      window.alert("연락처는 숫자('-'빼고 01011112222)만 입력 가능합니다.");
-      return;
-    }
-
-    e.preventDefault();
+  const SignUpHandler = () => {
     const data = {
-      username: username,
-      password: password,
-      email: email,
-      nickname: nickname,
-      gender: gender,
-      phone: phone,
-      userBirth: userBirth,
+      username,
+      password,
+      passwordAgain,
+      email,
+      nickname,
+      gender,
+      phone,
+      userBirth,
     };
-    console.log(data);
-
-    dispatch(signUpAPI(data));
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/user/signup",
-        data
-      );
-      console.log(response.message);
-      if (response.message) {
-        // 회원가입 성공한 경우
-        console.log("회원가입 성공:", response.data);
+    axios
+      .post("http://localhost:8080/user/signUp", data)
+      .then((response) => {
+        dispatch(signUpAPI(data));
         setIsSuccess(true);
-      } else {
-        // 회원가입 실패한 경우
-        const errorData = response.data;
-        console.log("회원가입 실패:", errorData);
+        setRequestResult("Success!!");
+      })
+      .catch((error) => {
         setIsSuccess(false);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        const errorData = error.response.data;
-        console.log("API 오류:", errorData);
-        alert(errorData.errormessage); // 오류 메시지를 알림창에 표시
-      } else {
-        console.error("알 수 없는 오류:", error);
-      }
-    }
+        setRequestResult("Failed!");
+      });
   };
+  // const SignUpHandler = async (e) => {
+  //   //정규식
+  //   const usernameRegex = /^[a-zA-Z0-9]{8,20}$/;
+  //   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
+  //   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  //   const nicknameRegex = /^[가-힣]{3,8}$/;
+  //   const phoneRegex = /^[0-9]{11}$/;
+
+  //   const username = usernameRef.current.value;
+  //   const password = passwordRef.current.value;
+  //   const passwordAgain = passwordAgainRef.current.value;
+  //   const email = emailRef.current.value;
+  //   const gender = genderRef.current.value;
+  //   const nickname = nicknameRef.current.value;
+  //   const phone = phoneRef.current.value;
+  //   const userBirth = userBirthRef.current.value;
+
+  //   // 유효성 검사
+  //   if (
+  //     username === "" ||
+  //     password === "" ||
+  //     passwordAgain === "" ||
+  //     email === "" ||
+  //     nickname === "" ||
+  //     gender === "" ||
+  //     phone === "" ||
+  //     userBirth === ""
+  //   ) {
+  //     window.alert("모든 칸을 입력해주세요.");
+  //     return;
+  //   }
+  //   if (!usernameRegex.test(username)) {
+  //     window.alert(
+  //       "아이디는 영문(대소문자)과 숫자로 8자에서 20자 사이여야 합니다."
+  //     );
+  //     return;
+  //   }
+  //   if (password !== passwordAgain) {
+  //     window.alert("비밀번호 확인이 다릅니다.");
+  //     return;
+  //   }
+  //   if (!passwordRegex.test(password)) {
+  //     window.alert(
+  //       "비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, *)로 8자에서 20자 사이여야 합니다."
+  //     );
+  //     return;
+  //   }
+  //   if (!emailRegex.test(email)) {
+  //     window.alert("이메일 형식이 올바르지 않습니다.");
+  //     return;
+  //   }
+  //   if (!nicknameRegex.test(nickname)) {
+  //     window.alert("닉네임은 한글 3자에서 8자 사이여야 합니다.");
+  //     return;
+  //   }
+  //   if (!phoneRegex.test(phone)) {
+  //     window.alert("연락처는 숫자('-'빼고 01011112222)만 입력 가능합니다.");
+  //     return;
+  //   }
+
+  //   e.preventDefault();
+  //   const data = {
+  //     username: username,
+  //     password: password,
+  //     email: email,
+  //     nickname: nickname,
+  //     gender: gender,
+  //     phone: phone,
+  //     userBirth: userBirth,
+  //   };
+  //   console.log(data);
+
+  //   dispatch(signUpAPI(data));
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8080/user/signUp",
+  //       data
+  //     );
+  //     console.log(response.message);
+  //     if (response.message) {
+  //       // 회원가입 성공한 경우
+  //       console.log("회원가입 성공:", response.data);
+  //       setIsSuccess(true);
+  //     } else {
+  //       // 회원가입 실패한 경우
+  //       const errorData = response.data;
+  //       console.log("회원가입 실패:", errorData);
+  //       setIsSuccess(false);
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 400) {
+  //       const errorData = error.response.data;
+  //       console.log("API 오류:", errorData);
+  //       alert(errorData.errormessage); // 오류 메시지를 알림창에 표시
+  //     } else {
+  //       console.error("알 수 없는 오류:", error);
+  //     }
+  //   }
+  // };
 
   return (
-    <SignupForm>
-      <div className="signup">
-        <StyledWord>
-          <h1>회원 가입</h1>
-          <hr />
-          <br />
-        </StyledWord>
-        <div>
-          <SignupInput
+    <Card sx={{ minWidth: 275, maxWidth: "50vw" }}>
+      <CardContent>
+        <Box>
+          <StyledWord>
+            <h1>회원 가입</h1>
+            <hr />
+            <br />
+          </StyledWord>
+          <TextField
             type="text"
             name="username"
-            placeholder="아이디는 영문(대소문자)과 숫자로 8자에서 20자 사이여야 합니다."
-            ref={usernameRef}
-            style={{ width: "392px" }}
+            label="아이디"
+            helperText="아이디는 영문(대소문자)과 숫자로 8자에서 20자 사이여야 합니다."
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ width: "610px", marginBottom: "20px" }}
           />
           <SubmitButton onClick={usernameCheck} style={{ width: "100px" }}>
             중복확인
@@ -218,39 +262,46 @@ const Signup = () => {
           ) : null}
           <br />
 
-          <SignupInput
+          <TextField
+            fullWidth
             type="password"
             name="password"
-            placeholder="비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, *)로 8자에서 20자 사이여야 합니다."
-            ref={passwordRef}
-            style={{ width: "500px" }}
+            label="비밀번호"
+            helperText="비밀번호는 영문, 숫자, 특수문자(!, @, #, $, %, ^, &, *)로 8자에서 20자 사이여야 합니다."
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <br />
 
-          <SignupInput
+          <TextField
+            fullWidth
             type="password"
-            name="password_again"
-            placeholder="비밀번호를 다시 입력해주세요."
-            ref={password_againRef}
-            style={{ width: "500px" }}
+            name="passwordAgain"
+            label="비밀번호 확인"
+            helperText="비밀번호를 다시 입력해주세요."
+            onChange={(e) => setPasswordAgain(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <br />
 
-          <SignupInput
+          <TextField
+            fullWidth
             type="email"
             name="email"
-            placeholder="이메일을 입력해주세요."
-            ref={emailRef}
-            style={{ width: "500px" }}
+            label="이메일"
+            helperText="이메일을 입력해주세요."
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <br />
 
-          <SignupInput
+          <TextField
             type="text"
             name="nickname"
-            placeholder="닉네임은 한글 3자에서 8자 사이여야 합니다."
-            ref={nicknameRef}
-            style={{ width: "392px" }}
+            label="닉네임"
+            helperText="닉네임은 한글 3자에서 8자 사이여야 합니다."
+            onChange={(e) => setNickname(e.target.value)}
+            style={{ width: "610px", marginBottom: "20px" }}
           />
           <SubmitButton onClick={nicknameCheck} style={{ width: "100px" }}>
             중복확인
@@ -259,73 +310,67 @@ const Signup = () => {
             <CheckMessage>중복된 닉네임이 없습니다</CheckMessage>
           ) : null}
           <br />
-
-          <SignupSelect name="gender" ref={genderRef}>
-            <option value="">성별을 선택해주세요.</option>
-            <option value="여">여</option>
-            <option value="남">남</option>
-            <option value="선택안함">선택안함</option>
-          </SignupSelect>
+          <TextField
+            fullWidth
+            name="gender"
+            ref={genderRef}
+            select
+            label="성별"
+            defaultValue="선택안함"
+            helperText="성별을 선택해주세요."
+            onChange={(e) => setGender(e.target.value)}
+            style={{ marginBottom: "20px" }}
+          >
+            {genderList.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <br />
 
-          <SignupInput
+          <TextField
+            fullWidth
             type="date"
             name="userBirth"
-            placeholder="생년월일을 입력해주세요"
-            ref={userBirthRef}
-            style={{ width: "500px" }}
+            label="생년월일"
+            helperText="생년월일을 입력해주세요"
+            onChange={(e) => setUserBirth(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <br />
 
-          <SignupInput
+          <TextField
+            fullWidth
             type="text"
             name="phone"
-            placeholder="연락처('-'빼고 01011112222)를 입력해주세요."
-            ref={phoneRef}
-            style={{ width: "500px" }}
+            label="연락처"
+            helperText="연락처('-'빼고 01011112222)를 입력해주세요."
+            onChange={(e) => setPhone(e.target.value)}
+            style={{ marginBottom: "20px" }}
           />
           <br />
-
-          <ResetButton type="reset">취소하기</ResetButton>
-          <SubmitButton onClick={handleSignup} style={{ width: "250px" }}>
-            가입하기
-          </SubmitButton>
-        </div>
-      </div>
-    </SignupForm>
+        </Box>
+      </CardContent>
+      <CardActions>
+        <ResetButton type="reset">취소하기</ResetButton>
+        <SubmitButton
+          onClick={() => SignUpHandler()}
+          style={{ width: "250px" }}
+        >
+          가입하기
+        </SubmitButton>
+      </CardActions>
+    </Card>
   );
 };
 
-export default Signup;
-
-const SignupForm = styled.div`
-  width: 1024px;
-  margin: 0 auto;
-  text-align: center;
-`;
+export default SignUp;
 
 const StyledWord = styled.div`
   text-align: left;
   margin-left: 20px;
 `;
-
-const SignupInput = styled.input`
-  height: 30px;
-  margin: 3px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 8px;
-`;
-
-const SignupSelect = styled.select`
-  width: 514px;
-  height: 52px;
-  margin: 3px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 8px;
-`;
-
 const SubmitButton = styled.button`
   height: 40px;
   border: none;
@@ -333,7 +378,7 @@ const SubmitButton = styled.button`
   background-color: #a1e092;
   color: #fff;
   padding: 8px;
-  margin: 3px;
+  margin: 10px;
   font-size: 20px;
   font-weight: 300;
   cursor: pointer;

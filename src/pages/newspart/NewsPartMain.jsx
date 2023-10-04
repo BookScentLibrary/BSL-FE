@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "../../components/shared/menu/Menu";
+import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import ReviewListPage from "../review/ReviewListPage";
 
@@ -18,7 +18,12 @@ const NewsPartMain = () => {
   return (
     <React.Fragment>
       <Container>
-        <Menu title="소식·참여" menuArr={menuArr} pageIdx={pageIdx} setPageIdx={setPageIdx}/>
+        <Menu
+          title="소식·참여"
+          menuArr={menuArr}
+          pageIdx={pageIdx}
+          setPageIdx={setPageIdx}
+        />
         {page[pageIdx]}
       </Container>
     </React.Fragment>
