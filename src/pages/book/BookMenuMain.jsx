@@ -1,7 +1,7 @@
 import React from "react";
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
-import SearchMain from "../../components/search/searchMain";
+import SearchMain from "../../components/search/SearchMain";
 import Button from "../../components/shared/elements/Button";
 import BookDetail from "./BookDetail";
 import { useLocation, useNavigate } from "react-router-dom";
