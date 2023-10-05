@@ -2,7 +2,7 @@ import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
 import SignUp from "./components/user/Signup";
 import SignIn from "./components/user/SignIn";
-import SearchMain from "./components/search/searchMain";
+import SearchMain from "./components/search/SearchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
