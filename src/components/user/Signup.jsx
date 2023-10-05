@@ -6,6 +6,14 @@ import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useNavigate } from "react-router-dom";
+import {
+  usernameCheck,
+  passwordCheck,
+  emailCheck,
+  nicknameCheck,
+  phoneCheck,
+  userBirthCheck,
+} from "../shared/RegEx.ts";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -32,18 +40,14 @@ const SignUp = () => {
   const [nicknameDBCheck, setNicknameDBCheck] = useState(false); // 닉네임 중복 검사 결과
 
   //아이디 중복 검사
-  const usernameCheck = async () => {
-    const usernameRegex = /^[a-z0-9]{8,20}$/;
+  const idDueCheck = async () => {
     if (username === "") {
       console.log(username);
       window.alert("아이디를 입력해주세요");
       return;
     }
-    if (!usernameRegex.test(username)) {
+    if (!usernameCheck(username)) {
       console.log(username);
-      window.alert(
-        "아이디는 영문(소문자)과 숫자로 8자에서 20자 사이여야 합니다."
-      );
       return;
     }
     try {
@@ -67,7 +71,7 @@ const SignUp = () => {
   };
 
   //닉네임 중복 검사
-  const nicknameCheck = async () => {
+  const nickDueCheck = async () => {
     const nicknameRegex = /^[가-힣]{3,8}$/;
     if (nickname === "") {
       console.log(nickname);
@@ -102,8 +106,7 @@ const SignUp = () => {
 
   //아이디 입력시 유효성 검사
   const onChangeUsernameHandler = (value) => {
-    const usernameRegex = /^[a-z0-9]{8,20}$/;
-    if (!usernameRegex.test(username)) {
+    if (!usernameCheck(username)) {
       setUsernameMsg("아이디 형식이 올바르지 않습니다.");
     } else {
       setUsernameMsg("올바른 형식의 아이디입니다.");
@@ -112,8 +115,7 @@ const SignUp = () => {
   };
   //비밀번호 입력시 유효성 검사
   const onChangePasswordHandler = (value) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
-    if (!passwordRegex.test(password)) {
+    if (!passwordCheck(password)) {
       setPasswordMsg("비밀번호 형식이 올바르지 않습니다.");
     } else {
       setPasswordMsg("올바른 형식의 비밀번호입니다.");
@@ -133,8 +135,7 @@ const SignUp = () => {
 
   //이메일 유효성 검사
   const onChangeEmailHandler = (value) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailRegex.test(email)) {
+    if (!emailCheck(email)) {
       setEmailMsg("이메일 형식이 올바르지 않습니다.");
     } else {
       setEmailMsg("올바른 형식의 이메일입니다.");
@@ -144,8 +145,7 @@ const SignUp = () => {
 
   //닉네임 유효성 검사
   const onChangeNicknameHandler = (value) => {
-    const nicknameRegex = /^[가-힣]{3,8}$/;
-    if (!nicknameRegex.test(nickname)) {
+    if (!nicknameCheck(nickname)) {
       setNicknameMsg("3~8자 이내의 한글 닉네임을 입력해주세요");
     } else {
       setNicknameMsg("올바른 형식의 닉네임입니다.");
@@ -155,8 +155,7 @@ const SignUp = () => {
 
   //연락처 유효성 검사
   const onChangePhoneHandler = (value) => {
-    const phoneRegex = /^[0-9]{11}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!phoneCheck(phone)) {
       setPhoneMsg("연락처 형식이 올바르지 않습니다.");
     } else {
       setPhoneMsg("올바른 형식의 연락처입니다.");
@@ -166,8 +165,7 @@ const SignUp = () => {
 
   //생년월일 유효성 검사
   const onChangeuserBirthHandler = (value) => {
-    const userBirthRegex = /^(19|20)\d\d(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
-    if (!userBirthRegex.test(userBirth)) {
+    if (!userBirthCheck(userBirth)) {
       setUserBirthMsg("생년월일 형식이 올바르지 않습니다.");
     } else {
       setUserBirthMsg("올바른 형식의 생년월일입니다.");
@@ -234,7 +232,7 @@ const SignUp = () => {
             placeholder="8~20자 이내의 영문(소문자)과 숫자로 된 아이디를 입력해주세요."
             onChange={(e) => onChangeUsernameHandler(e.target.value)}
           />
-          <Button type="middle" onClick={usernameCheck}>
+          <Button type="middle" onClick={idDueCheck}>
             중복확인
           </Button>
           <p>{usernameMsg}</p>
@@ -278,7 +276,7 @@ const SignUp = () => {
             placeholder="3~8자 이내의 한글 닉네임을 입력해주세요"
             onChange={(e) => onChangeNicknameHandler(e.target.value)}
           />
-          <Button type="middle" onClick={nicknameCheck}>
+          <Button type="middle" onClick={nickDueCheck}>
             중복확인
           </Button>
           <p>{nicknameMsg}</p>
