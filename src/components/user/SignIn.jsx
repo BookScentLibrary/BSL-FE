@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { signInAPI } from "../../core/redux/userSlice";
@@ -46,16 +41,16 @@ const SignIn = () => {
       });
   };
   return (
-    <Card sx={{ minWidth: 275, maxWidth: "50vw" }}>
-      <CardContent>
-        <Box>
+    <>
+      <div>
+        <div>
           <StyledWord>
             <h1>로그인</h1>
             <hr />
             <br />
           </StyledWord>
-          <TextField
-            fullWidth
+          <label htmlFor="username">아이디</label>
+          <input
             type="text"
             name="username"
             label="아이디"
@@ -63,27 +58,25 @@ const SignIn = () => {
             style={{ marginBottom: "20px" }}
           />
           <br />
-
-          <TextField
-            fullWidth
+          <label htmlFor="password">비밀번호</label>
+          <input
             type="password"
             name="password"
-            label="비밀번호"
             onChange={(e) => setPassword(e.target.value)}
             style={{ marginBottom: "20px" }}
           />
           <br />
-        </Box>
-      </CardContent>
-      <CardActions>
+        </div>
+      </div>
+      <div>
         <SubmitButton
           onClick={() => SignInHandler()}
           style={{ width: "1025px" }}
         >
           로그인
         </SubmitButton>
-      </CardActions>
-    </Card>
+      </div>
+    </>
   );
 };
 

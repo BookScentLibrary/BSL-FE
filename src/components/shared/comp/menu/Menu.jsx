@@ -40,7 +40,7 @@ const Menu = (props) => {
 
   return (
     <React.Fragment>
-      <MenuTable $menu={menuArr.length}>
+      <MenuTable $menu={menuArr?.length}>
         <Title>{title ? title : "Title"}</Title>
         {menuArr ? (
           menuArr.map((cur, idx) => {

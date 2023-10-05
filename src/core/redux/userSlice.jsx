@@ -14,7 +14,7 @@ export const signUpAPI = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
+      console.log("signUpAPI" + data);
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
         console.log(response);
@@ -36,7 +36,6 @@ export const usernameAPI = createAsyncThunk(
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
         console.log(response);
-        // window.location.replace('/login');
       } else {
         window.alert("뭔가 문제가 있음");
       }
@@ -54,7 +53,6 @@ export const nicknameAPI = createAsyncThunk(
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
         console.log(response);
-        // window.location.replace('/login');
       } else {
         window.alert("뭔가 문제가 있음");
       }
