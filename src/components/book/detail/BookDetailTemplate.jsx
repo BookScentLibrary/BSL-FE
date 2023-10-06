@@ -7,7 +7,7 @@ import RentData from "./BookRentData";
 import * as S from "./BookDetailTemplate.style";
 import BookReviewList from "./BookReviewList";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookAPI, getSelectedBookReviewAPI } from "../../../core/redux/bookSlice";
+import { getBookTestAPI, getSelectedBookReviewAPI } from "../../../core/redux/bookSlice";
 
 // const book = {
 //   bookNo: "00000001",
@@ -44,7 +44,7 @@ const BookDetailTemplate = (props) => {
   const reviewList = useSelector((state) => state.book.review);
 
   React.useEffect(() => {
-    dispatch(getBookAPI());
+    dispatch(getBookTestAPI());
     dispatch(getSelectedBookReviewAPI(book.bookNo));
   }, [dispatch, book]);
 
