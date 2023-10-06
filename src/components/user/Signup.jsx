@@ -5,7 +5,6 @@ import axios from "axios";
 import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
-import { useNavigate } from "react-router-dom";
 import {
   usernameCheck,
   passwordCheck,
@@ -16,7 +15,6 @@ import {
 } from "../shared/RegEx.ts";
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState(""); //아이디
@@ -177,6 +175,10 @@ const SignUp = () => {
   const SignUpHandler = (event) => {
     event.preventDefault();
     // null값 체크
+    if (usernameDBCheck !== true || nicknameDBCheck !== true) {
+      window.alert("중복 검사를 진행해주세요.");
+      return;
+    }
     if (
       username === "" ||
       password === "" ||
@@ -200,20 +202,7 @@ const SignUp = () => {
         phone,
         userBirth,
       };
-      axios
-        .post("http://localhost:8080/user/signUp", data)
-        .then((response) => {
-          dispatch(signUpAPI(data));
-          if (response.status == "200") {
-            //회원가입 성공시 로그인창으로 이동
-            navigate("/signIn");
-          } else {
-            window.alert("회원가입 실패");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      dispatch(signUpAPI(data));
     }
   };
 
