@@ -6,7 +6,6 @@ import Header from "./components/shared/comp/header/Header";
 import Banner from "./components/shared/comp/banner/Banner";
 import Footer from "./components/shared/comp/footer/Footer";
 import Wrapper from "./components/shared/Wrapper";
-//import ReviewListPage from "./pages/ReviewListPage";
 
 const Root = () => {
   return (

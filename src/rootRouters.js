@@ -4,6 +4,7 @@ import SignUp from "./components/user/SignUp";
 import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/SearchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
+import ReviewWritePage from "./pages/review/ReviewWritePage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
 
@@ -30,12 +31,16 @@ export default [
     element: SignIn,
   },
   {
-    path: "/reviewList",
+    path: "news/reviewList",
     element: ReviewListPage,
   },
   {
-    path: "/search",
-    element: SearchMain,
+    path: "news/reviewWrite",
+    element: ReviewWritePage,
+  },
+  {
+    path:"/search",
+    element: SearchMain
   },
   {
     path: "/book",
