@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { testAPI } from "../apis";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { testAPI } from '../apis';
 import { bookAPI } from "../apis/book";
 
-
+//책 목록의 상태 정의 
 export const initialState = {
   book: {},
   rate: {},
@@ -10,19 +10,19 @@ export const initialState = {
   review: [],
 };
 
+
 //책과 관련된 액션 정의 
 export const searchBookAPI = createAsyncThunk(
-  "book/search",
+  'book/search',
   async (data, thunkAPI) => {
     try {
-      const response = await bookAPI.get(
-        `/search?${data.data1}&${data.data2}&${data.data3}`
-      );
-      console.log("searchAPI response : ", response.data);
+      const response = await bookAPI.searchBook(data);
+      console.log("searchAPI response : ", response);
+      
     } catch (error) {
-      console.log("searchAPI : error response", error.response.data);
+      console.log('searchAPI : error response', error.response.data);
     }
-  }
+  },
 );
 export const getBookTestAPI = createAsyncThunk(
   "book/test",
@@ -33,19 +33,6 @@ export const getBookTestAPI = createAsyncThunk(
       thunkAPI.dispatch(bookSlice.actions.setTestMessage(response.data));
     } catch (error) {
       console.log("testAPI : error response", error.response.data);
-    }
-  }
-);
-
-export const getBookAPI = createAsyncThunk(
-  "book/getBook",
-  async (data, thunkAPI) => {
-    try {
-      const response = await bookAPI.getBook();
-      console.log(response.data);
-      thunkAPI.dispatch(bookSlice.actions.setBook(response.data));
-    } catch (error) {
-      console.error("getBookAPI : error response", error.response.data);
     }
   }
 );
@@ -219,28 +206,24 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
 
 
 export const bookSlice = createSlice({
-  name: "bookReducer",
+  name: 'bookReducer',
   initialState,
   reducers: {
     setTestMessage: (state, action) => {
       state.book = action.payload;
       return;
-    },
-    setBook: (state, action) => {
-      state.book = action.payload;
-      return;
-    },
-    readerData: (state, action) => {
-      state.reader = action.payload;
-      return;
-    },
-    ratingData: (state, action) => {
-      state.rate = action.payload;
-      return;
-    },
-    setSelectedBookReview: (state, action) => {
-      state.review = action.payload;
-      return;
-    },
+      },
+     readerDate: (state, action) => {
+        state.reader = action.payload;
+        return;
+        },
+        ratingData: (state, action) => {
+          state.rate = action.payload;
+          return;
+        },
+        setSelectedBookReview: (state, action) => {
+          state.review = action.payload;
+          return;
+        },
   },
 });
