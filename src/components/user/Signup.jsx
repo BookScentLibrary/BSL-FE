@@ -174,7 +174,8 @@ const SignUp = () => {
   };
 
   //회원가입 처리하기
-  const SignUpHandler = () => {
+  const SignUpHandler = (event) => {
+    event.preventDefault();
     // null값 체크
     if (
       username === "" ||
@@ -322,7 +323,7 @@ const SignUp = () => {
         <Button type="reset" color="gray">
           취소하기
         </Button>
-        <Button onClick={() => SignUpHandler()}>가입하기</Button>
+        <Button onClick={SignUpHandler}>가입하기</Button>
       </div>
     </>
   );

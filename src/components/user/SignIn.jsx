@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import Input from "../../components/shared/elements/Input";
+import Button from "../shared/elements/Button";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { signInAPI } from "../../core/redux/userSlice";
@@ -49,8 +51,7 @@ const SignIn = () => {
             <hr />
             <br />
           </StyledWord>
-          <label htmlFor="username">아이디</label>
-          <input
+          <Input
             type="text"
             name="username"
             label="아이디"
@@ -58,10 +59,10 @@ const SignIn = () => {
             style={{ marginBottom: "20px" }}
           />
           <br />
-          <label htmlFor="password">비밀번호</label>
-          <input
+          <Input
             type="password"
             name="password"
+            label="비밀번호"
             onChange={(e) => setPassword(e.target.value)}
             style={{ marginBottom: "20px" }}
           />
@@ -69,12 +70,7 @@ const SignIn = () => {
         </div>
       </div>
       <div>
-        <SubmitButton
-          onClick={() => SignInHandler()}
-          style={{ width: "1025px" }}
-        >
-          로그인
-        </SubmitButton>
+        <Button onClick={() => SignInHandler()}>로그인</Button>
       </div>
     </>
   );
@@ -85,17 +81,4 @@ export default SignIn;
 const StyledWord = styled.div`
   text-align: left;
   margin-left: 20px;
-`;
-
-const SubmitButton = styled.button`
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  background-color: #a1e092;
-  color: #fff;
-  padding: 8px;
-  margin: 3px;
-  font-size: 20px;
-  font-weight: 300;
-  cursor: pointer;
 `;
