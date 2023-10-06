@@ -9,12 +9,12 @@ export const initialState = {
   emailCheck: false,
   is_login: false,
 };
-
+//회원가입용 API
 export const signUpAPI = createAsyncThunk(
-  "user/signup",
+  "user/signUp",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
+      console.log("signUpAPI" + data);
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
         console.log(response);
@@ -23,11 +23,63 @@ export const signUpAPI = createAsyncThunk(
         window.alert("뭔가 문제가 있음");
       }
     } catch (error) {
-      console.log("signupAPI : error response", error.response.data);
+      console.log("signUpAPI : error response", error.response.data);
+    }
+  }
+);
+//아이디 중복확인용 API
+export const usernameAPI = createAsyncThunk(
+  "user/idCheck",
+  async (data, thunkAPI) => {
+    try {
+      console.log(data);
+      const response = await userAPI.signUp(data);
+      if (response.status === 200) {
+        console.log(response);
+      } else {
+        window.alert("뭔가 문제가 있음");
+      }
+    } catch (error) {
+      console.log("usernameAPI : error response", error.response.data);
+    }
+  }
+);
+//닉네임 중복확인용 API
+export const nicknameAPI = createAsyncThunk(
+  "user/nickCheck",
+  async (data, thunkAPI) => {
+    try {
+      console.log(data);
+      const response = await userAPI.signUp(data);
+      if (response.status === 200) {
+        console.log(response);
+      } else {
+        window.alert("뭔가 문제가 있음");
+      }
+    } catch (error) {
+      console.log("nicknameAPI : error response", error.response.data);
     }
   }
 );
 
+//로그인 API
+export const signInAPI = createAsyncThunk(
+  "user/signIn",
+  async (data, thunkAPI) => {
+    try {
+      console.log(data);
+      const response = await userAPI.signIn(data);
+      if (response.status === 200) {
+        console.log(response);
+        // window.location.replace('/login');
+      } else {
+        window.alert("뭔가 문제가 있음");
+      }
+    } catch (error) {
+      console.log("signInAPI : error response", error.response.data);
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: "userReducer",
@@ -38,6 +90,5 @@ export const userSlice = createSlice({
       state.is_login = true;
       return;
     },
-
   },
 });

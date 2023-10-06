@@ -1,10 +1,12 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import Signup from "./components/user/Signup";
-import SearchMain from "./components/search/searchMain";
+import SignUp from "./components/user/SignUp";
+import SignIn from "./components/user/SignIn";
+import SearchMain from "./components/search/SearchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import ReviewWritePage from "./pages/review/ReviewWritePage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
+import BookMenuMain from "./pages/book/BookMenuMain";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -21,8 +23,12 @@ export default [
     element: NewsPartMain,
   },
   {
-    path: "/signup",
-    element: Signup,
+    path: "/signUp",
+    element: SignUp,
+  },
+  {
+    path: "/signIn",
+    element: SignIn,
   },
   {
     path: "news/reviewList",
@@ -35,5 +41,13 @@ export default [
   {
     path:"/search",
     element: SearchMain
-  }
+  },
+  {
+    path: "/book",
+    element: BookMenuMain,
+  },
+  {
+    path: "/book/detail",
+    element: BookMenuMain,
+  },
 ];
