@@ -1,39 +1,24 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-const StyledItemBoxDiv1 = styled.div`
-  display:flex;
-  border:1px solid #eee;
-  background:#eee;
-  height:20px;
-  padding:10px;
-  maring:20px;
-`;
+function ReviewDetailPage({ reviews }) {
+  const { id } = useParams();
+  const review = reviews.find((r) => r.id === parseInt(id, 10));
 
-const StyledItemBoxDiv2 = styled.div`
-  display:flex;
-  justify-content:space-between;
-`;
+  if (!review) {
+    return <div>리뷰를 찾을 수 없습니다.</div>;
+  }
 
-const ReviewDetailPage = () => {
   return (
-    <>
-      <h1>리뷰게시판</h1>
-      <hr />
-      <StyledItemBoxDiv1>
-        <h2>리뷰제목</h2>
-        <p>리뷰작성날짜</p>
-        <p>별점</p>
-      </StyledItemBoxDiv1>
-      <p>
-        작성자 이름
-        <StyledItemBoxDiv2>
-          <button>수정</button>
-          <button>삭제</button>
-        </StyledItemBoxDiv2>
-      </p>
-    </>
+    <div>
+      <h2>리뷰 게시판</h2>
+      <h3>{review.postTitle}</h3>
+      <p>{review.createdAt}</p>
+      <p>{review.bookScore}</p>
+      <p>{review.nickname}<button>수정</button>삭제<button></button></p>
+      <p>{review.content}</p>
+    </div>
   );
-};
+}
 
 export default ReviewDetailPage;

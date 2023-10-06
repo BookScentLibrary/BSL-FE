@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "../../components/shared/menu/Menu";
+import Menu from "../.././components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import ReviewListPage from "../review/ReviewListPage";
 
