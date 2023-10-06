@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
+import Input from "../../components/shared/elements/Input";
+import Button from "../shared/elements/Button";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { signInAPI } from "../../core/redux/userSlice";
@@ -46,16 +43,15 @@ const SignIn = () => {
       });
   };
   return (
-    <Card sx={{ minWidth: 275, maxWidth: "50vw" }}>
-      <CardContent>
-        <Box>
+    <>
+      <div>
+        <div>
           <StyledWord>
             <h1>로그인</h1>
             <hr />
             <br />
           </StyledWord>
-          <TextField
-            fullWidth
+          <Input
             type="text"
             name="username"
             label="아이디"
@@ -63,9 +59,7 @@ const SignIn = () => {
             style={{ marginBottom: "20px" }}
           />
           <br />
-
-          <TextField
-            fullWidth
+          <Input
             type="password"
             name="password"
             label="비밀번호"
@@ -73,17 +67,12 @@ const SignIn = () => {
             style={{ marginBottom: "20px" }}
           />
           <br />
-        </Box>
-      </CardContent>
-      <CardActions>
-        <SubmitButton
-          onClick={() => SignInHandler()}
-          style={{ width: "1025px" }}
-        >
-          로그인
-        </SubmitButton>
-      </CardActions>
-    </Card>
+        </div>
+      </div>
+      <div>
+        <Button onClick={() => SignInHandler()}>로그인</Button>
+      </div>
+    </>
   );
 };
 
@@ -92,17 +81,4 @@ export default SignIn;
 const StyledWord = styled.div`
   text-align: left;
   margin-left: 20px;
-`;
-
-const SubmitButton = styled.button`
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  background-color: #a1e092;
-  color: #fff;
-  padding: 8px;
-  margin: 3px;
-  font-size: 20px;
-  font-weight: 300;
-  cursor: pointer;
 `;
