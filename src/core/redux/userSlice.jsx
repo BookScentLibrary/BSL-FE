@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userAPI } from "../apis";
-import { useNavigate } from "react-router-dom";
 
 export const initialState = {
   user: {
@@ -34,10 +33,10 @@ export const usernameAPI = createAsyncThunk(
   "user/idCheck",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
+      console.log("아이디 중복확인 data:" + data);
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
-        console.log(response);
+        console.log("아이디 중복확인 response:" + response);
       } else {
         window.alert("뭔가 문제가 있음");
       }
@@ -51,10 +50,10 @@ export const nicknameAPI = createAsyncThunk(
   "user/nickCheck",
   async (data, thunkAPI) => {
     try {
-      console.log(data);
+      console.log("닉네임 중복확인 data:" + data);
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
-        console.log(response);
+        console.log("닉네임 중복확인 response:" + response);
       } else {
         window.alert("뭔가 문제가 있음");
       }
