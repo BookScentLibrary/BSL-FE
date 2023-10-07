@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userAPI } from "../apis";
+import { useNavigate } from "react-router-dom";
 
 export const initialState = {
   user: {
@@ -18,9 +19,10 @@ export const signUpAPI = createAsyncThunk(
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
         console.log(response);
-        // window.location.replace('/login');
+        //회원가입 성공시 로그인창으로 이동;
+        window.location.replace("/signIn");
       } else {
-        window.alert("뭔가 문제가 있음");
+        window.alert("회원가입 실패");
       }
     } catch (error) {
       console.log("signUpAPI : error response", error.response.data);
