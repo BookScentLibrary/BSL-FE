@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { signUpAPI } from "../../core/redux/userSlice";
 import axios from "axios";
 import styled from "styled-components";
-import Input from "../../components/shared/elements/Input";
+import Input from "../shared/elements/Input";
 import Button from "../shared/elements/Button";
 import {
   usernameCheck,
@@ -46,6 +46,7 @@ const SignUp = () => {
     }
     if (!usernameCheck(username)) {
       console.log(username);
+      window.alert("아이디 형식이 올바르지 않습니다.");
       return;
     }
     try {
@@ -70,15 +71,14 @@ const SignUp = () => {
 
   //닉네임 중복 검사
   const nickDueCheck = async () => {
-    const nicknameRegex = /^[가-힣]{3,8}$/;
     if (nickname === "") {
       console.log(nickname);
       window.alert("닉네임을 입력해주세요");
       return;
     }
-    if (!nicknameRegex.test(nickname)) {
+    if (!nicknameCheck(nickname)) {
       console.log(nickname);
-      window.alert("닉네임은 한글 3자에서 8자 사이여야 합니다.");
+      window.alert("3~8자 이내의 한글 닉네임을 입력해주세요");
       return;
     }
     try {

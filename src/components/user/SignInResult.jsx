@@ -25,7 +25,7 @@ const SignInResult = () => {
         const token = cookies.token;
         if(token) getBoard(token);
         //리덕스로 유저 객체를 연결하는 방법 찾기
-    }, [user]);
+    }, [cookies.token]);
 
   return (
   <>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { config } from "./config";
 
-
 export const instance = axios.create({
   baseURL: config.server.host,
 
@@ -21,7 +20,6 @@ export const instances = axios.create({
   },
 });
 
-
 instance.interceptors.request.use(
   (config) => {
     const Token = localStorage.getItem("token");
@@ -38,7 +36,6 @@ instance.interceptors.request.use(
   }
 );
 
-
 instances.interceptors.request.use(
   (config) => {
     const Token = localStorage.getItem("token");
@@ -54,7 +51,6 @@ instances.interceptors.request.use(
     console.log(err);
   }
 );
-
 
 instance.interceptors.response.use(
   (success) => {

@@ -3,7 +3,6 @@ import axios from "axios";
 import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
-import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { signInAPI } from "../../core/redux/userSlice";
 
@@ -11,7 +10,6 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [cookies, setCookies] = useCookies();
   const dispatch = useDispatch();
 
   const SignInHandler = () => {
@@ -23,33 +21,7 @@ const SignIn = () => {
       username,
       password,
     };
-    axios
-      .post("http://localhost:8080/user/signIn", data)
-      .then((response) => {
-        const responseData = response.data;
-        console.log("스프링부트에서 왔어요 token : " + responseData.data.token);
-        console.log(
-          "스프링부트에서 왔어요  exprTime : " + responseData.data.exprTime
-        );
-        console.log("스프링부트에서 왔어요  user : " + responseData.data.user);
-        if (!responseData.result) {
-          console.log(responseData.result);
-          window.alert("나 리액트. 아이디 혹은 비밀번호가 일치하지 않습니다.");
-          return;
-        }
-        const { token, exprTime, user } = responseData.data;
-        const expires = new Date();
-        expires.setTime(expires.getTime() + exprTime);
-
-        setCookies("token", token, { expires });
-        //dispatch(signInAPI(user));
-        console.log(user);
-        window.location.replace("/");
-      })
-      .catch((error) => {
-        window.alert("나 리액트임. 로그인에 실패했습니다.");
-        console.log(error);
-      });
+    dispatch(signInAPI(data));
   };
   return (
     <>

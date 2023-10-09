@@ -39,8 +39,8 @@ export default [
     element: ReviewWritePage,
   },
   {
-    path:"/search",
-    element: SearchMain
+    path: "/search",
+    element: SearchMain,
   },
   {
     path: "/book",
