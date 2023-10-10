@@ -7,10 +7,10 @@ const NewBooksMain = () => {
         <div>
             <h1>신간 도서</h1>
             <hr />
-            <div>
+            <Pd>
                 최근 30일 이내 입수된 도서 목록입니다.
-                <button>신간 도서 등록</button>
-            </div>
+                <Btn>신간 도서 등록</Btn>
+            </Pd>
             <hr />
             <table>
                 <thead>
@@ -39,6 +39,39 @@ const NewBooksMain = () => {
         </div>
     );
 };
+
+const Btn = styled.button`
+    float: right;
+    box-sizing: border-box;
+    background: ${({ color, theme }) =>
+        color
+        ? color === "red"
+        ? theme.colors.secondary
+        : color === "gray"
+        ? theme.colors.gray
+        : theme.colors.primary
+        : theme.colors.primary};
+    border-radius: 3px;
+    width: ${({ width }) => (width ? width : "110px")};
+    height: ${({ height }) => (height ? height : "35px")};
+    color: #fff;
+    border: none;
+
+    &:hover {
+        background: ${({ color, theme }) =>
+            color
+            ? color === "red"
+            ? theme.colors.darkred5
+            : color === "gray"
+            ? theme.colors.grayhover
+            : theme.colors.darkgreen5
+            : theme.colors.darkgreen5};
+    }
+`;
+
+const Pd = styled.div`
+    padding: 2%;
+`;
 
 export default NewBooksMain;
 
