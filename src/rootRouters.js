@@ -7,6 +7,7 @@ import ReviewListPage from "./pages/review/ReviewListPage";
 import ReviewWritePage from "./pages/review/ReviewWritePage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
+import UserList from "./components/user/UserList";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -29,6 +30,10 @@ export default [
   {
     path: "/signIn",
     element: SignIn,
+  },
+  {
+    path: "/userList",
+    element: UserList,
   },
   {
     path: "news/reviewList",

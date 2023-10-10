@@ -66,59 +66,28 @@ export const signInAPI = createAsyncThunk(
   "user/signIn",
   async (data, thunkAPI) => {
     try {
-      console.log("로그인 data : " + data);
       const response = await userAPI.signIn(data);
       if (response.status === 200) {
         if (response.data.result === false) {
-          console.log(
-            "스프링부트에서 왔어요  result : " + response.data.result
-          );
-          window.alert("나 리액트. 아이디 혹은 비밀번호가 일치하지 않습니다.");
+          window.alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
           return;
         }
-        console.log("로그인 response.status : " + response.status);
-        // console.log(
-        //   "스프링부트에서 왔어요 token : " + response.data.data.token
-        // );
-        // console.log(
-        //   "스프링부트에서 왔어요  exprTime : " + response.data.data.exprTime
-        // );
-        // console.log("스프링부트에서 왔어요  user : " + response.data.data.user);
         const accessToken = response.data.data.token;
-        console.log("스프링부트에서 왔어요  accessToken : " + accessToken);
-        localStorage.clear();
-        localStorage.setItem("token", accessToken);
-        const storedToken = localStorage.getItem("token");
-        console.log("스프링부트에서 왔어요  localStorage : " + storedToken);
-        console.log("스프링부트에서 왔어요  response.data : " + response.data);
-        console.log(
-          "스프링부트에서 왔어요  response.data.data : " + response.data.data
-        );
+        sessionStorage.clear();
+        sessionStorage.setItem("token", accessToken);
+        sessionStorage.setItem("loginedUser", data);
         const { token, exprTime, user } = response.data.data;
         const expires = new Date();
         expires.setTime(expires.getTime() + exprTime);
-        console.log("리액트에 저장됐어요 token : " + token);
-        console.log(
-          "리액트에 저장됐어요  exprTime : " + response.data.data.exprTime
-        );
-        console.log("리액트에 저장됐어요  user : " + response.data.data.user);
-        //setCookies("token", token, { expires });
-        console.log(user);
-        thunkAPI.dispatch(userSlice.actions.setUser(user));
-        console.log(
-          "setUser : " +
-            userSlice.reducer(undefined, userSlice.actions.setUser).user
-        );
+        thunkAPI.dispatch(userSlice.actions.setUser({ token, exprTime, user }));
         //로그인 성공하면 메인페이지로 이동
         window.location.replace("/");
-        console.log(response.data.result);
-        console.log(typeof response.data.result);
       } else {
         window.alert("뭔가 문제가 있음");
       }
     } catch (error) {
       console.log("signInAPI : error response", error.response.data);
-      window.alert("나 리액트임. 로그인에 실패했습니다.");
+      window.alert("로그인에 실패했습니다.");
       console.log(error);
     }
   }
@@ -129,23 +98,15 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.is_login = true;
-      return;
-    },
-    getUser: (state, action) => {
-      state.user = action.payload;
-      state.is_login = true;
-      return;
     },
     deleteUser: (state, action) => {
       state.user = null;
       state.is_login = false;
-      return;
     },
     idCheck: (state, action) => {
       state.usernameDBCheck = action.payload.result;
-      return;
     },
   },
 });

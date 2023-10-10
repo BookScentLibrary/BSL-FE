@@ -22,7 +22,7 @@ export const instances = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const Token = localStorage.getItem("token");
+    const Token = sessionStorage.getItem("token");
 
     config.headers = {
       "content-type": "application/json;charset=UTF-8",
@@ -38,7 +38,7 @@ instance.interceptors.request.use(
 
 instances.interceptors.request.use(
   (config) => {
-    const Token = localStorage.getItem("token");
+    const Token = sessionStorage.getItem("token");
 
     config.headers = {
       "Content-Type": "multipart/form-data",
