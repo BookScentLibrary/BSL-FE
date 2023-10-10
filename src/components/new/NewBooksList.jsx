@@ -41,3 +41,5 @@ const NewBooksMain = () => {
 };
 
 export default NewBooksMain;
+
+//데이터베이스에서 regDate 큰 순으로 정렬해서 20개를 추출해야함
