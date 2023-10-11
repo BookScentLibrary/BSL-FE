@@ -63,7 +63,7 @@ export default [
     element: BookMenuMain,
   },
   {
-    path: "/book/detail",
+    path: "/book/detail/:bookNo",
     element: BookMenuMain,
   },  
   {
