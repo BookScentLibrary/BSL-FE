@@ -7,11 +7,11 @@ function UserList() {
   useEffect(() => {
     // API 호출
     axios
-      .get("http://localhost:8080/user/userList")
+      .get("http://localhost:8080/superAdmin/userList")
       .then((response) => {
         // 데이터를 받은 후 permission으로 정렬
         const sortedUsers = response.data.sort(
-          (a, b) => a.permission - b.permission
+          (a, b) => b.permission - a.permission
         );
         setUsers(sortedUsers);
         console.log(users);
@@ -33,15 +33,15 @@ function UserList() {
   const updatePermission = async (userId, permissionValue) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/user/setPermission",
+        "http://localhost:8080/superAdmin/setPermission",
         { userId: userId, permission: permissionValue }
       );
 
       if (response.status === 200) {
         //권한 변경 성공시 로그인창으로 이동;
-        window.location.replace("/userList");
+        window.location.replace("/superAdmin/userList");
       } else {
-        window.alert("입니다.");
+        window.alert("권한 변경에 실패했습니다.");
         console.log(response.message);
       }
     } catch (error) {

@@ -32,7 +32,7 @@ export default [
     element: SignIn,
   },
   {
-    path: "/userList",
+    path: "superAdmin/userList",
     element: UserList,
   },
   {
