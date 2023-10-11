@@ -17,7 +17,7 @@ export const signUpAPI = createAsyncThunk(
       if (response.status === 200) {
         console.log(response);
         //회원가입 성공시 로그인창으로 이동;
-        window.location.replace("/signIn");
+        //window.location.replace("/signIn");
       } else {
         window.alert("회원가입 실패");
       }
