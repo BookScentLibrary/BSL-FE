@@ -3,7 +3,6 @@ import axios from "axios";
 import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
-import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { signInAPI } from "../../core/redux/userSlice";
 
@@ -11,7 +10,6 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [cookies, setCookies] = useCookies();
   const dispatch = useDispatch();
 
   const SignInHandler = () => {
@@ -23,24 +21,7 @@ const SignIn = () => {
       username,
       password,
     };
-    axios
-      .post("http://localhost:8080/user/signIn", data)
-      .then((response) => {
-        const responseData = response.data;
-        if (!responseData.result) {
-          window.alert("로그인에 실패했습니다.");
-          return;
-        }
-        const { token, exprTime, user } = responseData.data;
-        const expires = new Date();
-        expires.setMilliseconds(expires.getMilliseconds + exprTime);
-
-        setCookies("token", token, { expires });
-        dispatch(signInAPI(user));
-      })
-      .catch((error) => {
-        window.alert("로그인에 실패했습니다.");
-      });
+    dispatch(signInAPI(data));
   };
   return (
     <>
