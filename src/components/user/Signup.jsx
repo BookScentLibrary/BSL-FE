@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 import { signUpAPI } from "../../core/redux/userSlice";
 import axios from "axios";
 import styled from "styled-components";
-import Input from "../../components/shared/elements/Input";
+import Input from "../shared/elements/Input";
 import Button from "../shared/elements/Button";
-import { useNavigate } from "react-router-dom";
 import {
   usernameCheck,
   passwordCheck,
@@ -16,7 +15,6 @@ import {
 } from "../shared/RegEx.ts";
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState(""); //아이디
@@ -48,6 +46,7 @@ const SignUp = () => {
     }
     if (!usernameCheck(username)) {
       console.log(username);
+      window.alert("아이디 형식이 올바르지 않습니다.");
       return;
     }
     try {
@@ -72,15 +71,14 @@ const SignUp = () => {
 
   //닉네임 중복 검사
   const nickDueCheck = async () => {
-    const nicknameRegex = /^[가-힣]{3,8}$/;
     if (nickname === "") {
       console.log(nickname);
       window.alert("닉네임을 입력해주세요");
       return;
     }
-    if (!nicknameRegex.test(nickname)) {
+    if (!nicknameCheck(nickname)) {
       console.log(nickname);
-      window.alert("닉네임은 한글 3자에서 8자 사이여야 합니다.");
+      window.alert("3~8자 이내의 한글 닉네임을 입력해주세요");
       return;
     }
     try {
@@ -174,8 +172,11 @@ const SignUp = () => {
   };
 
   //회원가입 처리하기
-  const SignUpHandler = (event) => {
-    event.preventDefault();
+  const SignUpHandler = () => {
+    if (usernameDBCheck !== true || nicknameDBCheck !== true) {
+      window.alert("중복 검사를 진행해주세요.");
+      return;
+    }
     // null값 체크
     if (
       username === "" ||
@@ -200,20 +201,7 @@ const SignUp = () => {
         phone,
         userBirth,
       };
-      axios
-        .post("http://localhost:8080/user/signUp", data)
-        .then((response) => {
-          dispatch(signUpAPI(data));
-          if (response.status == "200") {
-            //회원가입 성공시 로그인창으로 이동
-            navigate("/signIn");
-          } else {
-            window.alert("회원가입 실패");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      dispatch(signUpAPI(data));
     }
   };
 
