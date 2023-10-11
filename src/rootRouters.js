@@ -5,6 +5,8 @@ import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import ReviewWritePage from "./pages/review/ReviewWritePage";
+import ReviewDetailPage from "./pages/review/ReviewDetailPage";
+import ReviewEditPage from "./pages/review/ReviewEditPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
 import UserList from "./components/user/UserList";
@@ -45,6 +47,14 @@ export default [
     element: ReviewWritePage,
   },
   {
+    path: "/news/reviewDetail/:rev_postId",
+    element: ReviewDetailPage,
+  },
+  {
+    path: "/news/reviewEdit/:rev_postId",
+    element: ReviewEditPage,
+  },
+  {
     path: "/search",
     element: SearchMain,
   },
@@ -55,7 +65,7 @@ export default [
   {
     path: "/book/detail",
     element: BookMenuMain,
-  },
+  },  
   {
     path: "/book/recommend",
     element: BookRecommend,
