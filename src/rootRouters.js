@@ -8,6 +8,8 @@ import ReviewWritePage from "./pages/review/ReviewWritePage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
 import UserList from "./components/user/UserList";
+import RecommendList from "./components/recommend/RecommendList";
+import RecommendWrite from "./components/recommend/RecommendWrite";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -54,5 +56,13 @@ export default [
   {
     path: "/book/detail",
     element: BookMenuMain,
+  },
+  {
+    path: "/user/recommendList",
+    element: RecommendList,
+  },
+  {
+    path: "/admin/recommendWrite",
+    element: RecommendWrite,
   },
 ];
