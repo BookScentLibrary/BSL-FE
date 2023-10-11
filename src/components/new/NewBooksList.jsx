@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const NewBooksMain = () => {
+const NewBooksList = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -22,17 +22,19 @@ const NewBooksMain = () => {
             <hr />
             <table>
                 <thead>
-                    <Other>글번호</Other>
-                    <Title>제목</Title>
-                    <Other>저자</Other>
-                    <Other>발행처</Other>
-                    <Other>발행년도</Other>
-                    <Date>입수일</Date>
+                    <tr>
+                        <Other>글번호</Other>
+                        <Title>제목</Title>
+                        <Other>저자</Other>
+                        <Other>발행처</Other>
+                        <Other>발행년도</Other>
+                        <Date>입수일</Date>
+                    </tr>
                 </thead>
                 <tbody>
                     {items.map((item) => (
                         <tr key={item.newBooksNo}>
-                            <td>{item.bookNo}</td>
+                            <td>{item.newBooksNo}</td>
                             <td>{item.bookname}</td>
                             <td>{item.author}</td>
                             <td>{item.publisher}</td>
@@ -90,4 +92,6 @@ const Date = styled.th`
     padding: 10px 50px;
 `;
 
-export default NewBooksMain;
+export default NewBooksList;
+
+//tr style 변경
