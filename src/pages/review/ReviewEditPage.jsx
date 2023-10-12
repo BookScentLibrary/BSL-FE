@@ -45,7 +45,8 @@ const ReviewEditPage = () => {
 
         // 리뷰 정보를 가져온 후, 폼 데이터 초기값 설정
         setFormData({
-          postTitle: response.data.postTitle,
+            rev_postId: response.data.rev_postId,
+            postTitle: response.data.postTitle,
           createdAt: response.data.createdAt,
           rate: response.data.rate,
           nickname: response.data.nickname,
@@ -79,7 +80,7 @@ const ReviewEditPage = () => {
     try {
       // 리뷰 수정 로직 구현
       const updatedReview = {
-        rev_postId: rev_postId,
+        rev_postId: formData.rev_postId,
         postTitle: formData.postTitle,
         createdAt: formData.createdAt,
         rate: formData.rate,
@@ -95,10 +96,11 @@ const ReviewEditPage = () => {
 
       const response = await axios.put(
         `http://localhost:8080/news/reviewEdit/${rev_postId}`,
-        updatedReview
+            updatedReview
       );
 
       if (response.status === 200) {
+        console.log(response.data);
         // 수정이 성공하면 수정된 리뷰 상세 페이지로 이동
         navigate(`/news/reviewDetail/${rev_postId}`);
       } else {
@@ -117,8 +119,7 @@ const ReviewEditPage = () => {
     <div>
       <h2>리뷰 수정</h2>
       <hr />
-      <h3>{review.postTitle}</h3>
-      <p>{formatDate(review.createdAt)}</p>
+      
       <form>
         <div>
           <label htmlFor="postTitle">제목:</label>
@@ -129,6 +130,7 @@ const ReviewEditPage = () => {
             value={formData.postTitle}
             onChange={handleFormChange}
           />
+          <p>{formatDate(review.createdAt)}</p>
         </div>
         <div>
           <input
@@ -151,7 +153,7 @@ const ReviewEditPage = () => {
       </form>
 
       {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
-      <button onClick={handleUpdate}>수정</button>
+      <button onClick={handleUpdate}>리뷰 등록</button>
       <Link to={`/news/reviewDetail/${rev_postId}`}>
         <button>취소</button>
       </Link>
