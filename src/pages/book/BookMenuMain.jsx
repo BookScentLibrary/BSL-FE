@@ -13,6 +13,7 @@ const BookMenuMain = (props) => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const [pageIdx, setPageIdx] = React.useState(0);
+
   const page = {
     0: <SearchMain />,
     1: <NewBooksMain />,
@@ -44,6 +45,7 @@ const BookMenuMain = (props) => {
     navigate(`/book/detail/${value}`);
   };
 
+
   React.useEffect(() => {
     if (pathname === "/book") {
       setPageIdx(0);
@@ -60,18 +62,10 @@ const BookMenuMain = (props) => {
     <React.Fragment>
       <Container>
         <Menu title={"자료 검색"} selected={pageIdx}>
-          <p className="menu_first" onClick={goToSearch}>
-            소장자료
-          </p>
-          <p className="menu_second" onClick={goToNewBook}>
-            신간 도서
-          </p>
-          <p className="menu_third" onClick={goToBestseller}>
-            인기 대출 도서
-          </p>
-          <p className="menu_fourth" onClick={goToRecommend}>
-            사서 추천 도서
-          </p>
+          <p className="menu_first" onClick={goToSearch}>소장자료</p>
+          <p className="menu_second" onClick={goToNewBook}>신간 도서</p>
+          <p className="menu_third" onClick={goToBestseller}>인기 대출 도서</p>
+          <p className="menu_fourth" onClick={goToRecommend}>사서 추천 도서</p>
         </Menu>
 
         {page[pageIdx]}

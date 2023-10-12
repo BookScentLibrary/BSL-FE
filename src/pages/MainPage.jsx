@@ -28,7 +28,7 @@ const MainPage = (props) => {
 
 export const CatalogBtn = styled.button`
   position: absolute;
-  bottom: 50px;
+  top: -20px;
   right: 50px;
   width: 100px;
   height: 100px;
