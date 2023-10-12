@@ -26,13 +26,13 @@ const SignUp = () => {
   const [phone, setPhone] = useState(""); // 연락처
   const [userBirth, setUserBirth] = useState(""); // 생년월일
 
-  const [usernameMsg, setUsernameMsg] = useState(""); //유효성 검사 아이디 메세지
-  const [passwordMsg, setPasswordMsg] = useState(""); //유효성 검사 비밀번호 메세지
-  const [passwordAgainMsg, setPasswordAgainMsg] = useState(""); //유효성 검사 비밀빈호 확인 메세지
-  const [emailMsg, setEmailMsg] = useState(""); //유효성 검사 이메일 메세지
-  const [nicknameMsg, setNicknameMsg] = useState(""); //유효성 검사 닉네임 메세지
-  const [phoneMsg, setPhoneMsg] = useState(""); //유효성 검사 연락처 메세지
-  const [userBirthMsg, setUserBirthMsg] = useState(""); //유효성 검사 생년월일 메세지
+  const [usernameMsg, setUsernameMsg] = useState("　"); //유효성 검사 아이디 메세지
+  const [passwordMsg, setPasswordMsg] = useState("　"); //유효성 검사 비밀번호 메세지
+  const [passwordAgainMsg, setPasswordAgainMsg] = useState("　"); //유효성 검사 비밀빈호 확인 메세지
+  const [emailMsg, setEmailMsg] = useState("　"); //유효성 검사 이메일 메세지
+  const [nicknameMsg, setNicknameMsg] = useState("　"); //유효성 검사 닉네임 메세지
+  const [phoneMsg, setPhoneMsg] = useState("　"); //유효성 검사 연락처 메세지
+  const [userBirthMsg, setUserBirthMsg] = useState("　"); //유효성 검사 생년월일 메세지
 
   const [usernameDBCheck, setUsernameDBCheck] = useState(false); // 아이디 중복 검사 결과
   const [nicknameDBCheck, setNicknameDBCheck] = useState(false); // 닉네임 중복 검사 결과
@@ -104,76 +104,91 @@ const SignUp = () => {
 
   //아이디 입력시 유효성 검사
   const onChangeUsernameHandler = (value) => {
-    if (!usernameCheck(username)) {
+    if (!usernameCheck(value)) {
       setUsernameMsg("아이디 형식이 올바르지 않습니다.");
     } else {
-      setUsernameMsg("올바른 형식의 아이디입니다.");
+      setUsernameMsg("　　");
     }
     setUsername(value);
   };
   //비밀번호 입력시 유효성 검사
   const onChangePasswordHandler = (value) => {
-    if (!passwordCheck(password)) {
+    setPassword(value);
+    if (!passwordCheck(value)) {
       setPasswordMsg("비밀번호 형식이 올바르지 않습니다.");
     } else {
-      setPasswordMsg("올바른 형식의 비밀번호입니다.");
+      setPasswordMsg("　　");
     }
-    setPassword(value);
+    if (passwordAgain) {
+      // passwordAgain이 존재할 때에만 실행
+      if (value !== passwordAgain) {
+        setPasswordAgainMsg("비밀번호가 일치하지 않습니다.");
+      } else {
+        setPasswordAgainMsg("　　");
+      }
+    }
   };
 
   //비밀번호 확인 유효성 검사
   const onChangePasswordAgainHandler = (value) => {
-    if (password !== passwordAgain) {
+    setPasswordAgain(value);
+    if (value !== password) {
       setPasswordAgainMsg("비밀번호가 일치하지 않습니다.");
     } else {
-      setPasswordAgainMsg("비밀번호가 일치합니다.");
+      setPasswordAgainMsg("　　");
     }
-    setPasswordAgain(value);
+    if (password) {
+      if (!passwordCheck(value)) {
+        setPasswordMsg("비밀번호 형식이 올바르지 않습니다.");
+      } else {
+        setPasswordMsg("　　");
+      }
+    }
   };
 
   //이메일 유효성 검사
   const onChangeEmailHandler = (value) => {
-    if (!emailCheck(email)) {
+    if (!emailCheck(value)) {
       setEmailMsg("이메일 형식이 올바르지 않습니다.");
     } else {
-      setEmailMsg("올바른 형식의 이메일입니다.");
+      setEmailMsg("　　");
     }
     setEmail(value);
   };
 
   //닉네임 유효성 검사
   const onChangeNicknameHandler = (value) => {
-    if (!nicknameCheck(nickname)) {
+    if (!nicknameCheck(value)) {
       setNicknameMsg("3~8자 이내의 한글 닉네임을 입력해주세요");
     } else {
-      setNicknameMsg("올바른 형식의 닉네임입니다.");
+      setNicknameMsg("　　");
     }
     setNickname(value);
   };
 
   //연락처 유효성 검사
   const onChangePhoneHandler = (value) => {
-    if (!phoneCheck(phone)) {
+    if (!phoneCheck(value)) {
       setPhoneMsg("연락처 형식이 올바르지 않습니다.");
     } else {
-      setPhoneMsg("올바른 형식의 연락처입니다.");
+      setPhoneMsg("　　");
     }
     setPhone(value);
   };
 
   //생년월일 유효성 검사
   const onChangeuserBirthHandler = (value) => {
-    if (!userBirthCheck(userBirth)) {
+    if (!userBirthCheck(value)) {
       setUserBirthMsg("생년월일 형식이 올바르지 않습니다.");
     } else {
-      setUserBirthMsg("올바른 형식의 생년월일입니다.");
+      setUserBirthMsg("　　");
     }
     setUserBirth(value);
   };
 
   //회원가입 처리하기
   const SignUpHandler = () => {
-    if (usernameDBCheck !== true || nicknameDBCheck !== true) {
+    if (usernameDBCheck !== true && nicknameDBCheck !== true) {
       window.alert("중복 검사를 진행해주세요.");
       return;
     }
@@ -190,7 +205,15 @@ const SignUp = () => {
     ) {
       window.alert("모든 칸을 입력해주세요.");
       return;
-    } else {
+    } else if (
+      usernameMsg === "　　" &&
+      passwordMsg === "　　" &&
+      passwordAgainMsg === "　　" &&
+      emailMsg === "　　" &&
+      nicknameMsg === "　　" &&
+      phoneMsg === "　　" &&
+      userBirthMsg === "　　"
+    ) {
       const data = {
         username,
         password,
@@ -202,6 +225,9 @@ const SignUp = () => {
         userBirth,
       };
       dispatch(signUpAPI(data));
+    } else {
+      window.alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
+      return;
     }
   };
 
@@ -284,6 +310,7 @@ const SignUp = () => {
             <option value="남">남</option>
             <option value="선택안함">선택안함</option>
           </select>
+          <p>　　</p>
           <br />
 
           <Input
