@@ -1,6 +1,6 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import SignUp from "./components/user/Signup";
+import SignUp from "./components/user/SignUp";
 import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
@@ -68,15 +68,11 @@ export default [
     element: BookMenuMain,
   },
   {
-    path: "/book/recommend",
-    element: BookRecommend,
-  },
-  {
     path: "/user/recommendList",
     element: RecommendList,
   },
   {
-    path: "/admin/recommendWrite",
+    path: "/admin/createRecommend",
     element: RecommendWrite,
   },
 ];

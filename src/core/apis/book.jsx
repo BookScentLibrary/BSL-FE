@@ -10,12 +10,12 @@ export const bookAPI = {
 
   getRatingData: (bookNo) => instance.get(`/book/detail/rate?bookNo=${bookNo}`),
 
-  getSelectedBookReview: (bookNo) =>
-    instance.get(`/book/getReaview?bookNo=${bookNo}`),
+  // getSelectedBookReview: (bookNo) =>
+  //  instance.get(`/book/getReaview?bookNo=${bookNo}`),
 
   open: () => instance.get("/test"),
   getSelectedBookReview: (bookNo) =>
     instance.get(`/book/getReaview?bookNo=${bookNo}`),
 
-  bookRecommendAPI: (data) => instance.post("/admin/recommendWrite", data),
+  bookRecommendAPI: (data) => instance.post("/admin/createRecommend", data),
 };
