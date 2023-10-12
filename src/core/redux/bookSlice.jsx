@@ -227,6 +227,21 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
     }
   }
 );
+//사서 추천 도서 글 등록
+export const BookRecommendAPI = createAsyncThunk(
+  "admin/createRecommend",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.bookRecommendAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+    } catch (error) {
+      console.log("testAPI : error response", error.response.data);
+    }
+  }
+);
 
 export const bookSlice = createSlice({
   name: "bookReducer",
@@ -236,7 +251,7 @@ export const bookSlice = createSlice({
       state.book = action.payload;
       return;
     },
-    readerData: (state, action) => {
+    readerDate: (state, action) => {
       state.reader = action.payload;
       return;
     },
@@ -246,6 +261,10 @@ export const bookSlice = createSlice({
     },
     setSelectedBookReview: (state, action) => {
       state.review = action.payload;
+      return;
+    },
+    setSelectedBookRecommend: (state, action) => {
+      state.recommend = action.payload;
       return;
     },
   },

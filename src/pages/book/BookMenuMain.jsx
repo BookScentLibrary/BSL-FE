@@ -7,6 +7,7 @@ import Button from "../../components/shared/elements/Button";
 import BookDetail from "./BookDetail";
 import { useLocation, useNavigate } from "react-router-dom";
 import Input from "../../components/shared/elements/Input";
+import RecommendList from "../../components/recommend/RecommendList";
 
 const BookMenuMain = (props) => {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const BookMenuMain = (props) => {
     0: <SearchMain />,
     1: <NewBooksMain />,
     2: "",
-    3: "",
-    4: <BookDetail page={pageIdx} setPage={setPageIdx} />,
+    3: <BookDetail page={pageIdx} setPage={setPageIdx} />,
+    4: <RecommendList />,
   };
 
   const [value, setValue] = React.useState(1);
@@ -33,6 +34,7 @@ const BookMenuMain = (props) => {
     if (pathname === "/book") {
       setPageIdx(0);
     } else if (pathname.split("/")[2] === "detail") {
+    } else if (pathname === "/book/detail/") {
       setPageIdx(4);
     }
   }, [pathname]);

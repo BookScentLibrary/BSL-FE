@@ -1,6 +1,6 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import SignUp from "./components/user/Signup";
+import SignUp from "./components/user/SignUp";
 import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";
@@ -10,7 +10,8 @@ import ReviewEditPage from "./pages/review/ReviewEditPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
 import UserList from "./components/user/UserList";
-import BookRecommend from "./components/book/BookRecommend";
+import RecommendList from "./components/recommend/RecommendList";
+import RecommendWrite from "./components/recommend/RecommendWrite";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -65,9 +66,13 @@ export default [
   {
     path: "/book/detail/:bookNo",
     element: BookMenuMain,
-  },  
+  },
   {
-    path: "/book/recommend",
-    element: BookRecommend,
+    path: "/user/recommendList",
+    element: RecommendList,
+  },
+  {
+    path: "/admin/createRecommend",
+    element: RecommendWrite,
   },
 ];
