@@ -1,6 +1,6 @@
 import MainPage from "./pages/MainPage";
 import CompCatalog from "./pages/CompCatalog";
-import SignUp from "./components/user/SignUp";
+import SignUp from "./components/user/Signup";
 import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
 import ReviewListPage from "./pages/review/ReviewListPage";

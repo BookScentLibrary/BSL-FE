@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 
 const RecommendList = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -47,7 +47,7 @@ const RecommendList = () => {
         <br />
       </StyledWord>
       <div>{displayRecommendations}</div>
-      <ReactPaginate
+      {/* <ReactPaginate
         previousLabel={"이전"}
         nextLabel={"다음"}
         breakLabel={"..."}
@@ -59,7 +59,7 @@ const RecommendList = () => {
         containerClassName={"pagination"}
         subContainerClassName={"pages pagination"}
         activeClassName={"active"}
-      />
+      /> */}
     </div>
   );
 };
