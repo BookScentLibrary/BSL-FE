@@ -22,23 +22,22 @@ const Input = (props) => {
     data,
     optionValue,
     setOptionValue,
+    inputType,
   } = props;
 
-  const inputtype = props.inputType;
-
   const styles = {
-    inputtype,
+    $inputType: inputType,
     size,
     width,
-    padding,
+    $padding: padding,
   };
 
   const SelectData = data ? data : ["전체검색", "제목", "저자", "발행처"];
 
   return (
     <div style={{ position: "relative", width: "fit-content" }}>
-      {inputtype !== "search" ? (
-        <Label inputtype={inputtype}>{label}</Label>
+      {inputType !== "search" ? (
+        <Label $inputType={inputType}>{label}</Label>
       ) : (
         <div style={{ position: "absolute" }}>
           <SearchSelect
@@ -60,7 +59,7 @@ const Input = (props) => {
         defaultValue={defaultValue}
         {...styles}
       />
-      {inputtype === "search" ? (
+      {inputType === "search" ? (
         <Search
           onClick={onClick}
           style={{
@@ -79,31 +78,32 @@ const Label = styled.label`
   top: 16px;
   padding: 0 18px;
   width: 84px;
-  text-align: ${({ inputtype }) => (inputtype === "post" ? "center" : "left")};
+  text-align: ${({ $inputType }) =>
+    $inputType === "post" ? "center" : "left"};
   font-size: 16px;
   font-weight: 600;
 `;
 
 const Inp = styled.input`
-  width: ${({ width, inputtype, size }) =>
+  width: ${({ width, $inputType, size }) =>
     width
       ? width
-      : inputtype === "search"
+      : $inputType === "search"
       ? size === "small"
         ? "174px"
         : "522px"
       : "1004px"};
 
-  height: ${({ inputtype, size }) =>
-    inputtype === "search" ? "60px" : "46px"};
+  height: ${({ $inputType, size }) =>
+    $inputType === "search" ? "60px" : "46px"};
   outline: none;
   border: 1px solid #000;
   border-radius: 4px;
-  padding-left: ${({ inputtype }) =>
-    inputtype === "search" ? "152px" : "118px"};
-  padding-right: ${({ inputtype }) =>
-    inputtype === "search" ? "72px" : "16px"};
-  ${({ padding }) => (padding ? `padding:${padding};` : "")}
+  padding-left: ${({ $inputType }) =>
+    $inputType === "search" ? "152px" : "118px"};
+  padding-right: ${({ $inputType }) =>
+    $inputType === "search" ? "72px" : "16px"};
+  ${({ $padding }) => ($padding ? `padding:${$padding};` : "")}
 `;
 
 export default Input;

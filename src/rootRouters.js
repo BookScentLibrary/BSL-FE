@@ -41,7 +41,7 @@ export default [
   },
   {
     path: "news/reviewList",
-    element: ReviewListPage,
+    element: NewsPartMain,
   },
   {
     path: "news/reviewWrite",
@@ -68,8 +68,8 @@ export default [
     element: BookMenuMain,
   },
   {
-    path: "/user/recommendList",
-    element: RecommendList,
+    path: "/book/recommendList",
+    element: BookMenuMain,
   },
   {
     path: "/admin/createRecommend",
