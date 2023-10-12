@@ -2,6 +2,7 @@ import React from "react";
 
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
+import ProgramForm from "../program/ProgramForm"
 import ReviewListPage from "../review/ReviewListPage";
 
 const NewsPartMain = () => {
@@ -13,7 +14,7 @@ const NewsPartMain = () => {
     // 0: <Notice/>,
     // 1: <Program/>,
     0: "",
-    1: "",
+    1: <ProgramForm />,
     2: <ReviewListPage />,
   };
 
