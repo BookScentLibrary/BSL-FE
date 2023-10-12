@@ -80,7 +80,7 @@ return(
                            
                     <img
                     src={imgFile ? imgFile :`/images/icon/user.png`}
-                    alt="이미지"
+                    alt="image"
                     />
                      </div>
 
