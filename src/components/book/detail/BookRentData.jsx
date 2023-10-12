@@ -25,7 +25,7 @@ const RentData = () => {
   React.useEffect(() => {
     dispatch(getReaderDataAPI(""));
     dispatch(getRatingDataAPI(""));
-  }, [dispatch]);
+  }, []);
 
   return (
     <S.Container>

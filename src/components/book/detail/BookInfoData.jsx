@@ -14,15 +14,21 @@ const BookInfoData = ({ book }) => {
           <p>isbn</p>
         </div>
         <div className="data">
-          <p>{book.author}</p>
+          <p>
+            {book.author && book.author.map((cur, idx) => {
+              if (book.author.length - 1 === idx) {
+                return <span key={idx}>{cur}</span>;
+              }
+              return <span key={idx}>{cur} | </span>;
+            })}
+          </p>
           <p>
             {book.publisher}, {book.publicationYear}
           </p>
-          <p>{book.format}</p>
+          <p>{book.format ? book.format : "-"}</p>
           <p>{book.className}</p>
           <p>{book.isbn}</p>
         </div>
-        
       </FlexContainer>
     </BookInfoText>
   );
@@ -44,6 +50,7 @@ const FlexContainer = styled.div`
   & > div {
     display: grid;
     gap: 12px;
+    font-size: 15px;
   }
 
   & > .columns {

@@ -9,6 +9,7 @@ const Input = (props) => {
     width,
     placeholder,
     value,
+    padding,
     id,
     name,
     label,
@@ -29,6 +30,7 @@ const Input = (props) => {
     inputtype,
     size,
     width,
+    padding,
   };
 
   const SelectData = data ? data : ["전체검색", "제목", "저자", "발행처"];
@@ -101,6 +103,7 @@ const Inp = styled.input`
     inputtype === "search" ? "152px" : "118px"};
   padding-right: ${({ inputtype }) =>
     inputtype === "search" ? "72px" : "16px"};
+  ${({ padding }) => (padding ? `padding:${padding};` : "")}
 `;
 
 export default Input;

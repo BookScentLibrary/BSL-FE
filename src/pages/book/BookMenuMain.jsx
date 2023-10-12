@@ -2,9 +2,11 @@ import React from "react";
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import SearchMain from "../../components/search/searchMain";
+import NewBooksMain from "../../components/new/NewBooksList";
 import Button from "../../components/shared/elements/Button";
 import BookDetail from "./BookDetail";
 import { useLocation, useNavigate } from "react-router-dom";
+import Input from "../../components/shared/elements/Input";
 
 const BookMenuMain = (props) => {
   const navigate = useNavigate();
@@ -14,21 +16,23 @@ const BookMenuMain = (props) => {
   const [pageIdx, setPageIdx] = React.useState(0);
   const page = {
     0: <SearchMain />,
-    1: "",
+    1: <NewBooksMain />,
     2: "",
     3: "",
     4: <BookDetail page={pageIdx} setPage={setPageIdx} />,
   };
 
+  const [value, setValue] = React.useState(1);
+
   const goToDetail = () => {
     setPageIdx(4);
-    navigate(`/book/detail/`);
+    navigate(`/book/detail/${value}`);
   };
 
   React.useEffect(() => {
-    if(pathname==="/book") {
+    if (pathname === "/book") {
       setPageIdx(0);
-    } else if(pathname==="/book/detail/") {
+    } else if (pathname.split("/")[2] === "detail") {
       setPageIdx(4);
     }
   }, [pathname]);
@@ -43,7 +47,16 @@ const BookMenuMain = (props) => {
           setPageIdx={setPageIdx}
         />
         {page[pageIdx]}
-        <Button onClick={() => goToDetail()}>임시 상세페이지</Button>
+        <div style={{ display: "grid", gap: "12px" }}>
+          <Input
+            label="책번호"
+            width="100px"
+            padding="0 20px 0 100px"
+            defaultValue="1"
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <Button onClick={() => goToDetail()}>임시 상세페이지</Button>
+        </div>
       </Container>
     </React.Fragment>
   );
