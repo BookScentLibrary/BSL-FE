@@ -188,7 +188,7 @@ const SignUp = () => {
 
   //회원가입 처리하기
   const SignUpHandler = () => {
-    if (usernameDBCheck !== true || nicknameDBCheck !== true) {
+    if (usernameDBCheck !== true && nicknameDBCheck !== true) {
       window.alert("중복 검사를 진행해주세요.");
       return;
     }
