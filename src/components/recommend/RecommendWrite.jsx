@@ -9,12 +9,10 @@ const RecommendWrite = () => {
   const [postTitle, setPostTitle] = useState(""); //게시글 제목
   const [content, setContent] = useState(""); //게시글 내용
   const dispatch = useDispatch();
-  const book = useSelector((state) => state.book);
+  const book = useSelector((state) => state.book.book);
   const [searchTerm, setSearchTerm] = useState(""); // 도서 검색어를 입력할 상태
-  //const userId = useSelector((state) => state.user.user?.userId);
-  //const bookNo = useSelector((state) => state.book.book?.bookNo);
   const userId = "062f3d57e7ca46139f91af97409eea2c";
-  const bookNo = "1";
+  const bookNo = "3";
 
   const handleSearch = () => {
     dispatch(searchBookAPI({ searchTerm: searchTerm })); // searchTerm을 통해 도서 검색 API 호출
@@ -63,6 +61,10 @@ const RecommendWrite = () => {
       bookNo,
       userId,
     };
+    console.log(book.bookImageURL);
+    console.log(book.bookname);
+    console.log(book.author);
+    console.log(book.callNum);
     dispatch(BookRecommendAPI(data));
   };
   // try {
