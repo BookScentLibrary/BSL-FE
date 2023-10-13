@@ -2,7 +2,10 @@ import React from "react";
 
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
+import ProgramForm from "../program/ProgramForm"
 import ReviewListPage from "../review/ReviewListPage";
+import ProgramDetail from "../program/ProgramDetail";
+import ProgramListPage from "../program/ProgramListPage";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NewsPartMain = () => {
@@ -12,7 +15,7 @@ const NewsPartMain = () => {
   const [pageIdx, setPageIdx] = React.useState(0);
   const page = {
     0: "",
-    1: "",
+    1: <ProgramListPage />,
     2: <ReviewListPage />,
   };
 
