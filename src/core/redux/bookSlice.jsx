@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { testAPI } from "../apis";
 import { bookAPI } from "../apis/book";
 
 //책 목록의 상태 정의
@@ -23,7 +22,7 @@ export const searchBookAPI = createAsyncThunk(
   }
 );
 export const getBookAPI = createAsyncThunk(
-  "book/test",
+  "book/getBook",
   async (bookNo, thunkAPI) => {
     try {
       const response = await bookAPI.getBook(bookNo);
@@ -32,7 +31,7 @@ export const getBookAPI = createAsyncThunk(
         ...response.data,
         author: response.data.author.split(";"),
       };
-      thunkAPI.dispatch(bookSlice.actions.setTestMessage(book));
+      thunkAPI.dispatch(bookSlice.actions.setBook(book));
     } catch (error) {
       console.log("testAPI : error response", error.response.data);
     }
@@ -247,11 +246,11 @@ export const bookSlice = createSlice({
   name: "bookReducer",
   initialState,
   reducers: {
-    setTestMessage: (state, action) => {
+    setBook: (state, action) => {
       state.book = action.payload;
       return;
     },
-    readerDate: (state, action) => {
+    readerData: (state, action) => {
       state.reader = action.payload;
       return;
     },

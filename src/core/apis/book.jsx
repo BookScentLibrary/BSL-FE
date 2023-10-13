@@ -13,7 +13,6 @@ export const bookAPI = {
   // getSelectedBookReview: (bookNo) =>
   //  instance.get(`/book/getReaview?bookNo=${bookNo}`),
 
-  open: () => instance.get("/test"),
   getSelectedBookReview: (bookNo) =>
     instance.get(`/book/getReaview?bookNo=${bookNo}`),
 

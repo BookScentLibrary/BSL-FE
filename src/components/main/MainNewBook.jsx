@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Arrow } from "../../asset/icons/smallarrow.svg";
-import BookTemplate from "./element/BookTemplate";
+import { BasicTemp } from "./element/BookTemplate";
+import MoreButton from "../shared/elements/MoreButton";
+import { useNavigate } from "react-router-dom";
 
 const MainNewBook = () => {
+  const navigate = useNavigate();
+
+  const goToNewBook = () => {
+    navigate("/book");
+  };
+
   return (
     <Container>
       <TitleSection>
@@ -13,15 +20,12 @@ const MainNewBook = () => {
           <br />
           책향기 신간 도서
         </Title>
-        <More>
-          더보기
-          <Arrow fill="#B8B8BD" />
-        </More>
+        <MoreButton onClick={goToNewBook} />
       </TitleSection>
       <BookSection>
-        <BookTemplate img="" title="title1" content="content1"/>
-        <BookTemplate img="" title="title2" content="content2"/>
-        <BookTemplate img="" title="title3" content="content3"/>
+        <BasicTemp img="" title="title1" author="author1" bookNo="1" />
+        <BasicTemp img="" title="title2" author="author2" bookNo="2" />
+        <BasicTemp img="" title="title3" author="author3" bookNo="3" />
       </BookSection>
     </Container>
   );
@@ -31,6 +35,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  padding-bottom: 152px;
 `;
 
 const TitleSection = styled.div`
@@ -47,15 +52,6 @@ const BookSection = styled.div`
   width: fit-content;
   display: flex;
   gap: 48px;
-`
-
-const More = styled.div`
-  margin: 40px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.gray};
-  display: flex;
-  align-items: center;
 `;
 
 const Line = styled.div`

@@ -1,37 +1,68 @@
 import React from "react";
-import styled from "styled-components";
+import * as S from "./BookTemplate.style";
+import { useNavigate } from "react-router-dom";
 
-const BookTemplate = (props) => {
-  const { img, title, content } = props;
+const BasicTemp = (props) => {
+  const { img, title, author, bookNo } = props;
+  const navigate = useNavigate();
+
+  const goToDetail = () => {
+    navigate(`/book/detail/${bookNo}`);
+  };
+
   return (
-    <Basic>
-      <Image />
-      <p className="book_title">{title}</p>
-      <p className="book_content">{content}</p>
-    </Basic>
+    <S.Basic onClick={goToDetail}>
+      <S.Image />
+      <p className="book_temp__title">{title}</p>
+      <p className="book_temp__author">{author}</p>
+    </S.Basic>
   );
 };
 
-const Basic = styled.div`
-  width: 204px;
-  & > .book_title {
-    font-weight: 700;
-    margin-top: 24px;
-  }
+const BestTemp = (props) => {
+  const { img, rank, title, author, bookNo } = props;
+  const navigate = useNavigate();
 
-  & > .book_content {
-    font-size: 12px;
-    color: ${({ theme }) => theme.colors.gray};
-    margin-top: 8px;
-  }
-`;
+  const goToDetail = () => {
+    navigate(`/book/detail/${bookNo}`);
+  };
+  return (
+    <S.Best onClick={goToDetail}>
+      <S.Image width="108px" height="160px" />
+      <S.Info>
+        <p className="rank" rank={rank}>
+          {rank}
+        </p>
+        <div>
+          <p className="book_temp__title">{title}</p>
+          <p className="book_temp__author">{author}</p>
+        </div>
+      </S.Info>
+    </S.Best>
+  );
+};
 
-const Image = styled.div`
-  width: 204px;
-  height: 300px;
-  border: ${({theme}) => `1px solid ${theme.colors.gray200}`};
-  border-radius: 8px;
-  background-color: ${({theme}) => theme.colors.gray50};
-`;
+const RecommendTemp = (props) => {
+  const { img, rank, title, author, content, bookNo } = props;
+  const navigate = useNavigate();
 
-export default BookTemplate;
+  const goToDetail = () => {
+    navigate(`/book/detail/${bookNo}`);
+  };
+  return (
+    <S.Recommend onClick={goToDetail}>
+      <div>
+        <div>
+          <S.Image width="148px" height="220px" />
+          <p className="book_temp__title">{title}</p>
+          <p className="book_temp__author">{author}</p>
+        </div>
+        <div className="content">
+          <p className="book_temp__content">{content}</p>
+        </div>
+      </div>
+    </S.Recommend>
+  );
+};
+
+export { BasicTemp, BestTemp, RecommendTemp };
