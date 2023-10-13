@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Pagination from "../../pages/review/Pagination";
+import Button from "../shared/elements/Button";
 
 const RecommendList = () => {
   //게시글 리스트
   const [recommendList, setRecommendList] = useState([]);
+
+  /*const userHasPermission = (user) => {
+    return user && (user.permission === 1 || user.permission === 2);
+  };*/
 
   // 페이지당 표시할 항목 수
   const [limit, setLimit] = useState(6);
@@ -27,7 +32,7 @@ const RecommendList = () => {
         "http://localhost:8080/user/recommendList"
       );
       console.log(response.data);
-      setRecommendList(response.data);
+      setRecommendList(response.data.data);
     } catch (error) {
       console.error("Error fetching recommend list:", error);
     }
@@ -36,22 +41,21 @@ const RecommendList = () => {
   useEffect(() => {
     getRecommendList();
     setOrder("rev_postId");
-  }, [page]);
+  }, [page, year]);
 
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = recommendations.slice(indexOfFirstItem, indexOfLastItem);
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
 
-  // const pageNumbers = [];
-  // for (let i = 1; i <= Math.ceil(recommendations.length / itemsPerPage); i++) {
-  //   pageNumbers.push(i);
-  // }
+  // 연도를 필터링하는 함수
+  const filterByYear = (recommend) => {
+    const recommendYear = new Date(recommend.createdAt).getFullYear();
+    console.log("recommendYear : " + recommendYear);
+    return recommendYear === parseInt(year); // 년도를 정수로 변환하여 비교
+  };
 
-  // const paginate = (pageNumber) => {
-  //   if (pageNumber >= 1 && pageNumber <= pageNumbers.length) {
-  //     setCurrentPage(pageNumber);
-  //   }
-  // };
+  const filteredRecommendList = recommendList.filter(filterByYear);
+  console.log("filteredRecommendList : " + filteredRecommendList);
 
   return (
     <div>
@@ -60,59 +64,67 @@ const RecommendList = () => {
         <hr />
         <br />
       </StyledWord>
-      <p>책향기 도서관 사서들이 추천하는 이 달의 도서를 만나보세요.</p>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p>책향기 도서관 사서들이 추천하는 이 달의 도서를 만나보세요.</p>
+        {/*{userHasPermission(user) && (
+        <button onClick={handleProgramRegistration}>프로그램 등록</button>
+      )}*/}
+
+        <Button type="middle">프로그램 등록</Button>
+      </div>
       <hr />
-      <select
-        type="number"
-        value={year}
-        onChange={({ target: { value } }) => setYear(value)}
-      >
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2021">2021</option>
-        <option value="2020">2020</option>
-      </select>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <select type="number" value={year} onChange={handleYearChange}>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+        </select>
+      </div>
       <hr />
       <ul style={{ display: "flex", flexWrap: "wrap" }}>
-        {recommendList.slice(offset, offset + limit).map((recommend, index) => (
-          <li
-            key={recommend.recPostId}
-            style={{
-              width: "33%",
-              padding: "10px",
-              boxSizing: "border-box",
-              position: "relative",
-            }}
-          >
-            <div style={{ flex: 1 }}>
-              <div
-                style={{
-                  backgroundColor: "green",
-                  color: "white",
-                  padding: "5px",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  zIndex: 1, // 다른 내용 위에 표시
-                }}
-              >
-                {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
-                  year: "numeric",
-                  month: "2-digit",
-                })}
+        {filteredRecommendList
+          .slice(offset, offset + limit)
+          .map((recommend, index) => (
+            <li
+              key={recommend.recPostId}
+              style={{
+                width: "33%",
+                padding: "10px",
+                boxSizing: "border-box",
+                position: "relative",
+                listStyleType: "none",
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <div
+                  style={{
+                    backgroundColor: "green",
+                    color: "white",
+                    padding: "5px",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    zIndex: 1, // 다른 내용 위에 표시
+                  }}
+                >
+                  {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                  })}
+                </div>
+                <Image src={recommend.bookImageURL} />
+                <div style={{ whiteSpace: "pre-wrap" }}>
+                  {recommend.postTitle.replace(/,/g, "\n").replace(/\|/g, "\n")}
+                </div>
               </div>
-              <Image src={recommend.bookImageURL} />
-              <div style={{ whiteSpace: "pre-wrap" }}>
-                {recommend.postTitle.replace(/,/g, "\n").replace(/\|/g, "\n")}
-              </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
       <hr />
       <footer>
         <Pagination
-          total={recommendList.length}
+          total={filteredRecommendList.length}
           limit={limit}
           page={page}
           setPage={setPage}
@@ -134,4 +146,5 @@ const Image = styled.div`
   height: 320px;
   flex-shrink: 0;
   background-image: ${({ src }) => (src ? `url(${src})` : "")};
+  background-repeat: no-repeat;
 `;

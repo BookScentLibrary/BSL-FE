@@ -16,7 +16,7 @@ const RecommendWrite = () => {
   console.log("user : " + user);
   const [searchTerm, setSearchTerm] = useState(""); // 도서 검색어를 입력할 상태
   const userId = "062f3d57e7ca46139f91af97409eea2c";
-  const bookNo = "2";
+  const bookNo = "9";
 
   const handleSearch = () => {
     dispatch(searchBookAPI({ searchTerm: searchTerm })); // searchTerm을 통해 도서 검색 API 호출
