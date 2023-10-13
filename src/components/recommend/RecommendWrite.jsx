@@ -4,15 +4,19 @@ import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { searchBookAPI, BookRecommendAPI } from "../../core/redux/bookSlice";
+import styled from "styled-components";
 
 const RecommendWrite = () => {
   const [postTitle, setPostTitle] = useState(""); //게시글 제목
   const [content, setContent] = useState(""); //게시글 내용
   const dispatch = useDispatch();
   const book = useSelector((state) => state.book.book);
+  const user = useSelector((state) => state.user.user);
+  console.log("book : " + book);
+  console.log("user : " + user);
   const [searchTerm, setSearchTerm] = useState(""); // 도서 검색어를 입력할 상태
   const userId = "062f3d57e7ca46139f91af97409eea2c";
-  const bookNo = "3";
+  const bookNo = "2";
 
   const handleSearch = () => {
     dispatch(searchBookAPI({ searchTerm: searchTerm })); // searchTerm을 통해 도서 검색 API 호출
@@ -61,11 +65,13 @@ const RecommendWrite = () => {
       bookNo,
       userId,
     };
+    dispatch(BookRecommendAPI(data));
     console.log(book.bookImageURL);
     console.log(book.bookname);
     console.log(book.author);
     console.log(book.callNum);
-    dispatch(BookRecommendAPI(data));
+    console.log("book : " + book);
+    console.log("user : " + user);
   };
   // try {
   //   // POST 요청을 사용하여 서버에 데이터 전송
@@ -107,12 +113,14 @@ const RecommendWrite = () => {
       <div>
         {book && (
           <div>
-            <img src={book.bookImageURL} alt="Book Cover" />
-            <h2>{book.bookname}</h2>
-            <p>저자: {book.author}</p>
-            <p>발행처: {book.publisher}</p>
-            <p>청구기호: {book.callNum}</p>
-            <p>자료실: {book.shelfArea}</p>
+            <Image src={book.bookImageURL} />
+            <div>
+              <h2>{book.bookname}</h2>
+              <p>저자: {book.author}</p>
+              <p>발행처: {book.publisher}</p>
+              <p>청구기호: {book.callNum}</p>
+              <p>자료실: {book.shelfArea}</p>
+            </div>
             <button
               onClick={() => dispatch(searchBookAPI({ bookNo: book.bookNo }))}
             >
@@ -135,3 +143,10 @@ const RecommendWrite = () => {
 };
 
 export default RecommendWrite;
+
+const Image = styled.div`
+  width: 200px;
+  height: 320px;
+  flex-shrink: 0;
+  background-image: ${({ src }) => (src ? `url(${src})` : "")};
+`;

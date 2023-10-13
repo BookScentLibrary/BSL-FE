@@ -68,7 +68,7 @@ export default [
     element: BookMenuMain,
   },
   {
-    path: "/book/recommendList",
+    path: "/user/recommendList",
     element: BookMenuMain,
   },
   {

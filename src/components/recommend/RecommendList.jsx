@@ -73,24 +73,37 @@ const RecommendList = () => {
         <option value="2020">2020</option>
       </select>
       <hr />
-      <ul>
+      <ul style={{ display: "flex", flexWrap: "wrap" }}>
         {recommendList.slice(offset, offset + limit).map((recommend, index) => (
           <li
-            key={recommend.id}
-            style={{ display: "flex", alignItems: "center" }}
+            key={recommend.recPostId}
+            style={{
+              width: "33%",
+              padding: "10px",
+              boxSizing: "border-box",
+              position: "relative",
+            }}
           >
             <div style={{ flex: 1 }}>
-              <div className="date-tag">
-                <span className="green-box">
-                  {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
-                    year: "numeric",
-                    month: "2-digit",
-                  })}
-                </span>
+              <div
+                style={{
+                  backgroundColor: "green",
+                  color: "white",
+                  padding: "5px",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  zIndex: 1, // 다른 내용 위에 표시
+                }}
+              >
+                {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                })}
               </div>
-              <img src={recommend.bookImageURL} alt="Book Image" />
+              <Image src={recommend.bookImageURL} />
               <div style={{ whiteSpace: "pre-wrap" }}>
-                {recommend.postTitle.replace(/,/g, ",\n").replace(/\|/g, "|\n")}
+                {recommend.postTitle.replace(/,/g, "\n").replace(/\|/g, "\n")}
               </div>
             </div>
           </li>
@@ -116,4 +129,9 @@ const StyledWord = styled.div`
   margin-left: 20px;
 `;
 
-// CSS 스타일링을 추가해야 합니다.
+const Image = styled.div`
+  width: 200px;
+  height: 320px;
+  flex-shrink: 0;
+  background-image: ${({ src }) => (src ? `url(${src})` : "")};
+`;
