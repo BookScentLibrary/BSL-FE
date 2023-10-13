@@ -2,7 +2,10 @@ import React from "react";
 
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
+import ProgramForm from "../program/ProgramForm";
 import ReviewListPage from "../review/ReviewListPage";
+import ProgramDetail from "../program/ProgramDetail";
+import ProgramListPage from "../program/ProgramListPage";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NewsPartMain = () => {
@@ -12,13 +15,16 @@ const NewsPartMain = () => {
   const [pageIdx, setPageIdx] = React.useState(0);
   const page = {
     0: "",
-    1: "",
+    1: <ProgramListPage />,
     2: <ReviewListPage />,
   };
 
   const goToNotice = () => {};
 
-  const goToProgram = () => {};
+  const goToProgram = () => {
+    setPageIdx(1);
+    navigate("/news/programList");
+  };
 
   const goToReview = () => {
     setPageIdx(2);
@@ -28,6 +34,8 @@ const NewsPartMain = () => {
   React.useEffect(() => {
     if (pathname === "/news") {
       setPageIdx(0);
+    } else if (pathname.split("/")[1] === "programList") {
+      setPageIdx(1);
     } else if (pathname.split("/")[2] === "reviewList") {
       setPageIdx(2);
     }

@@ -9,6 +9,8 @@ import ReviewDetailPage from "./pages/review/ReviewDetailPage";
 import ReviewEditPage from "./pages/review/ReviewEditPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
+import ProgramListPage from "./pages/program/ProgramListPage";
+import ProgramForm from "./pages/program/ProgramForm";
 import UserList from "./components/user/UserList";
 import RecommendList from "./components/recommend/RecommendList";
 import RecommendWrite from "./components/recommend/RecommendWrite";
@@ -36,15 +38,15 @@ export default [
     element: SignIn,
   },
   {
-    path: "superAdmin/userList",
+    path: "/superAdmin/userList",
     element: UserList,
   },
   {
-    path: "news/reviewList",
+    path: "/news/reviewList",
     element: NewsPartMain,
   },
   {
-    path: "news/reviewWrite",
+    path: "/news/reviewWrite",
     element: ReviewWritePage,
   },
   {
@@ -68,8 +70,16 @@ export default [
     element: BookMenuMain,
   },
   {
-    path: "/book/recommendList",
+    path: "/user/recommendList",
     element: BookMenuMain,
+  },
+  {
+    path: "/news/programList",
+    element: NewsPartMain,
+  },
+  {
+    path: "/news/programForm",
+    element: ProgramForm,
   },
   {
     path: "/admin/createRecommend",
