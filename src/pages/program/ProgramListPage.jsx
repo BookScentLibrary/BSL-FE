@@ -7,6 +7,25 @@ import axios from "axios";
 
 
 const ProgramListPage = () => {
+
+  const pro_postId = <match className="params pro_postId"></match>;
+  console.log('pro_postId :: ', pro_postId)
+
+// 데이터를 호출해 오는 동안 대기할 수 있도록 async, await 사용
+  useEffect(async() => {
+      try{
+        // '/api/BoardContent' 라는 uri 로 DB를 불러온다.
+          const res = await axios.get('http://localhost:8080/news/programList', {
+            // param 으로 idx 값을 넘겨준다.
+              params: {
+                  'pro_postId': pro_postId
+              }
+          })
+      } catch(e) {
+          console.error(e.message)
+      }
+  },[])
+
   const [programList, setProgramList] = useState([]);
 
   const [keyword, setKeyword] = useState("");
@@ -60,16 +79,18 @@ return (
     <Search/>
     <hr/>
 
-    {/* {programList.map((post_program, index) => (
-            <div key={index} style={{ display: "flex" }}>
+    
+    {programList.map((post_program, index) => (
+            
+            <button onclick="/ProgramForm" key={index} style={{ display: "flex" }}>
           <Image src={post_program.postImageURL} />
           <div>
             <div>{post_program.postTitle}</div> <div>({post_program.target})</div>
             <p>접수기간</p>
             <div>{post_program.startDate}</div>{post_program.endDate}</div>
-          </div>
+          </button>
         
-           ))} */}
+           ))}
  </div>
     
   );

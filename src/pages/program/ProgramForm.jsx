@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 
 import "react-datepicker/dist/react-datepicker.module.css";
-const ProgramForm=()=>{
+const ProgramForm = () => {
 
 const [startDate, setStartDate] = useState(new Date());
 const [endDate, setEndDate] = useState(new Date());
@@ -35,7 +35,6 @@ const {imgRef} = useRef();
 
 const Button = (props) => {
     const { type, onClick, disabled, color, children, width } = props;
-  
     const styles = {
       color,
       width,
@@ -45,71 +44,72 @@ const Button = (props) => {
 
 const handleClick = () => {
     photoInput.current.click();
-  };
-  
+};
+const registerPost = () =>{
+    navigator('/registerForm')
+}
 
 
-return(
+return (
 
 <div>
-		
-			<div>
-			
-				<h3>프로그램 안내 작성</h3>
-                <hr/>
-				
-			</div>
-		
-			<div>'
-                <Input label="제 목" inputType="post" onChange={(e) => (e.target.value)} placeholder="제목을 입력해주세요!" />
-                    <br/>
-                    <br/>
-
-
-                    <div style={{width:"2000px"}}>
-                    <div style={{width:"20%"}}>
-                        <div
+	<div>
+		<h3>프로그램 안내 작성</h3>
+        <hr/>		
+	</div>
+	<div>
+        <Input label="제 목" inputType="post" onChange={(e) => (e.target.value)} placeholder="제목을 입력해주세요!" />
+                <br/>
+                <br/>
+                
+                {/* width값 디자인에 맞춰서 지정 */}
+            <div style={{width:"1200px", border:"2px solid", display:"flex"}}>
+                <div style={{width:"20%", marginRight:"50px"}}>
+                    <div
                         style={{
                             width:"250px",
                             height:"300px",
                             border: "dashed",
+                            // lineHeight:"300px", 추후에 이미지 가운데로 조정하세요
                             borderWidth:"1.5px",
                             borderRadius:"3px",
                             borderColor:"gray"
                         }}>
                            
-                    <img
-                    src={imgFile ? imgFile :`/images/icon/user.png`}
-                    alt="image"
-                    />
-                     </div>
-
+                        <img
+                        src={imgFile ? imgFile :`/images/icon/user.png`}
+                        // 이미지 없을 때 예외처리를 다른 경로로 해주세욤 
+                        // 이렇게 저 경로로만 하면 엑박으로 뜹니다요
+                        alt="image"
+                        />
+                    </div>
+                </div>
                     
-                    <div style={{width:"80%"}}>
+                <div style={{width:"70%"}}>
                     {/* </form>
                     <form action="<c:url value='/program/admin/registerBookConfirm' />" name="register_program_form" method="post" enctype="multipart/form-data"> */}
-                    <DateTable >
-                   <div style={{width:"300px"}}><span>진행기간</span>
-                    <div><DatePicker 
-                    selected={startDate}
-                    placeholderText="0000.00.00"
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="yyyy.MM.dd"
-                    showIcon
-                    style ={{
-                        width:"70px"
-                    }}
-                    />
-                    </div>
-                    <div>d
-                    <span>~</span>
-                    <DatePicker
-                    selected={endDate}
-                    placeholderText="0000.00.00" 
-                    onChange={(date) => setEndDate(date)}
-                    dateFormat="yyyy.MM.dd"
-                    showIcon
-                    /></div>
+                    <DateTable>
+                    <div style={{width:"300px", display:"flex"}}>
+                        <span>진행기간</span>
+                        <div>
+                            <DatePicker 
+                                selected={startDate}
+                                placeholderText="0000.00.00"
+                                onChange={(date) => setStartDate(date)}
+                                dateFormat="yyyy.MM.dd(eee)"
+                                showIcon
+                            />
+                        </div>
+                        <span>~</span>
+                        <div>
+                            <DatePicker
+                            selected={endDate}
+                            placeholderText="0000.00.00" 
+                            onChange={(date) => setEndDate(date)}
+                            dateFormat="yyyy.MM.dd(eee)"
+                            showIcon
+                            />
+                        </div>
                    </div>
                    </DateTable>
                    <DateTable >
@@ -118,7 +118,7 @@ return(
                     selected={startTime}
                     placeholderText="0000.00.00"
                     onChange={(date) => setStartTime(date)}
-                    dateFormat="yyyy.MM.dd"
+                    dateFormat="yyyy.MM.dd(eee)"
                     showIcon
                     />
                     </div>
@@ -128,7 +128,7 @@ return(
                     selected={endTime}
                     placeholderText="0000.00.00"
                     onChange={(date) => setEndTime(date)}
-                    dateFormat="yyyy.MM.dd"
+                    dateFormat="yyyy.MM.dd(eee)"
                     showIcon
                     /></div>
                    </div>
@@ -138,7 +138,7 @@ return(
                     <div><span>접수기간</span><DatePicker
                     selected={receiptStartDate}
                     onChange={(date) => setReceiptStartDate(date)}
-                    dateFormat="yyyy.MM.dd"
+                    dateFormat="yyyy.MM.dd(eee)"
                     showIcon
                     />
                     </div>
@@ -148,7 +148,7 @@ return(
                     selected={receiptEndDate}
                     placeholderText="0000.00.00"
                     onChange={(date) => setReceiptEndDate(date)}
-                    dateFormat="yyyy.MM.dd"
+                    dateFormat="yyyy.MM.dd(eee)"
                     showIcon
                     /></div>
                    </div>
@@ -203,29 +203,39 @@ return(
         <p style={{ fontSize: "20px", fontWeight: "700" }}>
           <span className="red">{inputValue2}</span>
         </p>
+        <div>
+        <Input
+          label=""
+          inputType="post"
+          width="300px"
+          onChange={(e) => setInputValue2(e.target.value)}
+          placeholder="placeholder"
+        />
+            <div>
+        <Btn1 onClick={handleClick}> 
+                            <ImgInput type="file"
+                                accept="image/*"
+                                  id="profileImg"
+                                // accept ="image/jpg, image/jpeg, image/png"
+                                multiple 
+                                ref={photoInput}/>
+                            이미지 등록
+                        </Btn1>
+            </div>
         </div>
-        </div>
-        </div>
-                    <table>
-					<tr><td>
-					<Btn1 onClick={handleClick}> <ImgInput type="file"
-                    accept="image/*"
-                    id="profileImg"
-                    // accept ="image/jpg, image/jpeg, image/png"
-                    multiple 
-                    ref={photoInput}/>이미지 등록</Btn1>
-                    </td></tr>
-                    </table>
-                    <table>
-                        <td><ContentInput type="text" name="b_author" placeholder="내용을 입력해주세요!"/></td>
-                    </table>
-                    <Btn onclick="registerPost;">게시물 등록</Btn>
+                </div>
+            </div>
+                 
+                <table>
+                    <td><ContentInput type="text" name="b_author" placeholder="내용을 입력해주세요!"/></td>
+                </table>
+                    <Btn onclick={registerPost}>게시물 등록</Btn>
                 
                     
-                   
-				{/* </form> */}
-            </div>
-            </div>
+                  
+			{/* </form> */}
+    </div>
+</div>
             
 
                 );
