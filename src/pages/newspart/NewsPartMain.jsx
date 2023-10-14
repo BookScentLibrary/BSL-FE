@@ -3,6 +3,7 @@ import React from "react";
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import ReviewListPage from "../review/ReviewListPage";
+import NoticeListPage from "../notice/NoticeListPage";
 
 const NewsPartMain = () => {
   const title = "소식·참여";
@@ -12,7 +13,7 @@ const NewsPartMain = () => {
   const page = {
     // 0: <Notice/>,
     // 1: <Program/>,
-    0: "",
+    0: <NoticeListPage />,
     1: "",
     2: <ReviewListPage />,
   };

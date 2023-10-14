@@ -3,6 +3,10 @@ import CompCatalog from "./pages/CompCatalog";
 import SignUp from "./components/user/Signup";
 import SignIn from "./components/user/SignIn";
 import SearchMain from "./components/search/searchMain";
+import NoticeListPage from "./pages/notice/NoticeListPage";
+import NoticeWritePage from "./pages/notice/NoticeWritePage";
+import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
+import NoticeEditPage from "./pages/notice/NoticeEditPage";
 import ReviewListPage from "./pages/review/ReviewListPage";
 import ReviewWritePage from "./pages/review/ReviewWritePage";
 import ReviewDetailPage from "./pages/review/ReviewDetailPage";
@@ -39,11 +43,27 @@ export default [
     element: UserList,
   },
   {
-    path: "news/reviewList",
+    path: "/news/noticeList",
+    element: NoticeListPage,
+  },
+  {
+    path: "/news/noticeDetail/:not_postId",
+    element: NoticeDetailPage,
+  },
+  {
+    path: "/news/noticeEdit/:not_postId",
+    element: NoticeEditPage,
+  },
+  {
+    path: "/news/noticeWrite",
+    element: NoticeWritePage,
+  },
+  {
+    path: "/news/reviewList",
     element: ReviewListPage,
   },
   {
-    path: "news/reviewWrite",
+    path: "/news/reviewWrite",
     element: ReviewWritePage,
   },
   {
