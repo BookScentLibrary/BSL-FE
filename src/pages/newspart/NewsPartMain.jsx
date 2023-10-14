@@ -4,6 +4,7 @@ import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import ProgramForm from "../program/ProgramForm";
 import ReviewListPage from "../review/ReviewListPage";
+import NoticeListPage from "../notice/NoticeListPage";
 import ProgramDetail from "../program/ProgramDetail";
 import ProgramListPage from "../program/ProgramListPage";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const NewsPartMain = () => {
   const title = "소식·참여";
   const [pageIdx, setPageIdx] = React.useState(0);
   const page = {
-    0: "",
+    0: <NoticeListPage />,
     1: <ProgramListPage />,
     2: <ReviewListPage />,
   };

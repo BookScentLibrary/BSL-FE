@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const ReviewEditPage = () => {
+const NoticeEditPage = () => {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const formattedDate = new Date(dateString).toLocaleDateString(
@@ -11,64 +11,45 @@ const ReviewEditPage = () => {
     );
     return formattedDate.replace(/\.$/, ""); // 마지막 "." 제거
   };
-  const { rev_postId } = useParams();
+  const { not_postId } = useParams();
   const navigate = useNavigate();
 
   // 리뷰 정보를 가져오기 위한 상태
-  const [review, setReview] = useState({});
+  const [notice, setNotice] = useState({});
   const [loading, setLoading] = useState(true);
 
   // 폼 데이터 상태 초기화
   const [formData, setFormData] = useState({
     postTitle: "",
-    createdAt: "",
-    rate: "",
-    nickname: "",
+    //createdAt: "",
     content: "",
-    bookNo: "",
-    bookname: "",
-    author: "",
-    publisher: "",
-    callNum: "",
-    shelfArea: "",
-    isbn: "",
-    modifiedAt:"",
+    userId: "",
   });
 
   // useEffect를 사용하여 리뷰 정보 가져오기
   useEffect(() => {
-    const fetchReview = async () => {
+    const fetchnotice = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/news/reviewDetail/${rev_postId}`
+          `http://localhost:8080/news/noticeDetail/${not_postId}`
         );
-        setReview(response.data);
+        setNotice(response.data);
         setLoading(false);
 
         // 리뷰 정보를 가져온 후, 폼 데이터 초기값 설정
         setFormData({
-            rev_postId: response.data.rev_postId,
+          userId: response.data.userId,
+          not_postId: response.data.not_postId,
             postTitle: response.data.postTitle,
-          createdAt: response.data.createdAt,
-          modifiedAt: response.data.modifiedAt,
-          rate: response.data.rate,
-          nickname: response.data.nickname,
           content: response.data.content,
-          bookNo: response.data.bookNo,
-          bookname: response.data.bookname,
-          author: response.data.author,
-          publisher: response.data.publisher,
-          callNum: response.data.callNum,
-          shelfArea: response.data.shelfArea,
-          isbn: response.data.isbn,
         });
       } catch (error) {
-        console.error("Error fetching review:", error);
+        console.error("Error fetching notice:", error);
       }
     };
 
-    fetchReview();
-  }, [rev_postId]);
+    fetchnotice();
+  }, [not_postId]);
 
   // 폼 입력값이 변경될 때마다 상태 업데이트
   const handleFormChange = (e) => {
@@ -83,37 +64,27 @@ const ReviewEditPage = () => {
   const handleUpdate = async () => {
     try {
       // 리뷰 수정 로직 구현
-      const updatedReview = {
-        rev_postId: formData.rev_postId,
+      const updatednotice = {
+        userId: formData.userId,
+        not_postId: formData.not_postId,
         postTitle: formData.postTitle,
-        createdAt: formData.createdAt,
-        modifiedAt: formData.modifiedAt,
-        rate: formData.rate,
-        nickname: formData.nickname,
         content: formData.content,
-        bookNo: formData.bookNo,
-        bookname: formData.bookname,
-        author: formData.author,
-        publisher: formData.publisher,
-        callNum: formData.callNum,
-        shelfArea: formData.shelfArea,
-        isbn: formData.isbn,
       };
 
       const response = await axios.put(
-        `http://localhost:8080/news/reviewEdit/${rev_postId}`,
-            updatedReview
+        `http://localhost:8080/news/noticeEdit/${not_postId}`,
+            updatednotice
       );
 
       if (response.status === 200) {
         console.log(response.data);
         // 수정이 성공하면 수정된 리뷰 상세 페이지로 이동
-        navigate(`/news/reviewDetail/${rev_postId}`);
+        navigate(`/news/noticeDetail/${not_postId}`);
       } else {
-        console.error("Error updating review:", response.data);
+        console.error("Error updating notice:", response.data);
       }
     } catch (error) {
-      console.error("Error updating review:", error);
+      console.error("Error updating notice:", error);
     }
   };
 
@@ -136,16 +107,7 @@ const ReviewEditPage = () => {
             value={formData.postTitle}
             onChange={handleFormChange}
           />
-          <p>{formatDate(review.createdAt)}</p>
-        </div>
-        <div>
-          <input
-            type="number"
-            id="rate"
-            name="rate"
-            value={formData.rate}
-            onChange={handleFormChange}
-          />
+          <p>{formatDate(notice.createdAt)}</p>
         </div>
         <div>
           <label htmlFor="content">내용:</label>
@@ -160,11 +122,11 @@ const ReviewEditPage = () => {
 
       {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
       <button onClick={handleUpdate}>리뷰 등록</button>
-      <Link to={`/news/reviewDetail/${rev_postId}`}>
+      <Link to={`/news/noticeDetail/${not_postId}`}>
         <button>취소</button>
       </Link>
     </div>
   );
 };
 
-export default ReviewEditPage;
+export default NoticeEditPage;
