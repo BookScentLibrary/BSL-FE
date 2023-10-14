@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 
-import "react-datepicker/dist/react-datepicker.module.css";
+// import "react-datepicker/dist/react-datepicker.module.css";
 const ProgramForm = () => {
 
 const [startDate, setStartDate] = useState(new Date());
@@ -89,27 +89,30 @@ return (
                     {/* </form>
                     <form action="<c:url value='/program/admin/registerBookConfirm' />" name="register_program_form" method="post" enctype="multipart/form-data"> */}
                     <DateTable>
-                    <div style={{width:"300px", display:"flex"}}>
-                        <span>진행기간</span>
-                        <div>
+                    <div style={{width:"200px", display:"flex"}}>
+                        <Span>진행기간</Span>
+                        <Datediv>
                             <DatePicker 
                                 selected={startDate}
                                 placeholderText="0000.00.00"
                                 onChange={(date) => setStartDate(date)}
                                 dateFormat="yyyy.MM.dd(eee)"
-                                showIcon
+                                // showIcon
+                                style={{
+                                    width:"30px"
+                                }}
                             />
-                        </div>
+                        </Datediv>
                         <span>~</span>
-                        <div>
+                        <DateEnddiv>
                             <DatePicker
                             selected={endDate}
                             placeholderText="0000.00.00" 
                             onChange={(date) => setEndDate(date)}
                             dateFormat="yyyy.MM.dd(eee)"
-                            showIcon
+                            // showIcon
                             />
-                        </div>
+                        </DateEnddiv>
                    </div>
                    </DateTable>
                    <DateTable >
@@ -119,7 +122,7 @@ return (
                     placeholderText="0000.00.00"
                     onChange={(date) => setStartTime(date)}
                     dateFormat="yyyy.MM.dd(eee)"
-                    showIcon
+                    // showIcon
                     />
                     </div>
                     <div>
@@ -129,7 +132,7 @@ return (
                     placeholderText="0000.00.00"
                     onChange={(date) => setEndTime(date)}
                     dateFormat="yyyy.MM.dd(eee)"
-                    showIcon
+                    // showIcon
                     /></div>
                    </div>
                    </DateTable>
@@ -139,7 +142,7 @@ return (
                     selected={receiptStartDate}
                     onChange={(date) => setReceiptStartDate(date)}
                     dateFormat="yyyy.MM.dd(eee)"
-                    showIcon
+                    // showIcon
                     />
                     </div>
                     <div>
@@ -149,7 +152,7 @@ return (
                     placeholderText="0000.00.00"
                     onChange={(date) => setReceiptEndDate(date)}
                     dateFormat="yyyy.MM.dd(eee)"
-                    showIcon
+                    // showIcon
                     /></div>
                    </div>
                    </DateTable>
@@ -244,6 +247,37 @@ return (
                 
 
 				};
+                const Span = styled.span`
+                // position: absolute;
+                margin: 10px;
+                display:flex;
+                padding: 0 10px;
+                width: 70px;
+                font-size: 16px;
+                font-weight: 600;
+                `;
+                const Datediv = styled.div`
+                position: absolute;
+                right: 450px;
+                top:180px;
+                display:flex;
+                width: 50px;
+                border:none;
+                font-size: 16px;
+                font-weight: 600;
+                `;
+
+                const DateEnddiv = styled.div`
+                position: absolute;
+                right: 270px;
+                top:180px;
+                display:flex;
+                padding: 0 px;
+                width: 50px;
+                height:40px;
+                font-size: 16px;
+                font-weight: 600;
+                `;
                 
                 const Table = styled.table`
                 margin-top:1px;
