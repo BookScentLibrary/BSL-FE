@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Search } from "../../../asset/icons/searchglass.svg";
-import SearchSelect from "./SearchSelect";
+import SearchSelect from "../../../components/shared/elements/SearchSelect";
 
-const Input = (props) => {
+const SearchBar = (props) => {
   const {
     size,
     width,
     placeholder,
     value,
-    padding,
     id,
     name,
     label,
@@ -22,22 +21,22 @@ const Input = (props) => {
     data,
     optionValue,
     setOptionValue,
-    inputType,
   } = props;
 
+  const inputtype = props.inputType;
+
   const styles = {
-    $inputType: inputType,
+    inputtype,
     size,
     width,
-    $padding: padding,
   };
 
   const SelectData = data ? data : ["전체검색", "제목", "저자", "발행처"];
 
   return (
     <div style={{ position: "relative", width: "fit-content" }}>
-      {inputType !== "search" ? (
-        <Label $inputType={inputType}>{label}</Label>
+      {inputtype !== "search" ? (
+        <Label inputtype={inputtype}>{label}</Label>
       ) : (
         <div style={{ position: "absolute" }}>
           <SearchSelect
@@ -59,7 +58,7 @@ const Input = (props) => {
         defaultValue={defaultValue}
         {...styles}
       />
-      {inputType === "search" ? (
+      {inputtype === "search" ? (
         <Search
           onClick={onClick}
           style={{
@@ -78,32 +77,29 @@ const Label = styled.label`
   top: 16px;
   padding: 0 18px;
   width: 84px;
-  text-align: ${({ $inputType }) =>
-    $inputType === "post" ? "center" : "left"};
+  text-align: ${({ inputtype }) => (inputtype === "post" ? "center" : "left")};
   font-size: 16px;
   font-weight: 600;
 `;
 
 const Inp = styled.input`
-  width: ${({ width, $inputType, size }) =>
+  width: ${({ width, inputtype, size }) =>
     width
       ? width
-      : $inputType === "search"
+      : inputtype === "search"
       ? size === "small"
         ? "174px"
         : "522px"
       : "1004px"};
 
-  height: ${({ $inputType, size }) =>
-    $inputType === "search" ? "60px" : "46px"};
+  height: ${({ inputtype, size }) =>
+    inputtype === "search" ? "60px" : "46px"};
   outline: none;
   border: 1px solid #000;
   border-radius: 4px;
-  padding-left: ${({ $inputType }) =>
-    $inputType === "search" ? "152px" : "118px"};
-  padding-right: ${({ $inputType }) =>
-    $inputType === "search" ? "72px" : "16px"};
-  ${({ $padding }) => ($padding ? `padding:${$padding};` : "")}
+  padding-left: ${({ inputtype }) =>
+    inputtype === "search" ? "152px" : "118px"};
+  padding-right: ${({ inputtype }) =>
+    inputtype === "search" ? "72px" : "16px"};
 `;
-
-export default Input;
+export default SearchBar;

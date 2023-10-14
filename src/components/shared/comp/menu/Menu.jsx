@@ -1,74 +1,62 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-// Menu Component
-//
-// * title
-// 메뉴 타이틀
-// ex . '소식·참여'
-//
-// * menuArr
-// 메뉴 항목명
-// ex . ['도서 검색', '리뷰게시판', '공지사항', '프로그램안내'];
-//
-// * pageIdx
-// 메뉴 항목 인덱스
-//
-// * setPageIdx
-// 메뉴 항목 인덱스 setter
-
-// 1. props.title을 메뉴의 타이틀로 지정합니다.
-// 2. menuArr 배열 안에 담긴 메뉴명을 하나하나 map으로 풀어 메뉴 항목을 배치합니다.
-// 3. 이 컴포넌트를 호출한 상위 컴포넌트에서 useState를 통해 pageIdx를 관리합니다.
-// 4. 메뉴명을 클릭하는 순간 setPageIdx 함수를 통해 알맞는 페이지 인덱스를 넘기고,
-//    상위컴포넌트는 해당 인덱스를 받아 pageIdx에 저장합니다.
-// 5. 데이터가 변경되었으므로, 상위 페이지에서는 인덱스에 맞는 페이지를 노출시키고,
-//    변경된 pageIdx가 다시 Menu 컴포넌트로 넘어오며,
-//    pageIdx와 map을 돌리고 있는 menuArr의 인덱스가 같을 경우(=보여주고 있는 페이지가 menuArr의 인덱스와 동일할 경우)
-//    className slected를 추가하도록 되어있습니다.
-// 6. selected 클래스가 추가된 항목의 background-color를 지정하여 현재 머무르고 있는 메뉴를 알기 쉽게 표시하고 있습니다.
-
-// * Example of use
-// const menuArr = ['메뉴명1', '메뉴명2', '메뉴명3'];
+/* ----- 상위 컴포넌트에서 pageIdx state를 관리합니다. -----*/
 // const [pageIdx, setPageIdx] = React.useState(0);
+// pageIdx 함수는 Menu 컴포넌트에 props 'selected'로 넘겨주세요
+// ex) <Menu title="title" selected={pageIdx}>...</Menu>
+
+/* ----- 자식요소(<p>태그)에 페이지 이동 함수를 달아주세요 ----- */
+// const goToPage = () => { setPageIdx(1) };
+// <p onClick={goToPage}>menu</p>
+
+/* ----- 실제 작성 예시 ----- */
+// <Menu title={"자료 검색"} selected={pageIdx}>
+//  <p className="menu_first" onClick={goToSearch}>소장자료</p>
+//  <p className="menu_second" onClick={goToNewBook}>신간 도서</p>
+//  <p className="menu_third" onClick={goToBestseller}>인기 대출 도서</p>
+//  <p className="menu_fourth" onClick={goToRecommend}>사서 추천 도서</p>
+// </Menu>
+
+/* ----- 이렇게 동작합니다. ----- */
+// 1. 상위 컴포넌트에서 Menu 컴포넌트를 호출해 자식 요소(메뉴항목)로 <p> 태그를 넘겨주면
+//    Menu에선 자식 요소들을 모두 불러와 map 함수를 통해 하나하나 알맞은 위치에 풀어놓습니다. 
 //
-// <Menu title='소식·참여' menuArr={menuArr} pageIdx={pageIdx} setPageIdx={setPageIdx}/>
+// 2. 자식 요소들의 갯수를 통해 Menu 컴포넌트의 전체적인 height값을 지정합니다.
+//    현재는 요소가 3개인 경우 257px, 4개인 경우 313px로 지정되어있습니다.  
+//
+// 3. <p>태그에 첨부된 props중 onClick 함수를 MenuComponent의 MenuContent에 전달해 
+//    좀 더 넓은 영역을 클릭해도 동작하도록 합니다. 
+//
+// 4. <Menu> 컴포넌트에 전달된 selected(상위 컴포넌트의 pageIdx = 선택된 메뉴 index)와 
+//    일치하는 menu 항목의 background-color를 지정하여 선택된 메뉴를 좀 더 알기 쉽게 합니다. 
 
 const Menu = (props) => {
-  const { title, menuArr, pageIdx, setPageIdx } = props;
-
+  const { title, children, selected } = props;
+  const childCnt = React.Children.count(children);
   return (
     <React.Fragment>
-      <MenuTable $menu={menuArr?.length}>
+      <MenuTable $menu={childCnt}>
         <Title>{title ? title : "Title"}</Title>
-        {menuArr ? (
-          menuArr.map((cur, idx) => {
-            if (pageIdx === idx) {
-              return (
-                <MenuContent
-                  key={idx}
-                  className="selected"
-                  onClick={() => setPageIdx(idx)}
-                >
-                  {cur}
-                </MenuContent>
-              );
-            }
+        {children.map((cur, idx) => {
+          if (selected === idx) {
             return (
-              <MenuContent key={idx} onClick={() => setPageIdx(idx)}>
+              <MenuContent
+                className="selected"
+                onClick={cur.props.onClick}
+                key={idx}
+              >
                 {cur}
               </MenuContent>
             );
-          })
-        ) : (
-          <>
-            <MenuContent>menu1</MenuContent>
-            <MenuContent>menu2</MenuContent>
-            <MenuContent>menu3</MenuContent>
-            <MenuContent>menu4</MenuContent>
-          </>
-        )}
+          } else {
+            return (
+              <MenuContent onClick={cur.props.onClick} key={idx}>
+                {cur}
+              </MenuContent>
+            );
+          }
+        })}
       </MenuTable>
     </React.Fragment>
   );

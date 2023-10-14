@@ -13,8 +13,13 @@ import ReviewDetailPage from "./pages/review/ReviewDetailPage";
 import ReviewEditPage from "./pages/review/ReviewEditPage";
 import NewsPartMain from "./pages/newspart/NewsPartMain";
 import BookMenuMain from "./pages/book/BookMenuMain";
+import ProgramListPage from "./pages/program/ProgramListPage";
+import ProgramForm from "./pages/program/ProgramForm";
 import UserList from "./components/user/UserList";
-import BookRecommend from "./components/book/BookRecommend";
+import RecommendList from "./components/recommend/RecommendList";
+import RecommendWrite from "./components/recommend/RecommendWrite";
+import RecommendDetail from "./components/recommend/RecommendDetail";
+import RecommendUpdate from "./components/recommend/RecommendUpdate";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -39,7 +44,7 @@ export default [
     element: SignIn,
   },
   {
-    path: "superAdmin/userList",
+    path: "/superAdmin/userList",
     element: UserList,
   },
   {
@@ -61,6 +66,10 @@ export default [
   {
     path: "/news/reviewList",
     element: ReviewListPage,
+  },
+  {
+    path: "/news/reviewList",
+    element: NewsPartMain,
   },
   {
     path: "/news/reviewWrite",
@@ -85,9 +94,29 @@ export default [
   {
     path: "/book/detail/:bookNo",
     element: BookMenuMain,
-  },  
+  },
   {
-    path: "/book/recommend",
-    element: BookRecommend,
+    path: "/user/recommendList",
+    element: RecommendList,
+  },
+  {
+    path: "/news/programList",
+    element: NewsPartMain,
+  },
+  {
+    path: "/news/programForm",
+    element: ProgramForm,
+  },
+  {
+  path: "/admin/recommendCreate",
+    element: RecommendWrite,
+  },
+  {
+    path: "/user/recommendDetail/:recPostId",
+    element: RecommendDetail,
+  },
+  {
+    path: "/admin/recommendUpdate/:recPostId",
+    element: RecommendUpdate,
   },
 ];
