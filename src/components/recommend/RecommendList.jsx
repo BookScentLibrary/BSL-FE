@@ -3,8 +3,16 @@ import styled from "styled-components";
 import axios from "axios";
 import Pagination from "../../pages/review/Pagination";
 import Button from "../shared/elements/Button";
+import { useNavigate, Link } from "react-router-dom";
 
 const RecommendList = () => {
+  const navigate = useNavigate();
+
+  //글 등록 페이지로 이동
+  const goToRecommendWrite = () => {
+    navigate("/admin/createRecommend");
+  };
+
   //게시글 리스트
   const [recommendList, setRecommendList] = useState([]);
 
@@ -70,7 +78,9 @@ const RecommendList = () => {
         <button onClick={handleProgramRegistration}>프로그램 등록</button>
       )}*/}
 
-        <Button type="middle">프로그램 등록</Button>
+        <Button type="middle" onClick={goToRecommendWrite}>
+          프로그램 등록
+        </Button>
       </div>
       <hr />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -96,28 +106,35 @@ const RecommendList = () => {
                 listStyleType: "none",
               }}
             >
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    backgroundColor: "green",
-                    color: "white",
-                    padding: "5px",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    zIndex: 1, // 다른 내용 위에 표시
-                  }}
-                >
-                  {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
-                    year: "numeric",
-                    month: "2-digit",
-                  })}
+              <Link
+                to={`/user/recommendDetail/${recommend.recPostId}`}
+                style={{ cursor: "pointer" }}
+              >
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                      padding: "5px",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      zIndex: 1, // 다른 내용 위에 표시
+                    }}
+                  >
+                    {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
+                      year: "numeric",
+                      month: "2-digit",
+                    })}
+                  </div>
+                  <Image src={recommend.bookImageURL} />
+                  <div style={{ whiteSpace: "pre-wrap" }}>
+                    {recommend.postTitle
+                      .replace(/,/g, "\n")
+                      .replace(/\|/g, "\n")}
+                  </div>
                 </div>
-                <Image src={recommend.bookImageURL} />
-                <div style={{ whiteSpace: "pre-wrap" }}>
-                  {recommend.postTitle.replace(/,/g, "\n").replace(/\|/g, "\n")}
-                </div>
-              </div>
+              </Link>
             </li>
           ))}
       </ul>

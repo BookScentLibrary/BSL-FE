@@ -12,6 +12,7 @@ import BookMenuMain from "./pages/book/BookMenuMain";
 import UserList from "./components/user/UserList";
 import RecommendList from "./components/recommend/RecommendList";
 import RecommendWrite from "./components/recommend/RecommendWrite";
+import RecommendDetail from "./components/recommend/RecommendDetail";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -74,5 +75,9 @@ export default [
   {
     path: "/admin/createRecommend",
     element: RecommendWrite,
+  },
+  {
+    path: "/user/recommendDetail/:recPostId",
+    element: RecommendDetail,
   },
 ];
