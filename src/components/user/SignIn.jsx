@@ -41,7 +41,7 @@ const SignIn = () => {
           />
           <br />
           <Input
-            type="password"
+            password
             name="password"
             label="비밀번호"
             onChange={(e) => setPassword(e.target.value)}

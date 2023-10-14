@@ -15,6 +15,10 @@ const MainReview = () => {
     navigate("/news/reviewList");
   };
 
+  const goToReviewDetail = (postId) => {
+    navigate(`/news/reviewDetail/${postId}`);
+  }
+
   React.useEffect(() => {
     dispatch(mainReviewAPI());
   }, []);
@@ -29,7 +33,7 @@ const MainReview = () => {
         reviews.map((cur, idx) => {
           return (
             <Content key={idx}>
-              <p>
+              <p className="review_title" onClick={()=>{goToReviewDetail(cur.rev_postId)}}>
                 {cur.postTitle} [{cur.bookname}]
               </p>
               <div>
@@ -64,6 +68,10 @@ const Content = styled.div`
     display: flex;
     gap: 40px;
     margin: 16px 0;
+  }
+
+  & > .review_title {
+    cursor: pointer;
   }
 `;
 

@@ -17,31 +17,30 @@ export const Basic = styled.div`
 
 export const Best = styled.div`
   display: flex;
-  width: 306px;
-  gap: 20px;
+  width: 280px;
+  gap: 16px;
   cursor: pointer;
 `;
 
 export const Recommend = styled.div`
-  width: 396px;
-  height: 346px;
+  width: 364px;
+  height: 314px;
   background-color: #fafafa;
   border-radius: 10px;
   cursor: pointer;
+  padding: 32px;
 
-  & > div {
+  & > .book_temp__contentWrapper {
     display: flex;
     gap: 32px;
-    width: 100%;
-    height: 100%;
-    padding: 32px;
   }
 
-  & > div > div > .book_temp__title {
+  & > div > .book_temp__title {
+    margin-top: 16px;
     font-weight: 700;
   }
 
-  & > div > div > .book_temp__author {
+  & > div > .book_temp__author {
     font-size: 12px;
     color: ${({ theme }) => theme.colors.gray};
   }
@@ -49,10 +48,15 @@ export const Recommend = styled.div`
   & > div > .content {
     width: 152px;
   }
+
+  & > div > div > .book_temp__content {
+    width: 100%;
+    white-space: normal;
+  }
 `;
 
 export const Info = styled.div`
-  width: 178px;
+  width: 150px;
   display: grid;
   grid-template-rows: fit-content(100px) fit-content(100px);
   align-content: space-between;
@@ -83,11 +87,12 @@ export const Info = styled.div`
 `;
 
 export const Image = styled.div`
+  flex-shrink: 0;
   width: ${({ width }) => (width ? width : "204px")};
   height: ${({ height }) => (height ? height : "300px")};
-  border: ${({ theme }) => `1px solid ${theme.colors.gray200}`};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.gray50};
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
+  background-position: center;
 `;

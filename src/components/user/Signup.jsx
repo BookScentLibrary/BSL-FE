@@ -256,7 +256,7 @@ const SignUp = () => {
           ) : null}
           <br />
           <Input
-            type="password"
+            password
             name="password"
             label="비밀번호"
             placeholder="8~20자 이내로 특수문자(!, @, #, $, %, ^, &, *)를 반드시 1개 이상 포함하여 영문, 숫자로 된 비밀번호를 입력해주세요."
@@ -265,7 +265,7 @@ const SignUp = () => {
           <p>{passwordMsg}</p>
           <br />
           <Input
-            type="password"
+            password
             name="passwordAgain"
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 입력해주세요."

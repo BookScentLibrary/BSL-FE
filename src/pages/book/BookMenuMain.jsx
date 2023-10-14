@@ -37,7 +37,7 @@ const BookMenuMain = (props) => {
 
   const goToRecommend = () => {
     setPageIdx(3);
-    navigate("/book/recommendList");
+    navigate("/user/recommendList");
   };
 
   const goToDetail = () => {
