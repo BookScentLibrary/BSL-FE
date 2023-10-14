@@ -75,7 +75,7 @@ const RecommendWrite = () => {
   };
   // try {
   //   // POST 요청을 사용하여 서버에 데이터 전송
-  //   await axios.post("http://localhost:8080/admin/createRecommend", {
+  //   await axios.post("http://localhost:8080/admin/recommendCreate", {
   //     postTitle,
   //     content,
   //     userId,

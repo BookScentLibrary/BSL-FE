@@ -10,7 +10,7 @@ const RecommendList = () => {
 
   //글 등록 페이지로 이동
   const goToRecommendWrite = () => {
-    navigate("/admin/createRecommend");
+    navigate("/admin/recommendCreate");
   };
 
   //게시글 리스트

@@ -11,12 +11,12 @@ const RecommendDetail = () => {
   // 추천 도서 게시물 데이터를 저장할 상태 변수
   const [recommend, setRecommend] = useState({});
   const [recommendList, setRecommendList] = useState([]);
-  const navigate = useNavigate(); // useHistory 대신 useNavigate 사용
+  const navigate = useNavigate();
 
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("rev_postId:", recPostId); // rev_postId 값 확인
+      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
@@ -74,6 +74,22 @@ const RecommendDetail = () => {
     }
   };
 
+  const deleteRecommend = async (recPostId) => {
+    try {
+      // 서버에서 해당 게시물 삭제 요청을 보냅니다.
+      const response = await axios.delete(
+        `http://localhost:8080/admin/recommendDelete/${recPostId}`
+      );
+      if (response.status === 200) {
+        window.alert("게시물이 삭제되었습니다.");
+        // 삭제가 성공하면 recommendList 페이지로 이동합니다.
+        navigate("/user/recommendList");
+      }
+    } catch (error) {
+      console.error("Error deleting recommend:", error);
+    }
+  };
+
   return (
     <>
       <StyledWord>
@@ -107,9 +123,24 @@ const RecommendDetail = () => {
           <div style={{ borderBottom: "1px solid #ccc" }}></div>
           <br />
           <p>{recommend.content}</p>
+          <Button>책 정보 확인하기</Button>
         </div>
       </div>
       <br />
+      <Link to={`/admin/recommendUpdate/${recommend.recPostId}`}>
+        <Button type="middle">수정</Button>
+      </Link>
+      <Button
+        type="middle"
+        color="gray"
+        onClick={() => {
+          if (window.confirm("삭제하시겠습니까?")) {
+            deleteRecommend(recommend.recPostId);
+          }
+        }}
+      >
+        삭제
+      </Button>
       <div>
         <hr />
         {prevRecommendIndex >= 0 ? (

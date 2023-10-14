@@ -229,7 +229,7 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
 );
 //사서 추천 도서 글 등록
 export const BookRecommendAPI = createAsyncThunk(
-  "admin/createRecommend",
+  "admin/recommendCreate",
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.bookRecommendAPI(data);
