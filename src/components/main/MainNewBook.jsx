@@ -3,13 +3,22 @@ import styled from "styled-components";
 import { BasicTemp } from "./element/BookTemplate";
 import MoreButton from "../shared/elements/MoreButton";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { mainNewBookAPI } from "../../core/redux/mainSlice";
 
 const MainNewBook = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const books = useSelector((state) => state.main.newbook);
 
   const goToNewBook = () => {
     navigate("/book");
   };
+
+  React.useEffect(() => {
+    dispatch(mainNewBookAPI());
+  }, []);
 
   return (
     <Container>
@@ -23,9 +32,17 @@ const MainNewBook = () => {
         <MoreButton onClick={goToNewBook} />
       </TitleSection>
       <BookSection>
-        <BasicTemp img="" title="title1" author="author1" bookNo="1" />
-        <BasicTemp img="" title="title2" author="author2" bookNo="2" />
-        <BasicTemp img="" title="title3" author="author3" bookNo="3" />
+        {books && books.map((cur, idx) => {
+          return (
+            <BasicTemp
+              key={cur.bookNo}
+              img={cur.bookImageURL}
+              title={cur.bookname}
+              author={cur.author}
+              bookNo={cur.bookNo}
+            />
+          );
+        })}
       </BookSection>
     </Container>
   );

@@ -2,4 +2,5 @@ import { userAPI } from "./user";
 import { bookAPI } from "./book";
 import { testAPI } from "./test";
 import { postAPI } from "./post";
-export { userAPI, bookAPI, testAPI, postAPI };
+import { mainAPI } from "./main";
+export { userAPI, bookAPI, testAPI, postAPI, mainAPI };

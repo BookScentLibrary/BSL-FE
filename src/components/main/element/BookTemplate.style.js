@@ -8,7 +8,7 @@ export const Basic = styled.div`
     margin-top: 24px;
   }
 
-  & > .book_temp__content {
+  & > .book_temp__author {
     font-size: 12px;
     color: ${({ theme }) => theme.colors.gray};
     margin-top: 8px;
@@ -62,7 +62,14 @@ export const Info = styled.div`
 
   & > .rank {
     color: ${({ rank, theme }) =>
-      rank === 1 ? theme.colors.secondary : "#000"};
+      rank === 1
+        ? theme.colors.secondary
+        : rank === 2
+        ? theme.colors.primary
+        : rank === 3
+        ? theme.colors.tertiary
+        : "#000"};
+    font-weight: 800;
   }
 
   & > div > .book_temp__title {
@@ -81,4 +88,6 @@ export const Image = styled.div`
   border: ${({ theme }) => `1px solid ${theme.colors.gray200}`};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.gray50};
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
 `;

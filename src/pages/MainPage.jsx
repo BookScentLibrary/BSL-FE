@@ -9,10 +9,6 @@ const MainPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(getBookAPI(1));
-  }, []);
-
   return (
     <div>
       <MainPageTemplate />

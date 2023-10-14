@@ -81,7 +81,7 @@ const MainNotice = () => {
           <ContentContainer>
             {PROGRAM.map((cur, idx) => {
               return (
-                <Content>
+                <Content key={idx}>
                   <p>{cur.title}</p>
                   <p>{cur.createdAt}</p>
                 </Content>

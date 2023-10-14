@@ -12,7 +12,7 @@ import {
   nicknameCheck,
   phoneCheck,
   userBirthCheck,
-} from "../shared/RegEx.ts";
+} from "../shared/RegEx";
 
 const SignUp = () => {
   const dispatch = useDispatch();

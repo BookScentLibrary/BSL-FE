@@ -4,11 +4,13 @@ import logger from "redux-logger";
 import { userSlice } from "./redux/userSlice";
 import { bookSlice } from "./redux/bookSlice";
 import { postSlice } from "./redux/postSlice";
+import { mainSlice } from "./redux/mainSlice";
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   book: bookSlice.reducer,
   post: postSlice.reducer,
+  main: mainSlice.reducer,
 });
 
 export const configStore = configureStore({

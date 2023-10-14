@@ -3,83 +3,43 @@ import { BestTemp } from "./element/BookTemplate";
 import styled from "styled-components";
 import MoreButton from "../shared/elements/MoreButton";
 import { useNavigate } from "react-router-dom";
-
-const BESTSELLER = [
-  {
-    rank: 1,
-    bookNo: 1,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 2,
-    bookNo: 2,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 3,
-    bookNo: 3,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 4,
-    bookNo: 4,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 5,
-    bookNo: 5,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 6,
-    bookNo: 6,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 7,
-    bookNo: 7,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-  {
-    rank: 8,
-    bookNo: 8,
-    title: "책제목제목제목",
-    author: "작가작가",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { mainBestsellerAPI } from "../../core/redux/mainSlice";
 
 const MainBestseller = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const bestsellers = useSelector((state) => state.main.bestseller);
 
   const goToBestseller = () => {
     navigate("/book");
-  }
+  };
+
+  React.useEffect(() => {
+    dispatch(mainBestsellerAPI());
+  }, []);
 
   return (
     <Container>
       <Title>
         인기 대출 도서
-        <MoreButton onClick={goToBestseller}/>
+        <MoreButton onClick={goToBestseller} />
       </Title>
       <GridContainer>
-        {BESTSELLER.map((cur, idx) => {
-          return (
-            <BestTemp
-              key={idx}
-              rank={cur.rank}
-              title={cur.title}
-              author={cur.author}
-              bookNo={cur.bookNo}
-            />
-          );
-        })}
+        {bestsellers &&
+          bestsellers.map((cur, idx) => {
+            return (
+              <BestTemp
+                key={idx}
+                rank={idx+1}
+                title={cur.bookname}
+                author={cur.author}
+                bookNo={cur.bookNo}
+                img={cur.bookImageURL}
+              />
+            );
+          })}
       </GridContainer>
     </Container>
   );

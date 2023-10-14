@@ -12,7 +12,7 @@ const BasicTemp = (props) => {
 
   return (
     <S.Basic onClick={goToDetail}>
-      <S.Image />
+      <S.Image src={img}/>
       <p className="book_temp__title">{title}</p>
       <p className="book_temp__author">{author}</p>
     </S.Basic>
@@ -28,9 +28,9 @@ const BestTemp = (props) => {
   };
   return (
     <S.Best onClick={goToDetail}>
-      <S.Image width="108px" height="160px" />
-      <S.Info>
-        <p className="rank" rank={rank}>
+      <S.Image width="108px" height="160px" src={img}/>
+      <S.Info rank={rank}>
+        <p className="rank">
           {rank}
         </p>
         <div>
