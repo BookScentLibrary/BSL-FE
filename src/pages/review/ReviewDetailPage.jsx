@@ -1,8 +1,7 @@
 // ReviewDetailPage.js
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 const ReviewDetailPage = () => {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -19,6 +18,7 @@ const ReviewDetailPage = () => {
   // 리뷰 데이터를 저장할 상태 변수
   const [review, setReview] = useState({});
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // 리뷰 데이터를 백엔드 API로부터 가져오는 함수
   const fetchReview = async () => {
@@ -33,6 +33,23 @@ const ReviewDetailPage = () => {
       setLoading(false); // 로딩 상태 해제
     } catch (error) {
       console.error("Error fetching review detail:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/news/reviewDetail/${rev_postId}`
+      );
+
+      if (response.status === 204) {
+        // 삭제가 성공하면 리뷰 목록 페이지로 이동
+        navigate("/news/reviewList");
+      } else {
+        console.error("Error deleting review:", response.data);
+      }
+    } catch (error) {
+      console.error("Error deleting review:", error);
     }
   };
 
@@ -57,7 +74,7 @@ const ReviewDetailPage = () => {
         <Link to={`/news/reviewEdit/${review.rev_postId}`}>
           <button>수정</button>
         </Link>
-        <button>삭제</button>
+        <button onClick={handleDelete}>삭제</button>
       </p>
       <p>{review.content}</p>
       <p>{review.bookImageURL}</p>
@@ -70,6 +87,25 @@ const ReviewDetailPage = () => {
       <p>
         <button>책정보확인하기</button>
       </p>
+      <hr />
+      <div>
+        <h4>댓글</h4>
+        <div>
+          <span>닉네임</span>
+          <div>
+            댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용
+          </div>
+          <div>2023.09.09</div>
+          <div>
+            <button>수정</button>
+            <button>삭제</button>
+          </div>
+        </div>
+        <div>
+          <textarea name="" id="" cols="30" rows="10"></textarea>
+          <button>댓글등록</button>
+        </div>
+      </div>
     </div>
   );
 };
