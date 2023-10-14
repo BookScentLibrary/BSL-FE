@@ -2,7 +2,7 @@ import React from "react";
 import Menu from "../../components/shared/comp/menu/Menu";
 import styled from "styled-components";
 import SearchMain from "../../components/search/searchMain";
-import NewBooksMain from "../../components/new/NewBooksList";
+import NewBookMain from "../../components/newBook/NewBookList";
 import Button from "../../components/shared/elements/Button";
 import BookDetail from "./BookDetail";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const BookMenuMain = (props) => {
 
   const page = {
     0: <SearchMain />,
-    1: <NewBooksMain />,
+    1: <NewBookMain />,
     2: "",
     3: <RecommendList />,
     4: <BookDetail page={pageIdx} setPage={setPageIdx} />,

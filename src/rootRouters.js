@@ -14,6 +14,8 @@ import ProgramForm from "./pages/program/ProgramForm";
 import UserList from "./components/user/UserList";
 import RecommendList from "./components/recommend/RecommendList";
 import RecommendWrite from "./components/recommend/RecommendWrite";
+import RecommendDetail from "./components/recommend/RecommendDetail";
+import RecommendUpdate from "./components/recommend/RecommendUpdate";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -71,7 +73,7 @@ export default [
   },
   {
     path: "/user/recommendList",
-    element: BookMenuMain,
+    element: RecommendList,
   },
   {
     path: "/news/programList",
@@ -82,7 +84,15 @@ export default [
     element: ProgramForm,
   },
   {
-    path: "/admin/createRecommend",
+  path: "/admin/recommendCreate",
     element: RecommendWrite,
+  },
+  {
+    path: "/user/recommendDetail/:recPostId",
+    element: RecommendDetail,
+  },
+  {
+    path: "/admin/recommendUpdate/:recPostId",
+    element: RecommendUpdate,
   },
 ];
