@@ -23,6 +23,7 @@ const Input = (props) => {
     optionValue,
     setOptionValue,
     inputType,
+    password
   } = props;
 
   const styles = {
@@ -48,6 +49,7 @@ const Input = (props) => {
         </div>
       )}
       <Inp
+        type={password?"password":null}
         id={id}
         name={name}
         value={value}

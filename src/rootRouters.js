@@ -49,7 +49,7 @@ export default [
   },
   {
     path: "/news/noticeList",
-    element: NoticeListPage,
+    element: NewsPartMain,
   },
   {
     path: "/news/noticeDetail/:not_postId",
@@ -62,10 +62,6 @@ export default [
   {
     path: "/news/noticeWrite",
     element: NoticeWritePage,
-  },
-  {
-    path: "/news/reviewList",
-    element: ReviewListPage,
   },
   {
     path: "/news/reviewList",
@@ -97,7 +93,7 @@ export default [
   },
   {
     path: "/user/recommendList",
-    element: RecommendList,
+    element: BookMenuMain,
   },
   {
     path: "/news/programList",

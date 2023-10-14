@@ -41,7 +41,7 @@ const MainNotice = () => {
   const navigate = useNavigate();
 
   const goToNotice = () => {
-    navigate("/");
+    navigate("/news/noticeList");
   };
   const goToProgram = () => {
     navigate("/");
@@ -50,17 +50,17 @@ const MainNotice = () => {
   return (
     <Container>
       <BannerContainer>
-        <BannerLong />
+        <BannerLong src="https://imgbuckett.s3.ap-northeast-2.amazonaws.com/banner_main_1.png" />
         <BannerFlexWrapper>
-          <BannerShort />
-          <BannerShort />
+          <BannerShort src="https://imgbuckett.s3.ap-northeast-2.amazonaws.com/banner_main_3.png" />
+          <BannerShort src="https://imgbuckett.s3.ap-northeast-2.amazonaws.com/banner_main_2.png" />
         </BannerFlexWrapper>
       </BannerContainer>
       <BoardContainer>
         <NoticeSection>
           <Title>
             공지사항
-            <MoreButton onClick={goToNotice}/>
+            <MoreButton onClick={goToNotice} />
           </Title>
           <ContentContainer>
             {NOTICE.map((cur, idx) => {
@@ -76,7 +76,7 @@ const MainNotice = () => {
         <ProgramSection>
           <Title>
             프로그램 안내
-            <MoreButton onClick={goToProgram}/>
+            <MoreButton onClick={goToProgram} />
           </Title>
           <ContentContainer>
             {PROGRAM.map((cur, idx) => {
@@ -110,9 +110,10 @@ const BannerContainer = styled.div`
 const BannerLong = styled.div`
   width: 100%;
   height: 192px;
-  border: ${({ theme }) => `1px solid ${theme.colors.gray200}`};
   background-color: ${({ theme }) => theme.colors.gray50};
   border-radius: 8px;
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
 `;
 
 const BannerFlexWrapper = styled.div`
@@ -123,9 +124,10 @@ const BannerFlexWrapper = styled.div`
 const BannerShort = styled.div`
   width: 194px;
   height: 194px;
-  border: ${({ theme }) => `1px solid ${theme.colors.gray200}`};
   background-color: ${({ theme }) => theme.colors.gray50};
   border-radius: 8px;
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
 `;
 
 const BoardContainer = styled.div`
