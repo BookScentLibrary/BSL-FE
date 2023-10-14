@@ -46,7 +46,7 @@ export const UserWrapper = styled.div`
 
   & > .header_user__nickname {
     margin: 0 4px;
-    cursor: none;
+    cursor: default;
     & > span {
       font-weight: 800;
     }

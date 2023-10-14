@@ -73,9 +73,11 @@ export const signInAPI = createAsyncThunk(
           return;
         }
         const accessToken = response.data.data.token;
+        console.log(response.data);
         sessionStorage.clear();
         sessionStorage.setItem("token", accessToken);
-        sessionStorage.setItem("loginedUser", data);
+        sessionStorage.setItem("nickname", response.data.data.user.nickname);
+        sessionStorage.setItem("userId", response.data.data.user.userId);
         const { token, exprTime, user } = response.data.data;
         const expires = new Date();
         expires.setTime(expires.getTime() + exprTime);

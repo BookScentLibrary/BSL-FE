@@ -8,10 +8,8 @@ import * as S from "./Header.style"
 const Header = () => {
   const navigate = useNavigate();
   const is_login = useSelector((state) => state.user.is_login);
-  const nickname = useSelector((state) => state.user.user?.nickname);
-
+  const nickname = sessionStorage.getItem("nickname");
   const token = sessionStorage.getItem("token");
-  const isAuthenticated = !!token; // 토큰이 있으면 로그인 상태
 
   const goToHome = () => {
     navigate("/");
@@ -61,9 +59,9 @@ const Header = () => {
           <p className="header_menu__mypage" onClick={goToMyPage}>마이페이지</p>
         </S.MenuWrapper>
 
-        {is_login && nickname ? (
+        {token ? (
           <S.UserWrapper>
-            <p className="header_user__nickname">{nickname}<span>리버</span> 님</p>
+            <p className="header_user__nickname"><span>{nickname}</span> 님</p>
             <p className="header_user__logout">
               | <span onClick={logoutHandler}>로그아웃</span>
             </p>
