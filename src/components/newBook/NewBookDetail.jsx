@@ -9,10 +9,15 @@ const NewBookDetail = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('/newBook/list');
-                if (response && response.data) {
+                if (response.data) {
                     const newBookData = response.data.map((item, index) => ({
-                        newBooksNo: index + 1,
-                        ...item
+                        bookNo: item.bookNo,
+                        newBookNo: index + 1,
+                        bookname: item.bookname,
+                        author: item.author,
+                        publisher: item.publisher,
+                        publicationYear: item.publicationYear,
+                        regDate: item.regDate
                     }));
                     setItems(newBookData);
                 }
@@ -23,6 +28,15 @@ const NewBookDetail = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        setItems(prevItems =>
+            prevItems.map((item, index) => ({
+                ...item,
+                newBookNo: index + 1
+            }))
+        );
+    }, [items]);
 
     return <NewBookList items={items} />;
 };
