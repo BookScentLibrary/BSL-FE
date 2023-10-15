@@ -23,8 +23,8 @@ const NewBookList = ({ items }) => {
                 </thead>
                 <tbody>
                     {items.map((item) => (
-                        <tr key={item.newBooksNo}>
-                            <td>{item.newBooksNo}</td>
+                        <tr key={item.newBookNo}>
+                            <td>{item.newBookNo}</td>
                             <td>{item.bookname}</td>
                             <td>{item.author}</td>
                             <td>{item.publisher}</td>

@@ -8,7 +8,7 @@ const NewBookDetail = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/newBook/list');
+                const response = await axios.get("http://localhost:8080/book/newbook");
                 if (response.data) {
                     const newBookData = response.data.map((item, index) => ({
                         bookNo: item.bookNo,
