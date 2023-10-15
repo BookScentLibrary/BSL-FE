@@ -8,17 +8,21 @@ import { useNavigate, Link } from "react-router-dom";
 const RecommendList = () => {
   const navigate = useNavigate();
 
+  const userId = sessionStorage.getItem("userId");
+  const permission = sessionStorage.getItem("permission");
+
+  const canUserCreateRecommend =
+    userId && (permission === "1" || permission === "2");
+
   //글 등록 페이지로 이동
   const goToRecommendWrite = () => {
-    navigate("/admin/recommendCreate");
+    if (canUserCreateRecommend) {
+      navigate("/admin/recommendCreate");
+    }
   };
 
   //게시글 리스트
   const [recommendList, setRecommendList] = useState([]);
-
-  /*const userHasPermission = (user) => {
-    return user && (user.permission === 1 || user.permission === 2);
-  };*/
 
   // 페이지당 표시할 항목 수
   const [limit, setLimit] = useState(6);
@@ -74,13 +78,11 @@ const RecommendList = () => {
       </StyledWord>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <p>책향기 도서관 사서들이 추천하는 이 달의 도서를 만나보세요.</p>
-        {/*{userHasPermission(user) && (
-        <button onClick={handleProgramRegistration}>프로그램 등록</button>
-      )}*/}
-
-        <Button type="middle" onClick={goToRecommendWrite}>
-          프로그램 등록
-        </Button>
+        <div style={{ display: canUserCreateRecommend ? "block" : "none" }}>
+          <Button type="middle" onClick={goToRecommendWrite}>
+            프로그램 등록
+          </Button>
+        </div>
       </div>
       <hr />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
