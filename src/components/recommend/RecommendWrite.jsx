@@ -28,9 +28,6 @@ const RecommendWrite = () => {
   };
 
   const handleSubmit = () => {
-    if (!userId) {
-      window.alert("로그인을 진행해주세요.");
-    }
     if (postTitle === "" || content === "" || !selectedBook) {
       window.alert("모든 칸을 입력해주세요.");
       return;
@@ -92,18 +89,6 @@ const RecommendWrite = () => {
 };
 
 export default RecommendWrite;
-
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const Image = styled.div`
   width: 200px;

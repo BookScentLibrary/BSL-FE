@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import Input from "../../components/shared/elements/Input";
+import Button from "../shared/elements/Button";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Input from "../../components/shared/elements/Input";
+import styled from "styled-components";
+import SearchModal from "./SearchModal";
 
 const RecommendUpdate = () => {
   const { recPostId } = useParams();
   const [recommend, setRecommend] = useState({});
   const navigate = useNavigate();
+  const [selectedBook, setSelectedBook] = useState(null);
+  const userId = sessionStorage.getItem("userId");
 
   // 폼 데이터 상태 초기화
   const [formData, setFormData] = useState({
@@ -16,30 +21,76 @@ const RecommendUpdate = () => {
     userId: "",
   });
 
+  const handleSelectBook = (book) => {
+    setSelectedBook(book);
+  };
+
+  useEffect(() => {
+    getRecommend(); // Fetch the data
+
+    if (recommend && Object.keys(recommend).length > 0) {
+      setFormData({
+        postTitle: recommend.postTitle,
+        content: recommend.content,
+        bookNo: recommend.bookNo,
+        userId: recommend.userId,
+      });
+
+      setSelectedBook({
+        bookNo: recommend.bookNo,
+        bookImageURL: recommend.bookImageURL,
+        bookname: recommend.bookname,
+        author: recommend.author,
+        publisher: recommend.publisher,
+        callNum: recommend.callNum,
+        shelfarea: recommend.shelfarea,
+      });
+    }
+  }, []);
+
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("recPostId:", recPostId); // rev_postId 값 확인
+      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
 
-      setRecommend(response.data.data); // 가져온 추천 도서 게시물 데이터 저장
-      console.log(response.data.data);
+      const newRecommend = response.data.data;
+
+      setRecommend(newRecommend);
+
       setFormData({
-        postTitle: response.data.postTitle,
-        content: response.data.content,
-        bookNo: response.data.bookNo,
-        userId: response.data.userId,
+        postTitle: newRecommend.postTitle,
+        content: newRecommend.content,
+        bookNo: newRecommend.bookNo,
+        userId: newRecommend.userId,
       });
+
+      setSelectedBook({
+        bookNo: newRecommend.bookNo,
+        bookImageURL: newRecommend.bookImageURL,
+        bookname: newRecommend.bookname,
+        author: newRecommend.author,
+        publisher: newRecommend.publisher,
+        callNum: newRecommend.callNum,
+        shelfarea: newRecommend.shelfarea,
+      });
+      console.log("response.data.data :", newRecommend);
     } catch (error) {
       console.error("Error fetching review detail:", error);
     }
   };
 
-  useEffect(() => {
-    getRecommend(); // 컴포넌트가 마운트될 때 추천 도서 게시물 데이터를 가져옴
-  }, [recPostId]); // rev_postId가 변경될 때마다 다시 가져옴
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 팝업 열기/닫기 상태
+
+  const handleSearch = () => {
+    setIsModalOpen(true); // 검색 버튼을 클릭하면 모달 열기
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달 팝업 닫기
+  };
 
   // 폼 입력값이 변경될 때마다 상태 업데이트
   const handleFormChange = (e) => {
@@ -57,10 +108,11 @@ const RecommendUpdate = () => {
       const updatedRecommend = {
         recPostId: recPostId,
         postTitle: formData.postTitle,
-        content: response.data.content,
-        bookNo: response.data.bookNo,
-        userId: response.data.userId,
+        content: formData.content,
+        bookNo: selectedBook.bookNo,
+        userId: userId,
       };
+      console.log("updatedRecommend : ", updatedRecommend);
 
       const response = await axios.put(
         `http://localhost:8080/admin/recommendUpdate/${recPostId}`,
@@ -87,45 +139,34 @@ const RecommendUpdate = () => {
         label="제목"
         onChange={handleFormChange}
       />
-      {/*<div>
-        <input
-          type="text"
-          placeholder="도서 검색어"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>검색하기</button>
-      </div>
+      <SearchModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSelectBook={handleSelectBook}
+      />
 
       <div>
-        {book && (
+        {selectedBook ? (
           <div>
-            <Image src={book.bookImageURL} />
+            <Image src={selectedBook.bookImageURL} />
             <div>
-              <h2>{book.bookname}</h2>
-              <p>저자: {book.author}</p>
-              <p>발행처: {book.publisher}</p>
-              <p>청구기호: {book.callNum}</p>
-              <p>자료실: {book.shelfArea}</p>
+              <h2>{selectedBook.bookname}</h2>
+              <p>저자: {selectedBook.author}</p>
+              <p>발행처: {selectedBook.publisher}</p>
+              <p>청구기호: {selectedBook.callNum}</p>
+              <p>자료실: {selectedBook.shelfarea}</p>
             </div>
-            <button
-              onClick={() => dispatch(searchBookAPI({ bookNo: book.bookNo }))}
-            >
-              다시 검색하기
-            </button>
+            <Button onClick={handleSearch}>다시 검색하기</Button>
           </div>
-        )}
-      </div>*/}
+        ) : null}
+      </div>
       <div>
         <textarea
           name="content"
           value={formData.content}
           onChange={handleFormChange}
         />
-        {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
-        <Link to={`/user/recommendDetail/${recPostId}`}>
-          <button onClick={handleUpdate}>수정</button>
-        </Link>
+        <button onClick={handleUpdate}>수정</button>
         <Link to={`/user/recommendDetail/${recPostId}`}>
           <button>취소</button>
         </Link>
@@ -135,3 +176,11 @@ const RecommendUpdate = () => {
 };
 
 export default RecommendUpdate;
+
+const Image = styled.div`
+  width: 200px;
+  height: 320px;
+  flex-shrink: 0;
+  background-image: ${({ src }) => (src ? `url(${src})` : "")};
+  background-repeat: no-repeat;
+`;

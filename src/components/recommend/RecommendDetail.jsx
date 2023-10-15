@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Button from "../shared/elements/Button";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const RecommendDetail = () => {
   // URL 매개변수로부터 리뷰 ID 가져오기
@@ -12,6 +12,11 @@ const RecommendDetail = () => {
   const [recommend, setRecommend] = useState({});
   const [recommendList, setRecommendList] = useState([]);
   const navigate = useNavigate();
+  const userId = sessionStorage.getItem("userId");
+  // 서버에서 가져온 게시물 작성자의 userId
+  const [authorUserId, setAuthorUserId] = useState(null);
+
+  const [bookNo, setBookNo] = useState("");
 
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
@@ -22,6 +27,8 @@ const RecommendDetail = () => {
       );
 
       setRecommend(response.data.data); // 가져온 추천 도서 게시물 데이터 저장
+      setAuthorUserId(response.data.data.userId);
+      setBookNo(response.data.data.bookNo);
       console.log(response.data.data);
     } catch (error) {
       console.error("Error fetching review detail:", error);
@@ -119,28 +126,45 @@ const RecommendDetail = () => {
           <p>저자 　{recommend.author}</p>
           <p>발행사 　{recommend.publisher}</p>
           <p>발행년도 　{recommend.publicationYear}</p>
+          <p>청구기호 　{recommend.callNum}</p>
+          <p>자료실 　{recommend.shelfarea}</p>
           <br />
           <div style={{ borderBottom: "1px solid #ccc" }}></div>
           <br />
           <p>{recommend.content}</p>
-          <Button>책 정보 확인하기</Button>
+          <Button
+            onClick={() => {
+              navigate(`/book/detail/${bookNo}`);
+            }}
+          >
+            책 정보 확인하기
+          </Button>
         </div>
       </div>
       <br />
-      <Link to={`/admin/recommendUpdate/${recommend.recPostId}`}>
-        <Button type="middle">수정</Button>
-      </Link>
-      <Button
-        type="middle"
-        color="gray"
-        onClick={() => {
-          if (window.confirm("삭제하시겠습니까?")) {
-            deleteRecommend(recommend.recPostId);
-          }
-        }}
-      >
-        삭제
-      </Button>
+      {authorUserId === userId && (
+        <>
+          <Button
+            type="middle"
+            onClick={() => {
+              navigate(`/admin/recommendUpdate/${recommend.recPostId}`);
+            }}
+          >
+            수정
+          </Button>
+          <Button
+            type="middle"
+            color="gray"
+            onClick={() => {
+              if (window.confirm("삭제하시겠습니까?")) {
+                deleteRecommend(recommend.recPostId);
+              }
+            }}
+          >
+            삭제
+          </Button>
+        </>
+      )}
       <div>
         <hr />
         {prevRecommendIndex >= 0 ? (
