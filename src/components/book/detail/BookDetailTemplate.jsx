@@ -7,7 +7,12 @@ import RentData from "./BookRentData";
 import * as S from "./BookDetailTemplate.style";
 import BookReviewList from "./BookReviewList";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookAPI, getRatingDataAPI, getReaderDataAPI, getSelectedBookReviewAPI } from "../../../core/redux/bookSlice";
+import {
+  getBookAPI,
+  getRatingDataAPI,
+  getReaderDataAPI,
+  getSelectedBookReviewAPI,
+} from "../../../core/redux/bookSlice";
 
 const BookDetailTemplate = (props) => {
   const navigate = useNavigate();
@@ -15,6 +20,7 @@ const BookDetailTemplate = (props) => {
   const location = useLocation();
 
   const bookNo = location.pathname.split("/")[3];
+
 
   const goToSearch = () => {
     navigate("/book");
@@ -45,7 +51,7 @@ const BookDetailTemplate = (props) => {
       </S.Route>
       <S.BookInfo>
         <S.BookImg src={book.bookImageURL} />
-        <BookInfoData book={book}/>
+        <BookInfoData book={book} />
         <S.Buttons>
           <div>
             <Button type="middle" color="gray">
@@ -63,17 +69,18 @@ const BookDetailTemplate = (props) => {
         <S.SubTitle>소장정보</S.SubTitle>
         <LibraryInfo book={book} />
       </S.LibraryInfoContainer>
-      <S.Description>
-        <S.SubTitle>상세정보</S.SubTitle>
-        <p>
-          {book.description}
-        </p>
-      </S.Description>
+      {book.description ? (
+        <S.Description>
+          <S.SubTitle>상세정보</S.SubTitle>
+          <p>{book.description}</p>
+        </S.Description>
+      ) : null}
       <RentData bookNo={book.bookNo} />
       <div>
         <div
           style={{
             display: "flex",
+            alignItems: "center",
             gap: "20px",
             height: "28px",
             margin: "36px 0 8px 0",
@@ -84,10 +91,15 @@ const BookDetailTemplate = (props) => {
             더보기
           </Button>
         </div>
-        {reviewList &&
+        {reviewList.length > 0 ? (
           reviewList.map((review, i) => {
-            return <BookReviewList key={i} review={review}/>;
-          })}
+            return <BookReviewList key={i} review={review} />;
+          })
+        ) : (
+          <p style={{ margin: "40px auto", width: "fit-content" }}>
+            작성된 리뷰가 없습니다.
+          </p>
+        )}
       </div>
     </S.Container>
   );
