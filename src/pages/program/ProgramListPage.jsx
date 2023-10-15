@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Search from "./Search";
 import axios from "axios";
 import { getProgramListAPI } from "../../core/redux/postSlice";
+import { Link } from "react-router-dom";
 
 
 
@@ -92,6 +93,7 @@ return (
             <button onclick="/ProgramForm" key={index} style={{ display: "flex" }}>
           <Image src={post_program.postImageURL} />
           <div>
+          <Link id="Program_Detail_Link" to={{ pathname: '/programDetail', state: { id: pro_postId } }}></Link>
             <div>{post_program.postTitle}</div> <div>({post_program.target})</div>
             <p>접수기간</p>
             <div>{post_program.startDate}</div>{post_program.endDate}</div>
