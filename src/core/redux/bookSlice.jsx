@@ -7,6 +7,8 @@ export const initialState = {
   rate: {},
   reader: [],
   review: [],
+  recommend: [],
+  searchResults: [],
 };
 
 //책과 관련된 액션 정의
@@ -21,6 +23,32 @@ export const searchBookAPI = createAsyncThunk(
     }
   }
 );
+
+export const SelectBookRecommendAPI = createAsyncThunk(
+  "book/search",
+  async (data, thunkAPI) => {
+    try {
+      const { searchValue, searchType, pageNumber, pageSize } = data;
+      const response = await bookAPI.selectBookRecommendAPI(
+        searchValue,
+        searchType,
+        pageNumber,
+        pageSize
+      );
+
+      const searchResults = response.data.content; // 응답에서 검색 결과를 추출합니다
+
+      // 검색 결과를 Redux 스토어에 저장하기 위해 setSearchResults 액션을 디스패치합니다
+      thunkAPI.dispatch(bookSlice.actions.setSearchResults(searchResults));
+
+      console.log("searchAPI response : ", response);
+      console.log("searchAPI response.data : ", searchResults);
+    } catch (error) {
+      console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
 export const getBookAPI = createAsyncThunk(
   "book/getBook",
   async (bookNo, thunkAPI) => {
@@ -265,6 +293,9 @@ export const bookSlice = createSlice({
     setSelectedBookRecommend: (state, action) => {
       state.recommend = action.payload;
       return;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload; // 검색 결과를 업데이트
     },
   },
 });
