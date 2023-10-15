@@ -2,66 +2,24 @@ import React, {useState ,range, useRef} from "react"
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-// import "react-datepicker/dist/react-datepicker.module.css";
+import "react-datepicker/dist/react-datepicker.module.css";
 const ProgramForm = () => {
 
-    
-
-    const [userId, setUserId] = useState("");
-    const [pro_postId, setPro_postId] = useState("");
-    const [place, setPlace] = useState("");
-    const [PostImageURL, setPostImageURL] = useState("");
-    const [postTitle, setPostTitle] = useState("");
-    const [target, setTarget] = useState("");
-    const [charge, setCharge] = useState("");
-    const [content, setContent] = useState("");
-    const [phone, setPhone] = useState("");
-    const [programGuests, setProgramGuests] = useState("");
-    const [extraGuests, setextraGuests] = useState("");
-    const [postImageURL, setPostImgURL] = useState("");
-    const navigate = useNavigate();
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date());
-    const [receiptStartDate, setReceiptStartDate] = useState(new Date());
-    const [receiptEndDate, setReceiptEndDate] = useState(new Date());
-    const [inputValue2, setInputValue2] = React.useState(null);
-
-    const handleProgramSubmit = async (e) => {
-        e.preventDefault();
-    
-        try {
-          const response = await axios.post("http://localhost:8080/news//registerForm", {
-            
-            postTitle,
-            userId,
-            content,
-            pro_postId,
-            place,
-            target,
-            charge,
-            extraGuests,
-            phone,
-            programGuests,
-            startDate,
-            endDate,
-            receiptStartDate,
-            receiptEndDate,
-            // programImageURL,
-          });
-    
-          if (response.status === 201) {
-            navigate("/news/programList");
-          }
-        } catch (error) {
-          console.error("Error submitting program:", error);
-        }
-      };
-    
+const [startDate, setStartDate] = useState(new Date());
+const [endDate, setEndDate] = useState(new Date());
+const [startTime, setStartTime] = useState(new Date());
+const [endTime, setEndTime] = useState(new Date());
+const [receiptStartDate, setReceiptStartDate] = useState(new Date());
+const [receiptEndDate, setReceiptEndDate] = useState(new Date());
+const [inputValue2, setInputValue2] = React.useState(null);
+const ExampleCustomTimeInput = ({ date, value, onChange }) => (
+    <input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      style={{ border: "solid 1px" }}
+    />
+);
 const saveImgFile = () => {
 	const file = photoInput.current.files[0];
 	const reader = new FileReader();
@@ -87,9 +45,7 @@ const Button = (props) => {
 const handleClick = () => {
     photoInput.current.click();
 };
-const registerPost = () =>{
-    navigator('/registerForm')
-}
+  
 
 
 return (
@@ -131,132 +87,110 @@ return (
                     {/* </form>
                     <form action="<c:url value='/program/admin/registerBookConfirm' />" name="register_program_form" method="post" enctype="multipart/form-data"> */}
                     <DateTable>
-                    <div style={{width:"150px", height:"50px", display:"flex"}}>
-                        <Span>진행기간</Span>
-                        <Datediv>
+                    <div style={{width:"300px", display:"flex"}}>
+                        <span>진행기간</span>
+                        <div>
                             <DatePicker 
                                 selected={startDate}
                                 placeholderText="0000.00.00"
-                                onChange={(e) => setStartDate(e.target.value)}
-                                dateFormat="yyyy.MM.dd(eee)"
-                                value={startDate}
-                                // showIcon
-                                style={{
-                                    width:"30px",
-                                    display:"flex"
-                                }}
+                                onChange={(date) => setStartDate(date)}
+                                dateFormat="yyyy.MM.dd"
+                                showIcon
                             />
-                        </Datediv>
-                        <MiddleSpan>~</MiddleSpan>
-                        <DateEnddiv style={{
-                                    width:"30px",
-                                    display:"flex"
-                                }}>
+                        </div>
+                        <span>~</span>
+                        <div>
                             <DatePicker
                             selected={endDate}
                             placeholderText="0000.00.00" 
-                            onChange={(e) => setEndDate(e.target.value)}
-                            dateFormat="yyyy.MM.dd(eee)"
-                            value={endDate}
-                            // showIcon
-                            
+                            onChange={(date) => setEndDate(date)}
+                            dateFormat="yyyy.MM.dd"
+                            showIcon
                             />
-                        </DateEnddiv>
+                        </div>
+                   </div>
+                   </DateTable>
+                   <DateTable >
+                   <div>
+                    <div><span>진행시간</span><DatePicker
+                    selected={startTime}
+                    placeholderText="0000.00.00"
+                    onChange={(date) => setStartTime(date)}
+                    dateFormat="yyyy.MM.dd"
+                    showIcon
+                    />
+                    </div>
+                    <div>
+                    <span>~</span>
+                    <DatePicker
+                    selected={endTime}
+                    placeholderText="0000.00.00"
+                    onChange={(date) => setEndTime(date)}
+                    dateFormat="yyyy.MM.dd"
+                    showIcon
+                    /></div>
                    </div>
                    </DateTable>
                    <DateTable>
-                    <div style={{width:"150px", height:"50px", display:"flex"}}>
-                        <Span>진행시간</Span>
-                        <Datediv1>
-                            <DatePicker 
-                                selected={startDate}
-                                placeholderText="0000.00.00"
-                                onChange={(e) => setStartDate(e.target.value)}
-                                dateFormat="yyyy.MM.dd(eee)"
-                                value={startDate}
-                                // showIcon
-                                style={{
-                                    width:"30px"
-                                    
-                                }}
-                            />
-                        </Datediv1>
-                        <MiddleSpan>~</MiddleSpan>
-                        <DateEnddiv1>
-                            <DatePicker
-                            selected={endDate}
-                            placeholderText="0000.00.00" 
-                            onChange={(e) => setEndDate(e.target.value)}
-                            dateFormat="yyyy.MM.dd(eee)"
-                            value={endDate}
-                            // showIcon
-                            />
-                        </DateEnddiv1>
-                   </div>
-                   </DateTable>
-                   <DateTable>
-                    <div style={{width:"150px", height:"50px", display:"flex"}}>
-                        <Span>접수기간</Span>
-                        <Datediv2>
-                            <DatePicker 
-                                selected={startDate}
-                                placeholderText="0000.00.00"
-                                onChange={(e) => setStartDate(e.target.value)}
-                                dateFormat="yyyy.MM.dd(eee)"
-                                value={startDate}
-                                // showIcon
-                                style={{
-                                    position: "absolute",
-                                    top:"100px",
-                                }}
-                            />
-                        </Datediv2>
-                        <MiddleSpan>~</MiddleSpan>
-                        <DateEnddiv2>
-                            <DatePicker
-                            selected={endDate}
-                            placeholderText="0000.00.00" 
-                            onChange={(e) => setEndDate(e.target.value)}
-                            dateFormat="yyyy.MM.dd(eee)"
-                            value={endDate}
-                            // showIcon
-                            />
-                        </DateEnddiv2>
+                   <div>
+                    <div><span>접수기간</span><DatePicker
+                    selected={receiptStartDate}
+                    onChange={(date) => setReceiptStartDate(date)}
+                    dateFormat="yyyy.MM.dd"
+                    showIcon
+                    />
+                    </div>
+                    <div>
+                    <span>~</span>
+                    <DatePicker
+                    selected={receiptEndDate}
+                    placeholderText="0000.00.00"
+                    onChange={(date) => setReceiptEndDate(date)}
+                    dateFormat="yyyy.MM.dd"
+                    showIcon
+                    /></div>
                    </div>
                    </DateTable>
                    <Input
           label="대 상"
           inputType="post"
           width="300px"
-          value={target}
-          onChange={(e) => setTarget(e.target.value)}
+          onChange={(e) => setInputValue2(e.target.value)}
           placeholder="placeholder"
         />
+        <p style={{ fontSize: "20px", fontWeight: "700" }}>
+          <span className="red">{inputValue2}</span>
+        </p>
         <Input
           label="이 용 료"
           inputType="post"
           width="300px"
-          value={charge}
-          onChange={(e) => setCharge(e.target.value)}
-          placeholder="placeholder"
-        />
-        <Input
-          label="모집인원"
-          inputType="post"
-          width="100px"
-          value={programGuests}
-          onChange={(e) => setextraGuests(e.target.value)}
-          placeholder="placeholder"
-        />
-        <Input
-          label="동반인원"
-          inputType="post"
-          width="100px"
-          display = "flex"
-          value={extraGuests}
           onChange={(e) => setInputValue2(e.target.value)}
           placeholder="placeholder"
         />
+        <p style={{ fontSize: "20px", fontWeight: "700" }}>
+          <span className="red">{inputValue2}</span>
+        </p>
+        <Input
+          label="모집인원"
+          inputType="post"
+          width="300px"
+          onChange={(e) => setInputValue2(e.target.value)}
+          placeholder="placeholder"
+        />
+        <p style={{ fontSize: "20px", fontWeight: "700" }}>
+         <span className="red">{inputValue2}</span>
+        </p>
+        <Input
+          label="동반인원"
+          inputType="post"
+          width="300px"
+          onChange={(e) => setInputValue2(e.target.value)}
+          placeholder="placeholder"
+        />
+        <p style={{ fontSize: "20px", fontWeight: "700" }}>
+         <span className="red">{inputValue2}</span>
+        </p>
         <Input
           label="문의전화"
           inputType="post"
@@ -264,32 +198,30 @@ return (
           onChange={(e) => setInputValue2(e.target.value)}
           placeholder="placeholder"
         />
-        <div>
-        <Input
-          label={PostImageURL}
-          inputType="ImgURL"
-          width="300px"
-          onChange={(e) => setPostImgURL(e.target.value)}
-          placeholder="program_ing_jpg"
-        />
-            <div>
-        <Btn1 onClick={handleClick}> 
+        <p style={{ fontSize: "20px", fontWeight: "700" }}>
+          <span className="red">{inputValue2}</span>
+        </p>
+                </div>
+            </div>
+                 <table>
+                    <tr>
+                        <td>
+                         <Btn1 onClick={handleClick}> 
                             <ImgInput type="file"
                                 accept="image/*"
                                   id="profileImg"
                                 // accept ="image/jpg, image/jpeg, image/png"
-                                ref={imgRef}/>
+                                multiple 
+                                ref={photoInput}/>
                             이미지 등록
                         </Btn1>
-            </div>
-        </div>
-                </div>
-            </div>
-                 
+                        </td>
+                    </tr>
+                </table>
                 <table>
                     <td><ContentInput type="text" name="b_author" placeholder="내용을 입력해주세요!"/></td>
                 </table>
-                    <Btn  onclick={registerPost}>게시물 등록</Btn>
+                    <Btn onclick="registerPost;">게시물 등록</Btn>
                 
                     
                   
@@ -304,92 +236,6 @@ return (
                 
 
 				};
-                const Span = styled.span`
-                // position: absolute;
-                margin: 15px;
-                display:flex;
-                padding: 0 10px;
-                width: 70px;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-                const MiddleSpan = styled.span`
-                position: absolute;
-                right: 265px;
-                top:260x;
-                margin-top : 12px;
-                display:flex;
-                width: 50px;
-                border:none;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-                const Datediv = styled.div`
-                position: absolute;
-                right: 460px;
-                top:177px;
-                display:flex;
-                width: 50px;
-                border:none;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-
-                const DateEnddiv = styled.div`
-                position: absolute;
-                right: 270px;
-                top:176px;
-                display:flex;
-                padding: 0 px;
-                width: 50px;
-                height:40px;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-                const Datediv1 = styled.div`
-                position: absolute;
-                right: 460px;
-                top:227px;
-                display:flex;
-                width: 50px;
-                border:none;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-
-                const DateEnddiv1 = styled.div`
-                position: absolute;
-                right: 250px;
-                top:227px;
-                display:flex;
-                padding: 0 px;
-                width: 50px;
-                height:40px;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-                const Datediv2 = styled.div`
-                position: absolute;
-                right: 460px;
-                top:277px;
-                display:flex;
-                width: 50px;
-                border:none;
-                font-size: 16px;
-                font-weight: 600;
-                `;
-
-                const DateEnddiv2 = styled.div`
-                position: absolute;
-                right: 250px;
-                top:276px;
-                display:flex;
-                padding: 0 px;
-                width: 50px;
-                height:40px;
-                font-size: 16px;
-                font-weight: 600;
-                `;
                 
                 const Table = styled.table`
                 margin-top:1px;
@@ -499,7 +345,7 @@ return (
                         : type === "middle"
                         ? "48px"
                         : "60px"
-                    : "48px"};
+                    : "40px"};
                 font-size: ${({ type }) =>
                     type ? (type === "small" ? "14px" : "20px") : "20px"};
                 color: #fff;
@@ -514,11 +360,7 @@ return (
                         ? theme.colors.grayhover
                         : theme.colors.darkgreen5
                         : theme.colors.darkgreen5};
-                        
                 }
-                    position: absolute;
-                    top: 569px;
-                    right: 7px;
                 `;
 
                 const Btn = styled.button`
