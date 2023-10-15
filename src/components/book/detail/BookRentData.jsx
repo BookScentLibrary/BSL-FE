@@ -2,10 +2,6 @@ import React from "react";
 import * as S from "./BookRentData.style";
 import ProgressBar from "../../shared/comp/graph/ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getRatingDataAPI,
-  getReaderDataAPI,
-} from "../../../core/redux/bookSlice";
 import { ReactComponent as Flower } from "../../../asset/icons/flower.svg";
 import FlowerRate from "./BookFlowerRate";
 
@@ -22,10 +18,6 @@ const RentData = () => {
     ratedata?.p2,
     ratedata?.p1,
   ];
-  React.useEffect(() => {
-    dispatch(getReaderDataAPI(""));
-    dispatch(getRatingDataAPI(""));
-  }, []);
 
   return (
     <S.Container>
@@ -69,7 +61,7 @@ const RentData = () => {
           {rate &&
             rate.map((data, i) => {
               return (
-                <S.RateGraphSection>
+                <S.RateGraphSection key={i}>
                   <FlowerRate count={Math.abs(i - 5)} />
                   <div>
                     <ProgressBar f width="160px" height="12px" percent={data} />
