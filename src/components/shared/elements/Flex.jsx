@@ -5,7 +5,7 @@ const Flex = (props) => {
   const { children, gap, center, margin, sb } = props;
 
   return (
-    <FlexContainer gap={gap} center={center} margin={margin} sb={sb}>
+    <FlexContainer gap={gap} $center={center} margin={margin} $sb={sb}>
       {children}
     </FlexContainer>
   );
@@ -14,9 +14,9 @@ const Flex = (props) => {
 const FlexContainer = styled.div`
   display: flex;
   gap: ${({ gap }) => (gap ? gap : "24px")};
-  ${({ center }) => (center ? "align-items:center" : "")};
+  ${({ $center }) => ($center ? "align-items:center" : "")};
   ${({ margin }) => (margin ? `margin: ${margin}` : "")};
-  ${({ sb }) => (sb ? "justify-content: space-between" : "")};
+  ${({ $sb }) => ($sb ? "justify-content: space-between" : "")};
 `;
 
 

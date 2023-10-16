@@ -36,7 +36,7 @@ const RentHistory = () => {
         {books &&
           books.map((cur, i) => {
             return (
-              <Book>
+              <Book key={cur.title}>
                 <Image />
                 <p className="title">{cur.title}</p>
                 <p className="author">{cur.author}</p>

@@ -13,27 +13,27 @@ const reviews = [
   {
     title: "리뷰",
     createdAt: "2023.10.16",
-    rev_postId: 1,
+    rev_postId: 2,
   },
   {
     title: "리뷰",
     createdAt: "2023.10.16",
-    rev_postId: 1,
+    rev_postId: 3,
   },
   {
     title: "리뷰",
     createdAt: "2023.10.16",
-    rev_postId: 1,
+    rev_postId: 4,
   },
   {
     title: "리뷰",
     createdAt: "2023.10.16",
-    rev_postId: 1,
+    rev_postId: 5,
   },
   {
     title: "리뷰",
     createdAt: "2023.10.16",
-    rev_postId: 1,
+    rev_postId: 6,
   },
 ];
 
@@ -54,7 +54,7 @@ const MyReview = () => {
       {reviews &&
         reviews.map((cur, i) => {
           return (
-            <Title
+            <Title key={cur.rev_postId}
               onClick={() => {
                 goToReview(cur.rev_postId);
               }}

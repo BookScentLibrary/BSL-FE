@@ -82,17 +82,22 @@ const MyPageTemplate = () => {
         <CountInfoBlock user={user} />
       </UserSection>
       <MenuSection idx={pageIdx}>
-        {menuArr.map((cur, i) => {
-          if (pageIdx === i) {
-            return (
-              <Option on onClick={funcArr[i]}>
-                {menuArr[i]}
-              </Option>
-            );
-          } else {
-            return <Option onClick={funcArr[i]}>{menuArr[i]}</Option>;
-          }
-        })}
+        {menuArr &&
+          menuArr.map((cur, i) => {
+            if (pageIdx === i) {
+              return (
+                <Option key={i} $on onClick={funcArr[i]}>
+                  {menuArr[i]}
+                </Option>
+              );
+            } else {
+              return (
+                <Option key={i} onClick={funcArr[i]}>
+                  {menuArr[i]}
+                </Option>
+              );
+            }
+          })}
       </MenuSection>
       <Flex>
         <RentStatus />
@@ -142,9 +147,9 @@ const MenuSection = styled.div`
 const Option = styled.p`
   padding: 2px;
   cursor: pointer;
-  color: ${({ on, theme }) => (on ? theme.colors.primary : "#000")};
-  border-bottom: ${({ on, theme }) =>
-    on ? `2px solid ${theme.colors.primary}` : ""};
+  color: ${({ $on, theme }) => ($on ? theme.colors.primary : "#000")};
+  border-bottom: ${({ $on, theme }) =>
+    $on ? `2px solid ${theme.colors.primary}` : ""};
 `;
 
 const AdSection = styled.div`

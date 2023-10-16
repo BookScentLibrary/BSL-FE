@@ -19,7 +19,6 @@ const Wrapper = (props) => {
   );
 };
 
-export default Wrapper;
 
 const Wrap = styled.div`
   width: 100%;
@@ -49,3 +48,5 @@ const MyPageWrapper = styled.div`
   width: 1232px;
   margin: auto;
 `;
+
+export default Wrapper;

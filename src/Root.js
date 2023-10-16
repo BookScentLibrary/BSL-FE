@@ -6,7 +6,6 @@ import Header from "./components/shared/comp/header/Header";
 import Banner from "./components/shared/comp/banner/Banner";
 import Footer from "./components/shared/comp/footer/Footer";
 import Wrapper from "./components/shared/Wrapper";
-import styled from "styled-components";
 
 const Root = () => {
   return (

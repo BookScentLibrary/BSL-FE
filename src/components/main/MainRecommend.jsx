@@ -27,18 +27,19 @@ const MainRecommend = () => {
         <MoreButton onClick={goToRecommend} />
       </Title>
       <FlexContainer>
-        {recommendList.map((cur, idx) => {
-          return (
-            <RecommendTemp
-              key={idx}
-              title={cur.bookname}
-              author={cur.author}
-              content={cur.content}
-              postId={cur.rec_postId}
-              img={cur.bookImageUrl}
-            />
-          );
-        })}
+        {recommendList &&
+          recommendList.map((cur, idx) => {
+            return (
+              <RecommendTemp
+                key={idx}
+                title={cur.bookname}
+                author={cur.author}
+                content={cur.content}
+                postId={cur.rec_postId}
+                img={cur.bookImageUrl}
+              />
+            );
+          })}
       </FlexContainer>
     </Container>
   );
