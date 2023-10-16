@@ -100,32 +100,86 @@ const SearchModal = (props) => {
                 setSearchTerm(e.target.value);
               }}
               onClick={searchBookForm}
-            ></Input>
+            />
           </div>
-          <hr />
-          <br />
           <ScrollContainer>
             {searchResults.length > 0 ? (
               searchResults.map((book) => (
                 <BookItem key={book.bookNo}>
-                  <BookInfo>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <Image src={book.bookImageURL} />
-                    <BookDetails>
-                      <h3>{book.bookname}</h3>
-                      <p>{book.author}</p>
-                      <p>{book.publisher}</p>
-                      <p>{book.publicationYear}</p>
-                      <p>{book.callNum}</p>
-                      <p>{book.bookStatus}</p>
-                      <p>{book.rentCnt}</p>
-                      <p>{book.isbn}</p>
-                    </BookDetails>
-                  </BookInfo>
-                  <BookAction>
-                    <Button onClick={() => handleSelectBook(book)}>
+                  </div>
+                  <BookInfoContainer>
+                    <BookInfoHeader>{book.bookname}</BookInfoHeader>
+                    <BookInfoText>
+                      <span
+                        style={{
+                          fontWeight: "800",
+                          margin: "5px",
+                          marginRight: "43px",
+                        }}
+                      >
+                        저자
+                      </span>
+                      {book.author}
+                    </BookInfoText>
+                    <BookInfoText>
+                      <span
+                        style={{
+                          fontWeight: "800",
+                          margin: "5px",
+                          marginRight: "30px",
+                        }}
+                      >
+                        발행처
+                      </span>
+                      <span>{book.publisher}</span>
+                      <span>
+                        <span
+                          style={{
+                            fontWeight: "800",
+                            marginLeft: "10px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          |
+                        </span>
+                        {book.publicationYear}년
+                      </span>
+                    </BookInfoText>
+                    <BookInfoText>
+                      <span
+                        style={{
+                          fontWeight: "800",
+                          margin: "5px",
+                          marginRight: "20px",
+                        }}
+                      >
+                        청구기호
+                      </span>
+                      {book.callNum}
+                    </BookInfoText>
+                    <BookInfoText>
+                      <span
+                        style={{
+                          fontWeight: "800",
+                          margin: "5px",
+                          marginRight: "30px",
+                        }}
+                      >
+                        자료실
+                      </span>
+                      {book.shelfArea}
+                    </BookInfoText>
+                  </BookInfoContainer>
+                  <ButtonWrapper>
+                    <Button
+                      type="middle"
+                      onClick={() => handleSelectBook(book)}
+                    >
                       도서 선택
                     </Button>
-                  </BookAction>
+                  </ButtonWrapper>
                 </BookItem>
               ))
             ) : (
@@ -164,6 +218,25 @@ const ModalContent = styled.div`
   transform: translate(-50%, -50%);
   background: #fff;
   z-index: 999;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BookInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 10px;
+`;
+
+const BookInfoHeader = styled.h3`
+  margin: 5px;
+  margin-bottom: 20px;
+  font-weight: "800"
+  font-size: 10px;
 `;
 
 const CloseButton = styled.button`
@@ -178,38 +251,41 @@ const CloseButton = styled.button`
 
 const BookItem = styled.div`
   display: flex;
-  width: 50%;
+  align-items: flex-start;
   gap: 10px;
+  margin-top: 20px;
+  justify-content: space-between;
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #ccc;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    border-top: 1px solid;
+  }
 `;
 
-const BookInfo = styled.div`
-  display: flex;
-  gap: 10px;
-  flex: 1;
-  align-items: center;
+const BookInfoText = styled.p`
+  margin: 4px 10px;
+  font-size: 14px;
 `;
 const Image = styled.div`
   width: 180px;
-  height: 200px;
-  flex-shrink: 0;
+  height: 280px;
   background-image: ${({ src }) => (src ? `url(${src})` : "")};
   background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid black;
 `;
-
-const BookDetails = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  flex: 1;
-  align-items: flex-start;
-`;
-
-const BookAction = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-  align-items: flex-end;
+  align-items: center;
+  margin: 10px;
 `;
 
 const ScrollContainer = styled.div`

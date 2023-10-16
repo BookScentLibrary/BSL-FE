@@ -103,28 +103,52 @@ export const getReaderDataAPI = createAsyncThunk(
 
       const data = [
         {
-          m: response.data.m_10 ? Math.round((response.data.m_10 / teens) * 100) + "%" : "0%",
-          f: response.data.f_10 ? Math.round((response.data.f_10 / teens) * 100) + "%" : "0%",
+          m: response.data.m_10
+            ? Math.round((response.data.m_10 / teens) * 100) + "%"
+            : "0%",
+          f: response.data.f_10
+            ? Math.round((response.data.f_10 / teens) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_20 ? Math.round((response.data.m_20 / twenteies) * 100) + "%" : "0%",
-          f: response.data.f_20 ? Math.round((response.data.f_20 / twenteies) * 100) + "%" : "0%",
+          m: response.data.m_20
+            ? Math.round((response.data.m_20 / twenteies) * 100) + "%"
+            : "0%",
+          f: response.data.f_20
+            ? Math.round((response.data.f_20 / twenteies) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_30 ? Math.round((response.data.m_30 / thirties) * 100) + "%" : "0%",
-          f: response.data.f_30 ? Math.round((response.data.f_30 / thirties) * 100) + "%" : "0%",
+          m: response.data.m_30
+            ? Math.round((response.data.m_30 / thirties) * 100) + "%"
+            : "0%",
+          f: response.data.f_30
+            ? Math.round((response.data.f_30 / thirties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_40 ? Math.round((response.data.m_40 / forties) * 100) + "%" : "0%",
-          f: response.data.f_40 ? Math.round((response.data.f_40 / forties) * 100) + "%" : "0%",
+          m: response.data.m_40
+            ? Math.round((response.data.m_40 / forties) * 100) + "%"
+            : "0%",
+          f: response.data.f_40
+            ? Math.round((response.data.f_40 / forties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_50 ? Math.round((response.data.m_50 / fifties) * 100) + "%" : "0%",
-          f: response.data.f_50 ? Math.round((response.data.f_50 / fifties) * 100) + "%" : "0%",
+          m: response.data.m_50
+            ? Math.round((response.data.m_50 / fifties) * 100) + "%"
+            : "0%",
+          f: response.data.f_50
+            ? Math.round((response.data.f_50 / fifties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_senior ? Math.round((response.data.m_senior / seniors) * 100) + "%" : "0%",
-          f: response.data.f_senior ? Math.round((response.data.f_senior / seniors) * 100) + "%" : "0%",
+          m: response.data.m_senior
+            ? Math.round((response.data.m_senior / seniors) * 100) + "%"
+            : "0%",
+          f: response.data.f_senior
+            ? Math.round((response.data.f_senior / seniors) * 100) + "%"
+            : "0%",
         },
       ];
 
@@ -156,18 +180,26 @@ export const getRatingDataAPI = createAsyncThunk(
 
       const avg = Math.round(allPoint / allCount, 1);
 
-
       const data = {
-        avg: avg?avg.toFixed(1):"0",
-        p1: response.data.point_1 ? Math.round((response.data.point_1 / allCount) * 100) + "%" : "0%",
-        p2: response.data.point_2 ? Math.round((response.data.point_2 / allCount) * 100) + "%" : "0%",
-        p3: response.data.point_3 ? Math.round((response.data.point_3 / allCount) * 100) + "%" : "0%",
-        p4: response.data.point_4 ? Math.round((response.data.point_4 / allCount) * 100) + "%" : "0%",
-        p5: response.data.point_5 ? Math.round((response.data.point_5 / allCount) * 100) + "%" : "0%",
+        avg: avg ? avg.toFixed(1) : "0",
+        p1: response.data.point_1
+          ? Math.round((response.data.point_1 / allCount) * 100) + "%"
+          : "0%",
+        p2: response.data.point_2
+          ? Math.round((response.data.point_2 / allCount) * 100) + "%"
+          : "0%",
+        p3: response.data.point_3
+          ? Math.round((response.data.point_3 / allCount) * 100) + "%"
+          : "0%",
+        p4: response.data.point_4
+          ? Math.round((response.data.point_4 / allCount) * 100) + "%"
+          : "0%",
+        p5: response.data.point_5
+          ? Math.round((response.data.point_5 / allCount) * 100) + "%"
+          : "0%",
       };
-      
-      thunkAPI.dispatch(bookSlice.actions.ratingData(data));
 
+      thunkAPI.dispatch(bookSlice.actions.ratingData(data));
     } catch (error) {
       console.error("readerDataAPI - error response : ", error.response.data);
     }
@@ -199,6 +231,7 @@ export const BookRecommendAPI = createAsyncThunk(
       thunkAPI.dispatch(
         bookSlice.actions.setSelectedBookRecommend(response.data)
       );
+      window.location.replace("/user/recommendList");
     } catch (error) {
       console.log(
         "BOOK_RECOMMEND CREATE : error response",
