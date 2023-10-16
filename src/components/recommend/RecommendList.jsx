@@ -35,8 +35,6 @@ const RecommendList = () => {
 
   //작성일
   const [order, setOrder] = useState("createdAt");
-  //최근 작성일 순으로 정렬
-  const sortedRecommendList = recommendList.sort((a, b) => b[order] - a[order]);
 
   const getRecommendList = async () => {
     try {
@@ -66,17 +64,25 @@ const RecommendList = () => {
     return recommendYear === parseInt(year); // 년도를 정수로 변환하여 비교
   };
 
-  const filteredRecommendList = recommendList.filter(filterByYear);
-  console.log("filteredRecommendList : " + filteredRecommendList);
+  // 정렬된 리스트 대신에 필터된 리스트를 사용합니다.
+  const filteredRecommendList = recommendList
+    .filter(filterByYear)
+    .sort((a, b) => b[order] - a[order]);
 
   return (
     <div>
       <StyledWord>
         <h1>사서 추천 도서</h1>
-        <hr />
-        <br />
       </StyledWord>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <hr />
+      <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <p>책향기 도서관 사서들이 추천하는 이 달의 도서를 만나보세요.</p>
         <div style={{ display: canUserCreateRecommend ? "block" : "none" }}>
           <Button type="middle" onClick={goToRecommendWrite}>
@@ -84,61 +90,111 @@ const RecommendList = () => {
           </Button>
         </div>
       </div>
+
       <hr />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <select type="number" value={year} onChange={handleYearChange}>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-        </select>
+        <div
+          style={{
+            position: "relative",
+            display: "inline-block",
+            border: "1px solid #000",
+            borderRadius: "5px",
+          }}
+        >
+          <select
+            type="number"
+            value={year}
+            onChange={handleYearChange}
+            style={{
+              width: "70px",
+              padding: "5px",
+              border: "none",
+              outline: "none",
+              backgroundColor: "transparent",
+              appearance: "none",
+              cursor: "pointer",
+            }}
+          >
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              color: "gray",
+              right: "5px", // 화살표 위치 조정
+              transform: "translateY(-50%)",
+            }}
+          >
+            ∨
+          </div>
+        </div>
       </div>
       <hr />
       <ul style={{ display: "flex", flexWrap: "wrap" }}>
-        {filteredRecommendList
-          .slice(offset, offset + limit)
-          .map((recommend, index) => (
-            <li
-              key={recommend.recPostId}
-              style={{
-                width: "33%",
-                padding: "10px",
-                boxSizing: "border-box",
-                position: "relative",
-                listStyleType: "none",
-              }}
-            >
-              <Link
-                to={`/user/recommendDetail/${recommend.recPostId}`}
-                style={{ cursor: "pointer" }}
+        {recommendList &&
+          filteredRecommendList
+            .slice(offset, offset + limit)
+            .map((recommend, index) => (
+              <li
+                key={recommend.recPostId}
+                style={{
+                  width: "33%",
+                  padding: "10px",
+                  boxSizing: "border-box",
+                  position: "relative",
+                  listStyleType: "none",
+                }}
               >
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{
-                      backgroundColor: "green",
-                      color: "white",
-                      padding: "5px",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      zIndex: 1, // 다른 내용 위에 표시
-                    }}
-                  >
-                    {new Date(recommend.createdAt).toLocaleDateString("ko-KR", {
-                      year: "numeric",
-                      month: "2-digit",
-                    })}
+                <Link
+                  to={`/user/recommendDetail/${recommend.recPostId}`}
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        backgroundColor: "limegreen",
+                        color: "#fff",
+                        padding: "5px",
+                        position: "absolute",
+                        top: "10px",
+                        left: "20px",
+                        zIndex: 1,
+                        borderBottomLeftRadius: "5px",
+                        borderBottomRightRadius: "5px",
+                      }}
+                    >
+                      {new Date(recommend.createdAt).toLocaleDateString(
+                        "ko-KR",
+                        {
+                          year: "numeric",
+                          month: "2-digit",
+                        }
+                      )}
+                    </div>
+                    <Image src={recommend.bookImageURL} />
+                    <div
+                      style={{
+                        whiteSpace: "pre-wrap",
+                        fontSize: "25px",
+                        padding: "10px",
+                      }}
+                    >
+                      {recommend.postTitle
+                        .replace(/,/g, ",\n")
+                        .replace(/\|/g, "\n")}
+                    </div>
                   </div>
-                  <Image src={recommend.bookImageURL} />
-                  <div style={{ whiteSpace: "pre-wrap" }}>
-                    {recommend.postTitle
-                      .replace(/,/g, "\n")
-                      .replace(/\|/g, "\n")}
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
+                </Link>
+              </li>
+            ))}
       </ul>
       <hr />
       <footer>
@@ -161,9 +217,12 @@ const StyledWord = styled.div`
 `;
 
 const Image = styled.div`
-  width: 200px;
-  height: 320px;
+  width: 230px;
+  height: 330px;
   flex-shrink: 0;
   background-image: ${({ src }) => (src ? `url(${src})` : "")};
   background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid #000;
+  border-radius: 5px;
 `;

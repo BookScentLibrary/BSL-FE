@@ -124,7 +124,7 @@ export default [
   },
   {
     path: "/user/recommendDetail/:recPostId",
-    element: RecommendDetail,
+    element: BookMenuMain,
   },
   {
     path: "/admin/recommendUpdate/:recPostId",
