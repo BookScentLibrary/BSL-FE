@@ -9,6 +9,8 @@ export const initialState = {
   review: [],
   recommend: [],
   searchResults: [],
+  search: [],
+  ppBooks: [],
 };
 
 //책과 관련된 액션 정의
@@ -16,13 +18,33 @@ export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
     try {
-      const response = await bookAPI.searchBook(data);
+          
+           const response = await bookAPI.searchBook(data);
       console.log("searchAPI response : ", response);
+      thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
     }
   }
 );
+
+export const ppBooksAPI = createAsyncThunk(
+  "book/ppBooks",
+  async (data, thunkAPI) => {
+    console.log(data);
+    try {const response = await bookAPI.ppBook(data);
+      console.log("searchAPI response : ", response);
+      thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
+    } catch (error) {
+      console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
+
+
+
+
 
 export const SelectBookRecommendAPI = createAsyncThunk(
   "book/search",
@@ -213,5 +235,11 @@ export const bookSlice = createSlice({
     setSearchResults: (state, action) => {
       state.searchResults = action.payload; // 검색 결과를 업데이트
     },
+    setSearchList: (state, action) => {
+      state.search =action.payload;
+    },
+    setppBookList: (state, action) => {
+      state.ppBooks = action.payload;
+    }
   },
 });
