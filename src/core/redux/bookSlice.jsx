@@ -24,6 +24,7 @@ export const searchBookAPI = createAsyncThunk(
   }
 );
 
+//북 서치
 export const SelectBookRecommendAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
@@ -45,6 +46,41 @@ export const SelectBookRecommendAPI = createAsyncThunk(
       console.log("searchAPI response.data : ", searchResults);
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
+//사서 추천 도서 글 등록
+export const BookRecommendAPI = createAsyncThunk(
+  "admin/recommendCreate",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.bookRecommendAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+    } catch (error) {
+      console.log("testAPI : error response", error.response.data);
+    }
+  }
+);
+
+//리뷰 등록
+export const BookReivewAPI = createAsyncThunk(
+  "news/reviewWrite",
+  async (data, thunkAPI) => {
+    try {
+    console.log("Ddddd",data.isbn)
+
+      const response = await bookAPI.BookReivewAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+      window.location.replace("/news/reviewList");
+    } catch (error) {
+      console.log("testAPI : error response", error.response.data);
     }
   }
 );
@@ -249,38 +285,6 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
       };
       console.log(response.data);
       thunkAPI.dispatch(bookSlice.actions.setSelectedBookReview(response.data));
-    } catch (error) {
-      console.log("testAPI : error response", error.response.data);
-    }
-  }
-);
-//사서 추천 도서 글 등록
-export const BookRecommendAPI = createAsyncThunk(
-  "admin/recommendCreate",
-  async (data, thunkAPI) => {
-    try {
-      const response = await bookAPI.bookRecommendAPI(data);
-      console.log(response.data);
-      thunkAPI.dispatch(
-        bookSlice.actions.setSelectedBookRecommend(response.data)
-      );
-    } catch (error) {
-      console.log("testAPI : error response", error.response.data);
-    }
-  }
-);
-
-
-//리뷰작성시 책정보 등록
-export const SelectBookAPI = createAsyncThunk(
-  "news/reviewWrite",
-  async (data, thunkAPI) => {
-    try {
-      const response = await bookAPI.SelectBookAPI(data);
-      console.log(response.data);
-      thunkAPI.dispatch(
-        bookSlice.actions.setSelectedBookRecommend(response.data)
-      );
     } catch (error) {
       console.log("testAPI : error response", error.response.data);
     }

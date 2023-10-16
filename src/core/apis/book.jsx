@@ -16,11 +16,11 @@ export const bookAPI = {
   getSelectedBookReview: (bookNo) =>
     instance.get(`/book/getReaview?bookNo=${bookNo}`),
 
-  bookRecommendAPI: (data) => instance.post("/admin/recommendCreate", data),
   selectBookRecommendAPI: (searchValue, searchType, pageNumber, pageSize) => {
     const url = `/book/search?searchValue=${searchValue}&searchType=${searchType}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return instance.get(url);
   },
+  bookRecommendAPI: (data) => instance.post("/admin/recommendCreate", data),
 
-  SelectBookAPI: (data) => instance.post("/news/reviewWrite", data),
+  BookReivewAPI: (data) => instance.post("/news/reviewWrite", data),
 };

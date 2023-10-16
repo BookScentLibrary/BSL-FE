@@ -5,6 +5,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { ReactComponent as Flower } from "../../asset/icons/flower.svg";
 import Comment from "../../components/review/Comment";
+import Button from "../../components/shared/elements/Button";
 
 const ReviewDetailPage = () => {
   
@@ -126,7 +127,9 @@ const ReviewDetailPage = () => {
         <button onClick={handleDelete}>삭제</button>
       </p>
       <p>{review.content}</p>
-      <p>{review.bookImageURL}</p>
+      <div>
+        <Image src={review.bookImageURL} />
+      </div>
       <p> {review.bookNo} </p>
       <Container className="startRadio">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -150,11 +153,15 @@ const ReviewDetailPage = () => {
       <p>{review.publisher}</p>
       <p>{review.callNum}</p>
       <p>{review.shelfArea}</p>
-      <p>
-        <button>책정보확인하기</button>
-      </p>
-      <hr />
       <div>
+      <Button
+            type="middle"
+            onClick={() => {
+              navigate(`/book/detail/${review.bookNo}`);
+            }}
+          >
+            책 정보 확인하기
+          </Button>
         <h4>댓글</h4>
         {/* {commentList.map((comment) => (
           <Comment
@@ -164,7 +171,7 @@ const ReviewDetailPage = () => {
             onCommentDelete={deleteComment}
           />
         ))} */}
-        {commentList.map((comment) => (
+        {/* {commentList.map((comment) => (
           <div key={comment.commentId}>
             <span>{comment.user.nickname}</span>
             <div>{comment.content}</div>
@@ -186,7 +193,7 @@ const ReviewDetailPage = () => {
               <td> {review.nickname} </td>
               <td> {formatDate(review.createdAt)}</td>
             </tr>
-          ))}
+          ))} */}
         <div>
           <textarea value={content}  onChange={(e) => setContent(e.target.value)}/>
           <button onClick={addComment}>댓글등록</button>          
@@ -228,6 +235,24 @@ const StarBox = styled.label`
   .active {
     fill: #a1e092;
   }
+`;
+
+const ButtonStyle = styled.button`
+  background: none;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+`;
+
+const Image = styled.div`
+  width: 200px;
+  height: 320px;
+  flex-shrink: 0;
+  background-image: ${({ src }) => (src ? `url(${src})` : "")};
 `;
 
 export default ReviewDetailPage;

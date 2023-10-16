@@ -21,7 +21,7 @@ const NoticeDetailPage = () => {
       const response = await axios.get(
         `http://localhost:8080/news/noticeDetail/${not_postId}`
       );
-
+        console.log(response.data);
       setNotice(response.data); // 가져온 리뷰 데이터 저장
       console.log(response.data);
       // setLoading(false); // 로딩 상태 해제
@@ -41,14 +41,14 @@ const NoticeDetailPage = () => {
   };
 
   // 날짜 포맷 함수
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    const formattedDate = new Date(dateString).toLocaleDateString(
-      "ko-KR",
-      options
-    );
-    return formattedDate.replace(/\.$/, ""); // 마지막 "." 제거
-  };
+  // const formatDate = (dateString) => {
+  //   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  //   const formattedDate = new Date(dateString).toLocaleDateString(
+  //     "ko-KR",
+  //     options
+  //   );
+  //   return formattedDate.replace(/\.$/, ""); // 마지막 "." 제거
+  // };
 
   useEffect(() => {
     fetchNotice(); // 컴포넌트가 마운트될 때 공지사항 데이터를 가져옴
@@ -100,13 +100,8 @@ const NoticeDetailPage = () => {
         <br />
       </StyledWord>
       <h3>{notice.postTitle}</h3>
-      <p>{formatDate(notice.createdAt)}</p>
-      <p>
-        <Link to={`/news/noticeEdit/${notice.not_postId}`}>
-          <button>수정</button>
-        </Link>
-        <button onClick={handleDelete}>삭제</button>
-      </p>
+      <p>{notice.createdAt}</p>
+      {/* <p>{formatDate(notice.createdAt)}</p> */}
       <div>
         <Link to={`/news/noticeEdit/${notice.not_postId}`}>
           <Button type="middle">수정</Button>

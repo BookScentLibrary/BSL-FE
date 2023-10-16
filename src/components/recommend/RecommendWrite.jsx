@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { BookRecommendAPI } from "../../core/redux/bookSlice";
 import styled from "styled-components";
+
 import SearchModal from "./SearchModal";
+import { BookRecommendAPI } from "../../core/redux/bookSlice";
 
 const RecommendWrite = () => {
   const [postTitle, setPostTitle] = useState(""); //게시글 제목
@@ -28,7 +29,7 @@ const RecommendWrite = () => {
   };
 
   const handleSubmit = () => {
-    if (postTitle === "" || content === "" || !selectedBook) {
+    if (postTitle === "" || content === "" ) {
       window.alert("모든 칸을 입력해주세요.");
       return;
     }
