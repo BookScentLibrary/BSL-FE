@@ -21,6 +21,7 @@ const BasicTemp = (props) => {
 
 const BestTemp = (props) => {
   const { img, rank, title, author, bookNo } = props;
+
   const navigate = useNavigate();
 
   const goToDetail = () => {
@@ -50,7 +51,7 @@ const RecommendTemp = (props) => {
   return (
     <S.Recommend onClick={goToDetail}>
       <div className="book_temp__contentWrapper">
-        <S.Image width="148px" height="220px" src={img}/>
+        <S.Image width="148px" height="220px" src={img} />
         <div className="content">
           <p className="book_temp__content">{content}</p>
         </div>

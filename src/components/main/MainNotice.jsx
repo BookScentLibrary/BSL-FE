@@ -66,7 +66,7 @@ const MainNotice = () => {
             {NOTICE.map((cur, idx) => {
               return (
                 <Content key={idx}>
-                  <p>{cur.title}</p>
+                  <p className="title">{cur.title}</p>
                   <p>{cur.createdAt}</p>
                 </Content>
               );
@@ -82,7 +82,7 @@ const MainNotice = () => {
             {PROGRAM.map((cur, idx) => {
               return (
                 <Content key={idx}>
-                  <p>{cur.title}</p>
+                  <p className="title">{cur.title}</p>
                   <p>{cur.createdAt}</p>
                 </Content>
               );
@@ -163,6 +163,13 @@ const Content = styled.div`
   margin-top: 20px;
   width: 100%;
   justify-content: space-between;
+
+  & > .title {
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colors.darkgray};
+    }
+  }
 `;
 
 export default MainNotice;
