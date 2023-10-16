@@ -2,13 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 const NewBookList = ({ items }) => {
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  }
   return (
-    <div>
+    <Wrapper>
       <h1>신간 도서</h1>
+      <LineBold />
+      <Description>최근 30일 이내 입수된 도서 목록입니다.</Description>
       <hr />
-      <Pd>최근 30일 이내 입수된 도서 목록입니다.</Pd>
-      <hr />
-      <Table>
+      <StyledTable>
         <thead>
           <tr>
             <Other>글번호</Other>
@@ -20,48 +26,86 @@ const NewBookList = ({ items }) => {
           </tr>
         </thead>
         <tbody>
-          {items &&
-            items.map((item) => {
-              return (
-                <tr key={item.newBookNo}>
-                  <td>{item.newBookNo}</td>
-                  <td>{item.bookname}</td>
-                  <td>{item.author}</td>
-                  <td>{item.publisher}</td>
-                  <td>{item.publicationYear}</td>
-                  <td>{item.regDate}</td>
-                </tr>
-              );
-            })}
+          {items && items.length > 0 ? (
+            items.map((item) => (
+              <tr key={item.newBookNo}>
+                <TableCell>{item.newBookNo}</TableCell>
+                <TableTitle>{truncateText(item.bookname, 45)}</TableTitle>
+                <TableCell>{truncateText(item.author, 3)}</TableCell>
+                <TableCell>{truncateText(item.publisher, 4)}</TableCell>
+                <TableCell>{item.publicationYear}</TableCell>
+                <TableCell>{item.regDate}</TableCell>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <NoDataCell colSpan="6">조회된 데이터가 없습니다.</NoDataCell>
+            </tr>
+          )}
         </tbody>
-      </Table>
-      {!items && (
-        <p style={{ margin: "80px auto", width: "fit-content" }}>
-          조회된 데이터가 없습니다.
-        </p>
-      )}
-    </div>
+      </StyledTable>
+    </Wrapper>
   );
 };
 
-const Pd = styled.div`
-  padding: 2%;
+const Wrapper = styled.div`
+  width: 100%;
+  margin: 0 auto;
 `;
 
-const Table = styled.table`
+const LineBold = styled.hr`
+  height: 2px;
+  background-color: black;
+`;
+
+const Description = styled.div`
+  margin: 3%;
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
   text-align: center;
 `;
 
 const Other = styled.th`
-  padding: 10px 30px;
+  padding: 15px;
+  width: 10%;
+  font-size: 15px;
+  border-bottom: 1px solid #ddd;
 `;
 
 const Title = styled.th`
-  padding: 10px 150px;
+  padding: 15px;
+  width: 47%;
+  font-size: 15px;
+  border-bottom: 1px solid #ddd;
 `;
 
 const Date = styled.th`
-  padding: 10px 50px;
+  padding: 15px;
+  width: 23%;
+  font-size: 15px;
+  border-bottom: 1px solid #ddd;
+`;
+
+const TableCell = styled.td`
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+`;
+
+const TableTitle = styled.td`
+  padding: 12px;
+  font-size: 14px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+`;
+
+const NoDataCell = styled.td`
+  padding: 12px;
+  text-align: center;
 `;
 
 export default NewBookList;
