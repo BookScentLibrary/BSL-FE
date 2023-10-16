@@ -1,7 +1,7 @@
 import { instance } from "../instance";
 
 export const bookAPI = {
-  searchBook: (value) => instance.get(`/book/search?searchValue=${value}`),
+  searchBook: () => instance.get(`/book/search?searchValue=${searchValue}?pageNumber=${1}`),
 
   getBook: () => instance.get("/book/detail/"),
 
