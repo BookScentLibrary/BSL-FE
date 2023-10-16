@@ -1,39 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import MainNewBook from "./MainNewBook";
+import MainNotice from "./MainNotice";
+import MainBestseller from "./MainBestseller";
+import MainRecommend from "./MainRecommend";
+import MainReview from "./MainReview";
 import styled from "styled-components";
 
 const MainPageTemplate = () => {
-  const book = useSelector((state) => state.book.book);
-
   return (
     <React.Fragment>
-      <h1>메인페이지</h1>
-      {book ? (
-        <div style={{ display: "flex" }}>
-          <Image src={book.bookImageURL} />
-          <div>
-            <b>{book.bookname}</b>
-            <p>{book.author}</p>
-            <p>
-              {book.publicationYear} | {book.publisher}
-            </p>
-            <p>{book.classname}</p>
-            <p>{book.isbn}</p>
-            <p>{book.description}</p>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+      <MainNewBook />
+      <Line />
+      <MainNotice />
+      <Line />
+      <MainBestseller />
+      <MainRecommend />
+      <MainReview />
     </React.Fragment>
   );
 };
 
-const Image = styled.div`
-  width: 200px;
-  height: 320px;
-  flex-shrink: 0;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
+const Line = styled.div`
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
 `;
 
 export default MainPageTemplate;

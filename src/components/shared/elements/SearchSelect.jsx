@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 export default function SearchSelect(props) {
-  const { data, value, setValue } = props;
+  const { data, value, setValue, size } = props;
   const $dropDownList = React.useRef(null);
   const [isShow, setIsShow] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(data[value]);
@@ -31,9 +31,13 @@ export default function SearchSelect(props) {
   }, [handleFocusOut, isShow, $dropDownList]);
 
   return (
-    <SelectBox onClick={() => setIsShow((prev) => !prev)} $show={isShow}>
+    <SelectBox
+      onClick={() => setIsShow((prev) => !prev)}
+      $show={isShow}
+      size={size}
+    >
       <Label>{selectedValue}</Label>
-      <SelectOptions $show={isShow} ref={$dropDownList}>
+      <SelectOptions $show={isShow} ref={$dropDownList} size={size}>
         {data?.map((item, i) => {
           return (
             <Option
@@ -55,7 +59,7 @@ export default function SearchSelect(props) {
 const SelectBox = styled.div`
   position: relative;
   width: 134px;
-  padding: 21.5px 0;
+  padding: ${({ size }) => (size == "small" ? "14.5px 0" : "21.5px 0")};
   border-radius: ${({ $show }) => ($show ? "4px 0 0 0 " : "4px 0 0 4px")};
   background-color: #ffffff;
   align-self: center;
@@ -66,7 +70,14 @@ const SelectBox = styled.div`
 
   &::before {
     ${({ $show }) => ($show ? "transform: rotate(180deg)" : null)};
-    ${({ $show }) => ($show ? "bottom: 12px" : "top: 12px")};
+    ${({ $show, size }) =>
+      $show
+        ? size === "small"
+          ? "bottom: 8px"
+          : "bottom: 12px"
+        : size === "small"
+        ? "top: 8px"
+        : "top: 12px"};
     content: "⌵";
     position: absolute;
     right: 12px;
@@ -83,7 +94,7 @@ const Label = styled.label`
 const SelectOptions = styled.ul`
   position: absolute;
   list-style: none;
-  top: 46px;
+  top: ${({ size }) => (size === "small" ? "32px" : "46px")};
   left: -1px;
   width: 100%;
   overflow: hidden;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../../shared/elements/Button";
 
 const LibraryInfo = ({ book }) => {
+  const bookNo = "BSL" + String(book.bookNo).padStart(8, "0");
   return (
     <Table>
       <thead>
@@ -16,7 +17,7 @@ const LibraryInfo = ({ book }) => {
       </thead>
       <tbody>
         <tr>
-          <td className="info_bookNo">{book.bookNo}</td>
+          <td className="info_bookNo">{bookNo}</td>
           <td className="info_callNo">{book.callNum}</td>
           <td className="info_bookStatus">
             {book.bookStatus === 0 ? "대출가능" : "대출중"}

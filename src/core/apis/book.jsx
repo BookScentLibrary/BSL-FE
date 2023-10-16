@@ -3,9 +3,22 @@ import { instance } from "../instance";
 export const bookAPI = {
   searchBook: () => instance.get(`/book/search?searchValue=${searchValue}?pageNumber=${1}`),
 
-  getBook: () => instance.get("/book/detail/"),
+  getBook: (bookNo) => instance.get(`/book/detail/?bookNo=${bookNo}`),
 
-  getReaderData: () => instance.get("/book/readerData"),
+  getReaderData: (bookNo) =>
+    instance.get(`/book/detail/reader?bookNo=${bookNo}`),
 
-  getSelectedBookReview: (bookNo) => instance.get(`/book/getReaview?bookNo=${bookNo}`),
+  getRatingData: (bookNo) => instance.get(`/book/detail/rate?bookNo=${bookNo}`),
+
+  // getSelectedBookReview: (bookNo) =>
+  //  instance.get(`/book/getReaview?bookNo=${bookNo}`),
+
+  getSelectedBookReview: (bookNo) =>
+    instance.get(`/book/detail/review?bookNo=${bookNo}`),
+
+  bookRecommendAPI: (data) => instance.post("/admin/recommendCreate", data),
+  selectBookRecommendAPI: (searchValue, searchType, pageNumber, pageSize) => {
+    const url = `/book/search?searchValue=${searchValue}&searchType=${searchType}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return instance.get(url);
+  },
 };

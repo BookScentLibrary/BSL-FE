@@ -9,6 +9,7 @@ const Input = (props) => {
     width,
     placeholder,
     value,
+    padding,
     id,
     name,
     label,
@@ -21,25 +22,27 @@ const Input = (props) => {
     data,
     optionValue,
     setOptionValue,
+    inputType,
+    password,
   } = props;
 
-  const inputtype = props.inputType;
-
   const styles = {
-    inputtype,
+    $inputType: inputType,
     size,
     width,
+    $padding: padding,
   };
 
   const SelectData = data ? data : ["전체검색", "제목", "저자", "발행처"];
 
   return (
     <div style={{ position: "relative", width: "fit-content" }}>
-      {inputtype !== "search" ? (
-        <Label inputtype={inputtype}>{label}</Label>
+      {inputType !== "search" ? (
+        <Label $inputType={inputType}>{label}</Label>
       ) : (
         <div style={{ position: "absolute" }}>
           <SearchSelect
+            size={size}
             data={SelectData}
             value={optionValue}
             setValue={setOptionValue}
@@ -47,6 +50,7 @@ const Input = (props) => {
         </div>
       )}
       <Inp
+        type={password ? "password" : null}
         id={id}
         name={name}
         value={value}
@@ -58,15 +62,27 @@ const Input = (props) => {
         defaultValue={defaultValue}
         {...styles}
       />
-      {inputtype === "search" ? (
-        <Search
-          onClick={onClick}
-          style={{
-            position: "absolute",
-            right: "0",
-            padding: "12px 16px",
-          }}
-        />
+      {inputType === "search" ? (
+        size !== "small" ? (
+          <Search
+            onClick={onClick}
+            style={{
+              position: "absolute",
+              right: "0",
+              padding: "12px 16px",
+            }}
+          />
+        ) : (
+          <Search
+            onClick={onClick}
+            style={{
+              position: "absolute",
+              top: "-6px",
+              right: "0",
+              padding: "12px 16px",
+            }}
+          />
+        )
       ) : null}
     </div>
   );
@@ -77,30 +93,32 @@ const Label = styled.label`
   top: 16px;
   padding: 0 18px;
   width: 84px;
-  text-align: ${({ inputtype }) => (inputtype === "post" ? "center" : "left")};
+  text-align: ${({ $inputType }) =>
+    $inputType === "post" ? "center" : "left"};
   font-size: 16px;
   font-weight: 600;
 `;
 
 const Inp = styled.input`
-  width: ${({ width, inputtype, size }) =>
+  width: ${({ width, $inputType, size }) =>
     width
       ? width
-      : inputtype === "search"
+      : $inputType === "search"
       ? size === "small"
         ? "174px"
         : "522px"
       : "1004px"};
 
-  height: ${({ inputtype, size }) =>
-    inputtype === "search" ? "60px" : "46px"};
+  height: ${({ $inputType, size }) =>
+    $inputType === "search" ? (size == "small" ? "46px" : "60px") : "46px"};
   outline: none;
   border: 1px solid #000;
   border-radius: 4px;
-  padding-left: ${({ inputtype }) =>
-    inputtype === "search" ? "152px" : "118px"};
-  padding-right: ${({ inputtype }) =>
-    inputtype === "search" ? "72px" : "16px"};
+  padding-left: ${({ $inputType }) =>
+    $inputType === "search" ? "152px" : "118px"};
+  padding-right: ${({ $inputType }) =>
+    $inputType === "search" ? "72px" : "16px"};
+  ${({ $padding }) => ($padding ? `padding:${$padding};` : "")}
 `;
 
 export default Input;

@@ -58,37 +58,13 @@ const CompCatalog = (props) => {
       </div>
 
       <div className="catalog_menu">
-        <Menu />
-        <p>
-          <span className="disc">--- 메뉴 항목명(3or4)</span>
-          <span>{"const"}</span>
-          <span className="red">{" menuArr "}</span>
-          <span>{' = ["menu1", "menu2", "menu3", "menu4"];'}</span>
-          <br />
-          <span className="disc">--- 선택한 페이지 index 저장</span>
-          <span>{"const"}</span>
-          <span className="red">{" [pageIdx, setPageIdx]"}</span>
-          <span>{" = React.useState(0);"}</span>
-          <br />
-          <span className="disc">
-            --- 페이지 index에 따라 보여줄 컴포넌트 정의
-          </span>
-          <span>{"const"}</span>
-          <span className="red">{" page "}</span>
-          <span>{"= {"}</span>
-          <br />
-          <span>{"　0: <Notice />,"}</span>
-          <br />
-          <span>{"　1: <Program />,"}</span>
-          <br />
-          <span>{"　2: <ReviewListPage />,"}</span>
-          <br />
-          <span>{"};"}</span>
-        </p>
-        <p>
-          <span className="disc">--- 실제 작성 예시</span>
-          {"<Menu title='Title' menuArr={menuArr} setPageIdx={setPageIdx} />"}
-        </p>
+        <Menu>
+          <p>menu 1</p>
+          <p>menu 2</p>
+          <p>menu 3</p>
+          <p>menu 4</p>
+        </Menu>
+        <p>Menu.jsx 컴포넌트 참고</p>
       </div>
 
       <div>

@@ -3,15 +3,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import MainPageTemplate from "../components/main/MainPageTemplate";
-import { getBookTestAPI } from "../core/redux/bookSlice";
+import { getBookAPI } from "../core/redux/bookSlice";
 
 const MainPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(getBookTestAPI());
-  }, []);
 
   return (
     <div>
@@ -28,7 +24,7 @@ const MainPage = (props) => {
 
 export const CatalogBtn = styled.button`
   position: absolute;
-  bottom: 50px;
+  top: -20px;
   right: 50px;
   width: 100px;
   height: 100px;

@@ -1,36 +1,65 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { testAPI } from '../apis';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bookAPI } from "../apis/book";
 
-//책 목록의 상태 정의 
+//책 목록의 상태 정의
 export const initialState = {
   book: {},
   rate: {},
   reader: [],
   review: [],
+  recommend: [],
+  searchResults: [],
 };
 
-
-//책과 관련된 액션 정의 
+//책과 관련된 액션 정의
 export const searchBookAPI = createAsyncThunk(
-  'book/search',
+  "book/search",
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.searchBook(data);
       console.log("searchAPI response : ", response);
-      
     } catch (error) {
-      console.log('searchAPI : error response', error.response.data);
+      console.log("searchAPI : error response", error.response.data);
     }
-  },
+  }
 );
-export const getBookTestAPI = createAsyncThunk(
-  "book/test",
+
+export const SelectBookRecommendAPI = createAsyncThunk(
+  "book/search",
   async (data, thunkAPI) => {
     try {
-      const response = await testAPI.getBook();
+      const { searchValue, searchType, pageNumber, pageSize } = data;
+      const response = await bookAPI.selectBookRecommendAPI(
+        searchValue,
+        searchType,
+        pageNumber,
+        pageSize
+      );
+
+      const searchResults = response.data.content; // 응답에서 검색 결과를 추출합니다
+
+      // 검색 결과를 Redux 스토어에 저장하기 위해 setSearchResults 액션을 디스패치합니다
+      thunkAPI.dispatch(bookSlice.actions.setSearchResults(searchResults));
+
+      console.log("searchAPI response : ", response);
+      console.log("searchAPI response.data : ", searchResults);
+    } catch (error) {
+      console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
+export const getBookAPI = createAsyncThunk(
+  "book/getBook",
+  async (bookNo, thunkAPI) => {
+    try {
+      const response = await bookAPI.getBook(bookNo);
       console.log(response.data);
-      thunkAPI.dispatch(bookSlice.actions.setTestMessage(response.data));
+      const book = {
+        ...response.data,
+        author: response.data.author.split(";"),
+      };
+      thunkAPI.dispatch(bookSlice.actions.setBook(book));
     } catch (error) {
       console.log("testAPI : error response", error.response.data);
     }
@@ -39,25 +68,9 @@ export const getBookTestAPI = createAsyncThunk(
 
 export const getReaderDataAPI = createAsyncThunk(
   "book/readerData",
-  async (data, thunkAPI) => {
+  async (bookNo, thunkAPI) => {
     try {
-      // const response = await bookAPI.getReaderData();
-      const response = {
-        data: {
-          m_10: 20,
-          f_10: 54,
-          m_20: 40,
-          f_20: 46,
-          m_30: 10,
-          f_30: 121,
-          m_40: 430,
-          f_40: 21,
-          m_50: 100,
-          f_50: 0,
-          m_senior: 0,
-          f_senior: 120,
-        },
-      };
+      const response = await bookAPI.getReaderData(bookNo);
 
       const teens = response.data.m_10 + response.data.f_10;
       const twenteies = response.data.m_20 + response.data.f_20;
@@ -68,28 +81,28 @@ export const getReaderDataAPI = createAsyncThunk(
 
       const data = [
         {
-          m: Math.round((response.data.m_10 / teens) * 100) + "%",
-          f: Math.round((response.data.f_10 / teens) * 100) + "%",
+          m: response.data.m_10 ? Math.round((response.data.m_10 / teens) * 100) + "%" : "0%",
+          f: response.data.f_10 ? Math.round((response.data.f_10 / teens) * 100) + "%" : "0%",
         },
         {
-          m: Math.round((response.data.m_20 / twenteies) * 100) + "%",
-          f: Math.round((response.data.f_20 / twenteies) * 100) + "%",
+          m: response.data.m_20 ? Math.round((response.data.m_20 / twenteies) * 100) + "%" : "0%",
+          f: response.data.f_20 ? Math.round((response.data.f_20 / twenteies) * 100) + "%" : "0%",
         },
         {
-          m: Math.round((response.data.m_30 / thirties) * 100) + "%",
-          f: Math.round((response.data.f_30 / thirties) * 100) + "%",
+          m: response.data.m_30 ? Math.round((response.data.m_30 / thirties) * 100) + "%" : "0%",
+          f: response.data.f_30 ? Math.round((response.data.f_30 / thirties) * 100) + "%" : "0%",
         },
         {
-          m: Math.round((response.data.m_40 / forties) * 100) + "%",
-          f: Math.round((response.data.f_40 / forties) * 100) + "%",
+          m: response.data.m_40 ? Math.round((response.data.m_40 / forties) * 100) + "%" : "0%",
+          f: response.data.f_40 ? Math.round((response.data.f_40 / forties) * 100) + "%" : "0%",
         },
         {
-          m: Math.round((response.data.m_50 / fifties) * 100) + "%",
-          f: Math.round((response.data.f_50 / fifties) * 100) + "%",
+          m: response.data.m_50 ? Math.round((response.data.m_50 / fifties) * 100) + "%" : "0%",
+          f: response.data.f_50 ? Math.round((response.data.f_50 / fifties) * 100) + "%" : "0%",
         },
         {
-          m: Math.round((response.data.m_senior / seniors) * 100) + "%",
-          f: Math.round((response.data.f_senior / seniors) * 100) + "%",
+          m: response.data.m_senior ? Math.round((response.data.m_senior / seniors) * 100) + "%" : "0%",
+          f: response.data.f_senior ? Math.round((response.data.f_senior / seniors) * 100) + "%" : "0%",
         },
       ];
 
@@ -102,18 +115,9 @@ export const getReaderDataAPI = createAsyncThunk(
 
 export const getRatingDataAPI = createAsyncThunk(
   "book/readerData",
-  async (data, thunkAPI) => {
+  async (bookNo, thunkAPI) => {
     try {
-      // const response = await bookAPI.getRatingData();
-      const response = {
-        data: {
-          point_1: 8,
-          point_2: 60,
-          point_3: 83,
-          point_4: 72,
-          point_5: 220,
-        },
-      };
+      const response = await bookAPI.getRatingData(bookNo);
 
       const allCount =
         response.data.point_1 +
@@ -130,16 +134,18 @@ export const getRatingDataAPI = createAsyncThunk(
 
       const avg = Math.round(allPoint / allCount, 1);
 
-      const data = {
-        avg: avg.toFixed(1),
-        p1: Math.round((response.data.point_1 / allCount) * 100) + "%",
-        p2: Math.round((response.data.point_2 / allCount) * 100) + "%",
-        p3: Math.round((response.data.point_3 / allCount) * 100) + "%",
-        p4: Math.round((response.data.point_4 / allCount) * 100) + "%",
-        p5: Math.round((response.data.point_5 / allCount) * 100) + "%",
-      };
 
+      const data = {
+        avg: avg?avg.toFixed(1):"0",
+        p1: response.data.point_1 ? Math.round((response.data.point_1 / allCount) * 100) + "%" : "0%",
+        p2: response.data.point_2 ? Math.round((response.data.point_2 / allCount) * 100) + "%" : "0%",
+        p3: response.data.point_3 ? Math.round((response.data.point_3 / allCount) * 100) + "%" : "0%",
+        p4: response.data.point_4 ? Math.round((response.data.point_4 / allCount) * 100) + "%" : "0%",
+        p5: response.data.point_5 ? Math.round((response.data.point_5 / allCount) * 100) + "%" : "0%",
+      };
+      
       thunkAPI.dispatch(bookSlice.actions.ratingData(data));
+
     } catch (error) {
       console.error("readerDataAPI - error response : ", error.response.data);
     }
@@ -150,80 +156,62 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
   "book/getSelectedBookReview",
   async (bookNo, thunkAPI) => {
     try {
-      // const response = await bookAPI.getSelectedBookReview(bookNo);
-      const response = {
-        data: [
-          {
-            rev_postId: 1,
-            nickname: "닉네임1",
-            postTitle: "첫번째 리뷰",
-            content: "첫번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 4,
-          },
-          {
-            rev_postId: 2,
-            nickname: "닉네임2",
-            postTitle: "두번째 리뷰",
-            content: "두번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 5,
-          },
-          {
-            rev_postId: 3,
-            nickname: "닉네임3",
-            postTitle: "세번째 리뷰",
-            content:
-              "봐, 여기서 네가 웃는 장면이 하이라이트니까 사진으로도 담아낼 수 없는 몹시도 사소한 그 행동거지에 그 어떤 어두운 스토리도 뒤집어 놓는 순간이 흘러넘치고 있어 어딘가 하나를 잘라서 썸네일로 하자 급한 대로 지금은 말이야",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 2,
-          },
-          {
-            rev_postId: 4,
-            nickname: "닉네임4",
-            postTitle: "네번째 리뷰",
-            content: "네번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 5,
-          },
-          {
-            rev_postId: 5,
-            nickname: "닉네임5",
-            postTitle: "다섯번째 리뷰",
-            content: "다섯번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 3,
-          },
-        ],
-      };
-      console.log(response.data);
+      const response = await bookAPI.getSelectedBookReview(bookNo);
       thunkAPI.dispatch(bookSlice.actions.setSelectedBookReview(response.data));
     } catch (error) {
-      console.log("testAPI : error response", error.response.data);
+      console.log(
+        "BOOK_GET SELECTED BOOK REVIEW : error response",
+        error.response.data
+      );
     }
   }
 );
 
+//사서 추천 도서 글 등록
+export const BookRecommendAPI = createAsyncThunk(
+  "admin/recommendCreate",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.bookRecommendAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+    } catch (error) {
+      console.log(
+        "BOOK_RECOMMEND CREATE : error response",
+        error.response.data
+      );
+    }
+  }
+);
 
 export const bookSlice = createSlice({
-  name: 'bookReducer',
+  name: "bookReducer",
   initialState,
   reducers: {
-    setTestMessage: (state, action) => {
+    setBook: (state, action) => {
       state.book = action.payload;
       return;
-      },
-     readerDate: (state, action) => {
-        state.reader = action.payload;
-        return;
-        },
-        ratingData: (state, action) => {
-          state.rate = action.payload;
-          return;
-        },
-        setSelectedBookReview: (state, action) => {
-          state.review = action.payload;
-          return;
-        },
+    },
+    readerData: (state, action) => {
+      state.reader = action.payload;
+      return;
+    },
+    ratingData: (state, action) => {
+      state.rate = action.payload;
+      return;
+    },
+    setSelectedBookReview: (state, action) => {
+      state.review = action.payload;
+      return;
+    },
+    setSelectedBookRecommend: (state, action) => {
+      state.recommend = action.payload;
+      return;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload; // 검색 결과를 업데이트
+    },
   },
 });

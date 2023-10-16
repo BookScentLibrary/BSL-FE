@@ -5,13 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const BookReviewList = ({ review }) => {
   const navigate = useNavigate();
-  const goToReviewDetail = () => {
-    navigate("/reviewList");
-    // navigate(`/review/detail/${review.rev_postId}`);
+  const goToReviewDetail = (postId) => {
+    navigate(`/news/reviewDetail/${postId}`);
   };
 
   return (
-    <Container onClick={goToReviewDetail}>
+    <Container onClick={() => {goToReviewDetail(review.rev_postId)}}>
       <TitleSection>
         <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
           <FlowerRate count={review.rate} />

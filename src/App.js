@@ -1,13 +1,15 @@
 import React from "react";
-import { BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme";
+import ScrollToTop from "./components/shared/ScrollToTop";
 
 function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
+        <ScrollToTop />
         <ThemeProvider theme={theme}>
           <Root />
         </ThemeProvider>
