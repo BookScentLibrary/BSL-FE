@@ -21,6 +21,4 @@ export const bookAPI = {
     const url = `/book/search?searchValue=${searchValue}&searchType=${searchType}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return instance.get(url);
   },
-
-  SelectBookAPI: (data) => instance.post("/news/reviewWrite", data),
 };

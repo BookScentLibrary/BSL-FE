@@ -1,8 +1,27 @@
 // ReviewDetailPage.js
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
+import { ReactComponent as Flower } from "../../asset/icons/flower.svg";
+import Comment from "../../components/review/Comment";
+
 const ReviewDetailPage = () => {
+  
+  // URL 매개변수로부터 리뷰 ID 가져오기
+  const { rev_postId } = useParams();
+  // const location = useLocation();
+  // const queryParams = new URLSearchParams(location.search);
+  // const rate = queryParams.get("rate");
+
+  // 리뷰 데이터를 저장할 상태 변수
+  const [review, setReview] = useState({});
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const [commentList, setCommentList] = useState([]);
+  const [content, setContent] = useState("");
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const formattedDate = new Date(dateString).toLocaleDateString(
@@ -12,13 +31,6 @@ const ReviewDetailPage = () => {
     return formattedDate.replace(/\.$/, ""); // 마지막 "." 제거
   };
 
-  // URL 매개변수로부터 리뷰 ID 가져오기
-  const { rev_postId } = useParams();
-
-  // 리뷰 데이터를 저장할 상태 변수
-  const [review, setReview] = useState({});
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   // 리뷰 데이터를 백엔드 API로부터 가져오는 함수
   const fetchReview = async () => {
@@ -29,6 +41,7 @@ const ReviewDetailPage = () => {
       );
 
       setReview(response.data); // 가져온 리뷰 데이터 저장
+      setCommentList(response.data);
       console.log(response.data);
       setLoading(false); // 로딩 상태 해제
     } catch (error) {
@@ -61,6 +74,42 @@ const ReviewDetailPage = () => {
     return <p>Loading...</p>; // 데이터 로딩 중에는 로딩 메시지를 표시
   }
 
+
+
+  // const handleChange = (e) => {
+  //   setContent(e.target.value);
+  // };
+
+  // const addComment = () => {
+  //     // Send a POST request to your backend to add a comment
+  //     axios.post(`http://localhost:8080/news/reviewDetail/${rev_postId}`, {
+  //         content: content,
+  //     }).then((response) => {
+  //         // Handle the response or update the comment list
+  //     });
+  // };
+
+  const addComment = async (e) => {
+    e.preventDefault(); // 폼 제출 시 페이지 리로딩 방지
+
+    try {
+      // 리뷰 데이터를 서버에 전송
+      const response = await axios.post(
+        "http://localhost:8080/news/reviewDetail/${rev_postId}",
+        {
+          content,
+        }
+      );
+
+      if (response.status === 201) {
+        // 성공적으로 리뷰가 등록되면 리뷰 목록 페이지로 이동
+        navigate("/news/reviewDetail/${rev_postId}");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+
   return (
     <div>
       <h2>리뷰 게시판</h2>
@@ -78,7 +127,24 @@ const ReviewDetailPage = () => {
       </p>
       <p>{review.content}</p>
       <p>{review.bookImageURL}</p>
-      <p>{review.bookNo}</p>
+      <p> {review.bookNo} </p>
+      <Container className="startRadio">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <StarBox key={star} className="startRadio__box">
+            <input
+              type="radio"
+              name="star"
+              value={star}
+              checked={review.rate === star}
+            />
+            <Flower
+              className={`startRadio__img ${
+                review.rate >= star ? "active" : ""
+              }`}
+            />
+          </StarBox>
+        ))}
+      </Container>
       <p>{review.bookname}</p>
       <p>{review.author}</p>
       <p>{review.publisher}</p>
@@ -90,24 +156,78 @@ const ReviewDetailPage = () => {
       <hr />
       <div>
         <h4>댓글</h4>
-        <div>
-          <span>닉네임</span>
-          <div>
-            댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용
+        {/* {commentList.map((comment) => (
+          <Comment
+            key={comment.commentId}
+            comment={comment}
+            onCommentUpdate={updateComment}
+            onCommentDelete={deleteComment}
+          />
+        ))} */}
+        {commentList.map((comment) => (
+          <div key={comment.commentId}>
+            <span>{comment.user.nickname}</span>
+            <div>{comment.content}</div>
+            <div>{comment.createdAt}</div>
+            <div>
+              <button>Edit</button>
+              <button>Delete</button>
+            </div>
           </div>
-          <div>2023.09.09</div>
-          <div>
-            <button>수정</button>
-            <button>삭제</button>
-          </div>
-        </div>
+        ))}
+         {reviewList.slice(offset, offset + limit).map((review, index) => (
+            <tr key={index} reviewList={sortedReviewList}>
+              <th>{review.rev_postId}</th>
+              <td>
+                <Link to={`/news/reviewDetail/${review.rev_postId}`}>
+                  {review.postTitle} [{review.bookname}]
+                </Link>
+              </td>
+              <td> {review.nickname} </td>
+              <td> {formatDate(review.createdAt)}</td>
+            </tr>
+          ))}
         <div>
-          <textarea name="" id="" cols="30" rows="10"></textarea>
-          <button>댓글등록</button>
+          <textarea value={content}  onChange={(e) => setContent(e.target.value)}/>
+          <button onClick={addComment}>댓글등록</button>          
         </div>
       </div>
     </div>
   );
 };
+
+const Container = styled.div`
+  display: inline-block;
+  overflow: hidden;
+  height: 40px;
+`;
+
+const StarBox = styled.label`
+  position: relative;
+  z-index: 1;
+  float: left;
+  width: 16px; /* Reduce the width to make the icons smaller */
+  height: 32px; /* Adjust the height accordingly */
+
+  input {
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    position: absolute !important;
+  }
+
+  .startRadio__img {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 15px; /* Adjust the width of the icons */
+    height: 32px; /* Adjust the height of the icons */
+    pointer-events: none;
+  }
+
+  .active {
+    fill: #a1e092;
+  }
+`;
 
 export default ReviewDetailPage;

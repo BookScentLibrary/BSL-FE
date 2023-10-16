@@ -270,6 +270,23 @@ export const BookRecommendAPI = createAsyncThunk(
   }
 );
 
+
+//리뷰작성시 책정보 등록
+export const SelectBookAPI = createAsyncThunk(
+  "news/reviewWrite",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.SelectBookAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+    } catch (error) {
+      console.log("testAPI : error response", error.response.data);
+    }
+  }
+);
+
 export const bookSlice = createSlice({
   name: "bookReducer",
   initialState,
