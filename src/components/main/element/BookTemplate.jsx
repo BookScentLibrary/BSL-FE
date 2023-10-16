@@ -20,7 +20,7 @@ const BasicTemp = (props) => {
 };
 
 const BestTemp = (props) => {
-  const { img, rank, title, author, bookNo } = props;
+  const { img,  title, author, bookNo } = props;
   const navigate = useNavigate();
 
   const goToDetail = () => {
@@ -29,13 +29,14 @@ const BestTemp = (props) => {
   return (
     <S.Best onClick={goToDetail}>
       <S.Image width="108px" height="160px" src={img} />
-      <S.Info rank={rank}>
-        <p className="rank">{rank}</p>
+      {/* <S.Info rank={rank}>
+        <p className="rank">{rank}</p> */}
         <div>
           <p className="book_temp__title">{title}</p>
           <p className="book_temp__author">{author}</p>
+          <p className="book_temp__bookNo">{author}</p>
         </div>
-      </S.Info>
+      {/* </S.Info> */}
     </S.Best>
   );
 };

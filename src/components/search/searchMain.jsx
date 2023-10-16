@@ -7,42 +7,15 @@ import { incrementPage } from "./action.js";
 import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
 import Grid from "./Grid";
 
-const InfiniteScroll = (props) => {
-  const { children, page, callback, isLoading, totalPage } = props;
 
-  const [target, setTarget] = React.useState(null);
 
-  React.useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(callback, { threshold: 0.7 });
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-
-  return (
-    <React.Fragment>
-      {children}
-      {totalPage - 1 > page ? <Box ref={setTarget}></Box> : null}
-      {isLoading ? (
-        <Grid margin="auto">
-          <Spinner />
-        </Grid>
-      ) : null}
-    </React.Fragment>
-  );
-};
-
-const Box = styled.div`
-  width: 100%;
-  height: 20px;
-`;
 
 const SearchMain = () => {
   const [searchValue, setSearchValue] = useState("");
   const optionData = ["제목", "저자", "발행처"];
   const [optionValue, setOptionValue] = useState(1); // 초기값 설정 (예: 1)
+ const books = useSelector((state) => state.book.search.content);
+ 
 
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.currentPage);
@@ -55,38 +28,28 @@ const SearchMain = () => {
   const onClickSearch = () => {
     searchBookForm();
   };
-
+  console.log(searchValue);
   const searchBookForm = () => {
     dispatch(
       searchBookAPI({
-        SearchValue: searchValue,
-        searchType: optionValue,
-        PageNumber: pageNumber,
+        searchValue: searchValue,
+        searchType: 1,
+        pageNumber: pageNumber,
         pageSize: 20, // 원하는 페이지당 항목 수로 수정
       })
-    ).then((action) => {
-      if (action.payload && action.payload.length === 0) {
-        setHasMore(false);
-      } else if (action.payload) {
-        dispatch(setSearchResults([...searchResults, ...action.payload]))
-        dispatch(incrementPage());
-      }
-    }).catch((error) => {
-      console.error("검색 결과를 가져오는 중 오류가 발생했습니다:", error);
-    }).finally(() => {
-      setLoading(false);
-    });
+    )
+
   };
 
-  const books = [];
+
 
   // InfiniteScroll 컴포넌트에 전달할 콜백 함수 정의
-  const handleInfiniteScroll = (entries) => {
-    const intersection = entries[0];
-    if (intersection.isIntersecting && currentPage < totalPages) {
-      dispatch(incrementPage());
-    }
-  };
+  // const handleInfiniteScroll = (entries) => {
+  //   const intersection = entries[0];
+  //   if (intersection.isIntersecting && currentPage < totalPages) {
+  //     dispatch(incrementPage());
+  //   }
+  // };
 
   return (
     <div>
@@ -103,9 +66,9 @@ const SearchMain = () => {
         ></Input>
       </div>
       <div className="book-list">
-        {books.map((book) => (
+        {books&&books.map((book) => (
           <div key={book.bookNo} className="book-item">
-            <img src={book.bookImageUrl} alt={book.bookname} />
+            <Image src={book.bookImageURL} />
             <h3>{book.bookname}</h3>
             <p>{book.author}</p>
             <p>{book.publisher}</p>
@@ -120,5 +83,16 @@ const SearchMain = () => {
     </div>
   );
 };
+
+const Image = styled.div`
+  width: 120px;
+  height: 176px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
+  background-position: center;
+`
+
 
 export default SearchMain;
