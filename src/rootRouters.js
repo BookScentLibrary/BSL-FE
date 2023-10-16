@@ -25,6 +25,7 @@ import RecommendWrite from "./components/recommend/RecommendWrite";
 import RecommendDetail from "./components/recommend/RecommendDetail";
 import RecommendUpdate from "./components/recommend/RecommendUpdate";
 import MyPage from "./pages/mypage/MyPage";
+import BestSeller from "./components/bestBookPage/BestSeller";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -134,5 +135,10 @@ export default [
   {
     path: "/user/mypage",
     element: MyPage,
+  },
+  //인기도서 페이지
+  {
+    path: "/book/bestseller",
+    element: BestSeller,
   },
 ];
