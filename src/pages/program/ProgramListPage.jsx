@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getProgramListAPI } from "../../core/redux/postSlice";
 import Input from "../../components/shared/elements/Input";
 import Button from "../../components/shared/elements/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 const ProgramListPage = () => {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const ProgramListPage = () => {
     dispatch(getProgramListAPI());
   }, []);
 
+
   const goToDetail = (postId) => {
     navigate(`/news/program/detail/${postId}`);
   };
@@ -32,7 +33,7 @@ const ProgramListPage = () => {
   /*----- 여기서부터는 검색 Input을 위해 필요한 데이터 및 함수입니다.  -----*/
 
   // 검색창 selectbox에 들어갈 항목명입니다.
-  const optionData = ["전체검색", "제목"];
+  const optionData = ["전체검색", "제목","장소"];
   // 선택된 select option(배열 인덱스)을 관리합니다. "전체검색"=0, "제목"=1
   const [optionValue, setOptionValue] = React.useState(0);
   // 검색창에 입력된 값을 관리합니다.
@@ -53,9 +54,11 @@ const ProgramListPage = () => {
 
       <Description>
         <p>책향기 도서관의 다양한 프로그램을 만나보세요</p>
+        <Link to="/news/programForm">
         <Button type="middle" width="180px">
           프로그램 작성하기
         </Button>
+        </Link>
       </Description>
 
       <InputWrapper>
@@ -74,14 +77,14 @@ const ProgramListPage = () => {
       </InputWrapper>
       <GridContainer>
         {list &&
-          list.map((item, index) => {
+          list.map((program, index) => {
             return (
-              <Content
+              <Content key={index}
                 onClick={() => {
-                  goToDetail(item.pro_postId);
+                  goToDetail(program.pro_postId);
                 }}
               >
-                <Image src={item.ImgURL}>
+                <Image src={program.ImgURL}>
                   {/* 현재 테이블(엔티티)에 접수중/접수마감을 관리하는 상태값이 없는 것 같은데 
                 1. 해당 값을 관리하는 컬럼을 짜거나  
                 2. 접수 마감 기간이 종료되었을 경우 계산하여 접수 마감을 표시할 수 있도록 하는 것이 좋을 것 같습니다.
@@ -93,11 +96,11 @@ const ProgramListPage = () => {
                 </Image>
                 <Info>
                   <p className="program_info__data">
-                    {item.postTitle} ({item.target})
+                    {program.postTitle} ({program.target})
                   </p>
                   <p className="program_info__name">접수기간</p>
                   <p className="program_info__data">
-                    {item.startDate} ~ {item.endDate}
+                    {program.startDate} ~ {program.endDate}
                   </p>
                 </Info>
               </Content>
