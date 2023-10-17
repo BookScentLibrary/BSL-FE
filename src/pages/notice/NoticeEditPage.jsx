@@ -79,6 +79,7 @@ const NoticeEditPage = () => {
       if (response.status === 200) {
         console.log(response.data);
         // 수정이 성공하면 수정된 리뷰 상세 페이지로 이동
+        window.alert("공지사항이 수정되었습니다.");
         navigate(`/news/noticeDetail/${not_postId}`);
       } else {
         console.error("Error updating notice:", response.data);
@@ -107,7 +108,7 @@ const NoticeEditPage = () => {
             value={formData.postTitle}
             onChange={handleFormChange}
           />
-          <p>{formatDate(notice.createdAt)}</p>
+          {/* <p>{formatDate(notice.createdAt)}</p> */}
         </div>
         <div>
           <label htmlFor="content">내용:</label>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import * as S from "./RecommendDetail.style";
 import axios from "axios";
 import Button from "../shared/elements/Button";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
@@ -101,12 +101,12 @@ const RecommendDetail = (props) => {
   };
 
   return (
-    <Container>
-      <StyledWord>
+    <S.Container>
+      <S.StyledWord>
         <h1>사서 추천 도서</h1>
-        <BoldSolidHr />
+        <S.BoldSolidHr />
         <br />
-      </StyledWord>
+      </S.StyledWord>
       <div style={{ background: "#f0f0f0", padding: "10px" }}>
         <h3>{recommend.postTitle}</h3>
         <p style={{ color: "gray" }}>{formatDate(recommend.createdAt)}</p>
@@ -122,7 +122,7 @@ const RecommendDetail = (props) => {
         }}
       >
         <div style={{ flex: 1 }}>
-          <Image src={recommend.bookImageURL} />
+          <S.Image src={recommend.bookImageURL} />
         </div>
         <div style={{ flex: 2 }}>
           <h2>{recommend.bookname}</h2>
@@ -232,112 +232,57 @@ const RecommendDetail = (props) => {
         </div>
       )}
       <div>
-        <BoldSolidHr />
+        <S.BoldSolidHr />
         {prevRecommendIndex >= 0 ? (
-          <ButtonStyle
+          <S.ButtonStyle
             type="middle"
             onClick={() => goToRecommend(prevRecommendIndex)}
           >
             <span style={{ color: "gray", margin: "0 5px 0 0" }}>
               ∧　　이전 글
             </span>
-            <CenteredText>
+            <S.CenteredText>
               {recommendList[prevRecommendIndex].postTitle}
-            </CenteredText>
-          </ButtonStyle>
+            </S.CenteredText>
+          </S.ButtonStyle>
         ) : (
-          <NoneIndex>
+          <S.NoneIndex>
             <span
               style={{ color: "gray", margin: "0 5px 0 0", fontSize: "13px" }}
             >
               ∧　　이전 글
             </span>
-            <CenteredText>이전글이 없습니다</CenteredText>
-          </NoneIndex>
+            <S.CenteredText>이전글이 없습니다</S.CenteredText>
+          </S.NoneIndex>
         )}
         <hr />
         {nextRecommendIndex < recommendList.length ? (
-          <ButtonStyle
+          <S.ButtonStyle
             type="middle"
             onClick={() => goToRecommend(nextRecommendIndex)}
           >
             <span style={{ color: "gray", margin: "0 5px 0 0" }}>
               ∨　　다음 글
             </span>
-            <CenteredText>
+            <S.CenteredText>
               {recommendList[nextRecommendIndex].postTitle}
-            </CenteredText>
-          </ButtonStyle>
+            </S.CenteredText>
+          </S.ButtonStyle>
         ) : (
-          <NoneIndex>
+          <S.NoneIndex>
             <span
               style={{ color: "gray", margin: "0 5px 0 0", fontSize: "13px" }}
             >
               ∨　　다음 글
             </span>
-            <CenteredText>다음글이 없습니다</CenteredText>
-          </NoneIndex>
+            <S.CenteredText>다음글이 없습니다</S.CenteredText>
+          </S.NoneIndex>
         )}
-        <BoldSolidHr />
+        <S.BoldSolidHr />
       </div>
-    </Container>
+    </S.Container>
   );
 };
 
 export default RecommendDetail;
 
-const StyledWord = styled.div`
-  text-align: left;
-  margin-left: 20px;
-`;
-
-const Image = styled.div`
-  width: 230px;
-  height: 330px;
-  flex-shrink: 0;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid black;
-`;
-
-const ButtonStyle = styled.button`
-  background: none;
-  border: none;
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-`;
-
-const CenteredText = styled.span`
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-`;
-
-const NoneIndex = styled.div`
-  background: none;
-  border: none;
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-  font-weight: normal;
-  font-size: 14px;
-`;
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: auto;
-  gap: 12px 0;
-  vertical-align: middle;
-`;
-
-const BoldSolidHr = styled.hr`
-  border: 1px solid black;
-`;

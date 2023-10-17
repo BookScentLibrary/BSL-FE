@@ -27,6 +27,8 @@ import RecommendUpdate from "./components/recommend/RecommendUpdate";
 import MyPage from "./pages/mypage/MyPage";
 import BestSeller from "./components/bestBookPage/BestSeller";
 
+import NewBookList from "./components/newBook/NewBookDetail"
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
@@ -132,13 +134,38 @@ export default [
     path: "/admin/recommendUpdate/:recPostId",
     element: RecommendUpdate,
   },
+  //마이페이지
   {
     path: "/user/mypage",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/cart",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/history",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/program",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/review",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/hope",
     element: MyPage,
   },
   //인기도서 페이지
   {
     path: "/book/bestseller",
     element: BestSeller,
+  },
+  {
+    path: "/book/newbook",
+    element: NewBookList,
   },
 ];
