@@ -9,6 +9,8 @@ export const initialState = {
   review: [],
   recommend: [],
   searchResults: [],
+  search: [],
+  ppBooks: [],
 };
 
 //책과 관련된 액션 정의
@@ -16,15 +18,35 @@ export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
     try {
-      const response = await bookAPI.searchBook(data);
+          
+           const response = await bookAPI.searchBook(data);
       console.log("searchAPI response : ", response);
+      thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
     }
   }
 );
 
-//북 서치
+
+export const ppBooksAPI = createAsyncThunk(
+  "book/ppBooks",
+  async (data, thunkAPI) => {
+    console.log(data);
+    try {const response = await bookAPI.ppBook(data);
+      console.log("searchAPI response : ", response);
+      thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
+    } catch (error) {
+      console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
+
+
+
+
+
 export const SelectBookRecommendAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
@@ -90,7 +112,6 @@ export const getBookAPI = createAsyncThunk(
   async (bookNo, thunkAPI) => {
     try {
       const response = await bookAPI.getBook(bookNo);
-      console.log(response.data);
       const book = {
         ...response.data,
         author: response.data.author.split(";"),
@@ -114,71 +135,59 @@ export const getReaderDataAPI = createAsyncThunk(
       const forties = response.data.m_40 + response.data.f_40;
       const fifties = response.data.m_50 + response.data.f_50;
       const seniors = response.data.m_senior + response.data.f_senior;
-      if (
-        teens === 0 ||
-        twenteies === 0 ||
-        thirties === 0 ||
-        forties === 0 ||
-        fifties === 0 ||
-        seniors === 0
-      ) {
-        const data = [
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-          {
-            m: 0 + "%",
-            f: 0 + "%",
-          },
-        ];
-        thunkAPI.dispatch(bookSlice.actions.readerData(data));
-      } else {
-        const data = [
-          {
-            m: Math.round((response.data.m_10 / teens) * 100) + "%",
-            f: Math.round((response.data.f_10 / teens) * 100) + "%",
-          },
-          {
-            m: Math.round((response.data.m_20 / twenteies) * 100) + "%",
-            f: Math.round((response.data.f_20 / twenteies) * 100) + "%",
-          },
-          {
-            m: Math.round((response.data.m_30 / thirties) * 100) + "%",
-            f: Math.round((response.data.f_30 / thirties) * 100) + "%",
-          },
-          {
-            m: Math.round((response.data.m_40 / forties) * 100) + "%",
-            f: Math.round((response.data.f_40 / forties) * 100) + "%",
-          },
-          {
-            m: Math.round((response.data.m_50 / fifties) * 100) + "%",
-            f: Math.round((response.data.f_50 / fifties) * 100) + "%",
-          },
-          {
-            m: Math.round((response.data.m_senior / seniors) * 100) + "%",
-            f: Math.round((response.data.f_senior / seniors) * 100) + "%",
-          },
-        ];
 
-        thunkAPI.dispatch(bookSlice.actions.readerData(data));
-      }
+      const data = [
+        {
+          m: response.data.m_10
+            ? Math.round((response.data.m_10 / teens) * 100) + "%"
+            : "0%",
+          f: response.data.f_10
+            ? Math.round((response.data.f_10 / teens) * 100) + "%"
+            : "0%",
+        },
+        {
+          m: response.data.m_20
+            ? Math.round((response.data.m_20 / twenteies) * 100) + "%"
+            : "0%",
+          f: response.data.f_20
+            ? Math.round((response.data.f_20 / twenteies) * 100) + "%"
+            : "0%",
+        },
+        {
+          m: response.data.m_30
+            ? Math.round((response.data.m_30 / thirties) * 100) + "%"
+            : "0%",
+          f: response.data.f_30
+            ? Math.round((response.data.f_30 / thirties) * 100) + "%"
+            : "0%",
+        },
+        {
+          m: response.data.m_40
+            ? Math.round((response.data.m_40 / forties) * 100) + "%"
+            : "0%",
+          f: response.data.f_40
+            ? Math.round((response.data.f_40 / forties) * 100) + "%"
+            : "0%",
+        },
+        {
+          m: response.data.m_50
+            ? Math.round((response.data.m_50 / fifties) * 100) + "%"
+            : "0%",
+          f: response.data.f_50
+            ? Math.round((response.data.f_50 / fifties) * 100) + "%"
+            : "0%",
+        },
+        {
+          m: response.data.m_senior
+            ? Math.round((response.data.m_senior / seniors) * 100) + "%"
+            : "0%",
+          f: response.data.f_senior
+            ? Math.round((response.data.f_senior / seniors) * 100) + "%"
+            : "0%",
+        },
+      ];
+
+      thunkAPI.dispatch(bookSlice.actions.readerData(data));
     } catch (error) {
       console.error("readerDataAPI - error response : ", error.response.data);
     }
@@ -206,27 +215,26 @@ export const getRatingDataAPI = createAsyncThunk(
 
       const avg = Math.round(allPoint / allCount, 1);
 
-      if (allCount === 0 && allPoint === 0) {
-        const data = {
-          avg: 0,
-          p1: 0,
-          p2: 0,
-          p3: 0,
-          p4: 0,
-          p5: 0,
-        };
-        thunkAPI.dispatch(bookSlice.actions.ratingData(data));
-      } else {
-        const data = {
-          avg: avg.toFixed(1),
-          p1: Math.round((response.data.point_1 / allCount) * 100) + "%",
-          p2: Math.round((response.data.point_2 / allCount) * 100) + "%",
-          p3: Math.round((response.data.point_3 / allCount) * 100) + "%",
-          p4: Math.round((response.data.point_4 / allCount) * 100) + "%",
-          p5: Math.round((response.data.point_5 / allCount) * 100) + "%",
-        };
-        thunkAPI.dispatch(bookSlice.actions.ratingData(data));
-      }
+      const data = {
+        avg: avg ? avg.toFixed(1) : "0",
+        p1: response.data.point_1
+          ? Math.round((response.data.point_1 / allCount) * 100) + "%"
+          : "0%",
+        p2: response.data.point_2
+          ? Math.round((response.data.point_2 / allCount) * 100) + "%"
+          : "0%",
+        p3: response.data.point_3
+          ? Math.round((response.data.point_3 / allCount) * 100) + "%"
+          : "0%",
+        p4: response.data.point_4
+          ? Math.round((response.data.point_4 / allCount) * 100) + "%"
+          : "0%",
+        p5: response.data.point_5
+          ? Math.round((response.data.point_5 / allCount) * 100) + "%"
+          : "0%",
+      };
+
+      thunkAPI.dispatch(bookSlice.actions.ratingData(data));
     } catch (error) {
       console.error("readerDataAPI - error response : ", error.response.data);
     }
@@ -237,56 +245,34 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
   "book/getSelectedBookReview",
   async (bookNo, thunkAPI) => {
     try {
-      // const response = await bookAPI.getSelectedBookReview(bookNo);
-      const response = {
-        data: [
-          {
-            rev_postId: 1,
-            nickname: "닉네임1",
-            postTitle: "첫번째 리뷰",
-            content: "첫번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 4,
-          },
-          {
-            rev_postId: 2,
-            nickname: "닉네임2",
-            postTitle: "두번째 리뷰",
-            content: "두번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 5,
-          },
-          {
-            rev_postId: 3,
-            nickname: "닉네임3",
-            postTitle: "세번째 리뷰",
-            content:
-              "봐, 여기서 네가 웃는 장면이 하이라이트니까 사진으로도 담아낼 수 없는 몹시도 사소한 그 행동거지에 그 어떤 어두운 스토리도 뒤집어 놓는 순간이 흘러넘치고 있어 어딘가 하나를 잘라서 썸네일로 하자 급한 대로 지금은 말이야",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 2,
-          },
-          {
-            rev_postId: 4,
-            nickname: "닉네임4",
-            postTitle: "네번째 리뷰",
-            content: "네번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 5,
-          },
-          {
-            rev_postId: 5,
-            nickname: "닉네임5",
-            postTitle: "다섯번째 리뷰",
-            content: "다섯번째 리뷰 내용",
-            createdAt: "2023-10-02 12:00:00",
-            rate: 3,
-          },
-        ],
-      };
-      console.log(response.data);
+      const response = await bookAPI.getSelectedBookReview(bookNo);
       thunkAPI.dispatch(bookSlice.actions.setSelectedBookReview(response.data));
     } catch (error) {
-      console.log("testAPI : error response", error.response.data);
+      console.log(
+        "BOOK_GET SELECTED BOOK REVIEW : error response",
+        error.response.data
+      );
+    }
+  }
+);
+
+
+//사서 추천 도서 글 등록
+export const BookRecommendAPI = createAsyncThunk(
+  "admin/recommendCreate",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.bookRecommendAPI(data);
+      console.log(response.data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+      window.location.replace("/user/recommendList");
+    } catch (error) {
+      console.log(
+        "BOOK_RECOMMEND CREATE : error response",
+        error.response.data
+      );
     }
   }
 );
@@ -318,5 +304,11 @@ export const bookSlice = createSlice({
     setSearchResults: (state, action) => {
       state.searchResults = action.payload; // 검색 결과를 업데이트
     },
+    setSearchList: (state, action) => {
+      state.search =action.payload;
+    },
+    setppBookList: (state, action) => {
+      state.ppBooks = action.payload;
+    }
   },
 });

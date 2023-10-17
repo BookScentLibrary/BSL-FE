@@ -1,13 +1,18 @@
 import React from "react";
+import { useLocation } from "react-router";
 import styled from "styled-components";
 
 const Banner = () => {
+  const location = useLocation().pathname.split("/")[2];
+
   return (
     <React.Fragment>
-      <Container>
-        <Image />
-        <Radius />
-      </Container>
+      {location != "mypage" && (
+        <Container>
+          <Image />
+          <Radius />
+        </Container>
+      )}
     </React.Fragment>
   );
 };

@@ -27,8 +27,9 @@ const Header = () => {
     // navigate("/book/search");
     navigate("/book");
   };
+  
   const goToMyPage = () => {
-    // navigate("/user/mypage");
+    navigate("/user/mypage");
   };
 
   const logoutHandler = () => {

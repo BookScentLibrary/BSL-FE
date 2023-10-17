@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { postAPI, userAPI } from "../apis";
+import { postAPI } from "../apis/post";
 
 export const initialState = {
   notice: [],
@@ -18,7 +18,7 @@ export const getProgramListAPI = createAsyncThunk(
       const response = await postAPI.getProgramList();
       thunkAPI.dispatch(postSlice.actions.setProgram(response.data));
     } catch (error) {
-      console.log("signUpAPI : error response", error.response.data);
+      console.log("Program : error response", error.response.data);
     }
   }
 );

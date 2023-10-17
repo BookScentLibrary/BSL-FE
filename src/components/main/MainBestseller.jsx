@@ -32,7 +32,7 @@ const MainBestseller = () => {
             return (
               <BestTemp
                 key={idx}
-                rank={idx+1}
+                rank={idx + 1}
                 title={cur.bookname}
                 author={cur.author}
                 bookNo={cur.bookNo}

@@ -23,7 +23,7 @@ const Input = (props) => {
     optionValue,
     setOptionValue,
     inputType,
-    password
+    password,
   } = props;
 
   const styles = {
@@ -42,6 +42,7 @@ const Input = (props) => {
       ) : (
         <div style={{ position: "absolute" }}>
           <SearchSelect
+            size={size}
             data={SelectData}
             value={optionValue}
             setValue={setOptionValue}
@@ -49,7 +50,7 @@ const Input = (props) => {
         </div>
       )}
       <Inp
-        type={password?"password":null}
+        type={password ? "password" : null}
         id={id}
         name={name}
         value={value}
@@ -62,14 +63,26 @@ const Input = (props) => {
         {...styles}
       />
       {inputType === "search" ? (
-        <Search
-          onClick={onClick}
-          style={{
-            position: "absolute",
-            right: "0",
-            padding: "12px 16px",
-          }}
-        />
+        size !== "small" ? (
+          <Search
+            onClick={onClick}
+            style={{
+              position: "absolute",
+              right: "0",
+              padding: "12px 16px",
+            }}
+          />
+        ) : (
+          <Search
+            onClick={onClick}
+            style={{
+              position: "absolute",
+              top: "-6px",
+              right: "0",
+              padding: "12px 16px",
+            }}
+          />
+        )
       ) : null}
     </div>
   );
@@ -97,7 +110,7 @@ const Inp = styled.input`
       : "1004px"};
 
   height: ${({ $inputType, size }) =>
-    $inputType === "search" ? "60px" : "46px"};
+    $inputType === "search" ? (size == "small" ? "46px" : "60px") : "46px"};
   outline: none;
   border: 1px solid #000;
   border-radius: 4px;
