@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import * as S from "./SearchModal.style";
 import React, { useEffect, useState } from "react";
 import { setSearchResults } from "../search/action";
 import Input from "../shared/elements/Input.jsx";
@@ -84,9 +84,9 @@ const SearchModal = (props) => {
 
   return (
     <div>
-      <ModalWrapper className={isOpen ? "open" : ""} onClick={onClose}>
-        <ModalContent onClick={(e) => e.stopPropagation()}>
-          <CloseButton onClick={handleCloseModal}>X</CloseButton>
+      <S.ModalWrapper className={isOpen ? "open" : ""} onClick={onClose}>
+        <S.ModalContent onClick={(e) => e.stopPropagation()}>
+          <S.CloseButton onClick={handleCloseModal}>X</S.CloseButton>
           <h2>도서 검색</h2>
           <br />
           <div className="search">
@@ -102,16 +102,16 @@ const SearchModal = (props) => {
               onClick={searchBookForm}
             />
           </div>
-          <ScrollContainer>
+          <S.ScrollContainer>
             {searchResults.length > 0 ? (
               searchResults.map((book) => (
-                <BookItem key={book.bookNo}>
+                <S.BookItem key={book.bookNo}>
                   <div style={{ display: "flex", gap: "10px" }}>
-                    <Image src={book.bookImageURL} />
+                    <S.Image src={book.bookImageURL} />
                   </div>
-                  <BookInfoContainer>
-                    <BookInfoHeader>{book.bookname}</BookInfoHeader>
-                    <BookInfoText>
+                  <S.BookInfoContainer>
+                    <S.BookInfoHeader>{book.bookname}</S.BookInfoHeader>
+                    <S.BookInfoText>
                       <span
                         style={{
                           fontWeight: "800",
@@ -122,8 +122,8 @@ const SearchModal = (props) => {
                         저자
                       </span>
                       {book.author}
-                    </BookInfoText>
-                    <BookInfoText>
+                    </S.BookInfoText>
+                    <S.BookInfoText>
                       <span
                         style={{
                           fontWeight: "800",
@@ -146,20 +146,20 @@ const SearchModal = (props) => {
                         </span>
                         {book.publicationYear}년
                       </span>
-                    </BookInfoText>
-                    <BookInfoText>
+                    </S.BookInfoText>
+                    <S.BookInfoText>
                       <span
                         style={{
                           fontWeight: "800",
                           margin: "5px",
-                          marginRight: "20px",
+                          marginRight: "18px",
                         }}
                       >
                         청구기호
                       </span>
                       {book.callNum}
-                    </BookInfoText>
-                    <BookInfoText>
+                    </S.BookInfoText>
+                    <S.BookInfoText>
                       <span
                         style={{
                           fontWeight: "800",
@@ -170,125 +170,25 @@ const SearchModal = (props) => {
                         자료실
                       </span>
                       {book.shelfArea}
-                    </BookInfoText>
-                  </BookInfoContainer>
-                  <ButtonWrapper>
+                    </S.BookInfoText>
+                  </S.BookInfoContainer>
+                  <S.ButtonWrapper>
                     <Button
                       type="middle"
                       onClick={() => handleSelectBook(book)}
                     >
                       도서 선택
                     </Button>
-                  </ButtonWrapper>
-                </BookItem>
+                  </S.ButtonWrapper>
+                </S.BookItem>
               ))
             ) : (
               <p>검색 결과가 없습니다.</p>
             )}
-          </ScrollContainer>
-        </ModalContent>
-      </ModalWrapper>
+          </S.ScrollContainer>
+        </S.ModalContent>
+      </S.ModalWrapper>
     </div>
   );
 };
 export default SearchModal;
-
-const ModalWrapper = styled.div`
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-
-  &.open {
-    display: block;
-  }
-`;
-
-const ModalContent = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 50%;
-  height: 80%;
-  padding: 30px;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  z-index: 999;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BookInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 10px;
-`;
-
-const BookInfoHeader = styled.h3`
-  margin: 5px;
-  margin-bottom: 20px;
-  font-weight: "800"
-  font-size: 10px;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const BookItem = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 20px;
-  justify-content: space-between;
-  position: relative;
-
-  &::after {
-    content: "";
-    width: 100%;
-    height: 1px;
-    background: #ccc;
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    border-top: 1px solid;
-  }
-`;
-
-const BookInfoText = styled.p`
-  margin: 4px 10px;
-  font-size: 14px;
-`;
-const Image = styled.div`
-  width: 180px;
-  height: 280px;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid black;
-`;
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-`;
-
-const ScrollContainer = styled.div`
-  max-height: 400px;
-  overflow-y: auto;
-`;

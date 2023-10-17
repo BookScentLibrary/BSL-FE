@@ -1,31 +1,18 @@
 import React from "react";
-import Flex from "../shared/elements/Flex";
-import MoreButton from "../shared/elements/MoreButton";
+import Flex from "../../shared/elements/Flex";
+import MoreButton from "../../shared/elements/MoreButton";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { getRentHistoryAPI } from "../../../core/redux/mypageSlice";
 
 const RentHistory = () => {
-  const books = [
-    {
-      title: "책제목1",
-      author: "작가1",
-    },
-    {
-      title: "책제목2",
-      author: "작가2",
-    },
-    {
-      title: "책제목3",
-      author: "작가3",
-    },
-    {
-      title: "책제목4",
-      author: "작가5",
-    },
-    {
-      title: "책제목5",
-      author: "작가5",
-    },
-  ];
+  const dispatch = useDispatch();
+  const books = useSelector((state) => state.mypage.renthistory);
+
+  React.useEffect(() => {
+    dispatch(getRentHistoryAPI());
+  }, []);
+
   return (
     <Container>
       <Flex sb center>
@@ -33,16 +20,19 @@ const RentHistory = () => {
         <MoreButton />
       </Flex>
       <Books>
-        {books &&
+        {books.length > 0 ? (
           books.map((cur, i) => {
             return (
-              <Book key={cur.title}>
-                <Image />
-                <p className="title">{cur.title}</p>
-                <p className="author">{cur.author}</p>
+              <Book key={i}>
+                <Image src={cur.book.bookImageURL} />
+                <p className="title">{cur.book.bookname}</p>
+                <p className="author">{cur.book.author.split(";")[0]}</p>
               </Book>
             );
-          })}
+          })
+        ) : (
+          <NotData>대출 내역이 없습니다.</NotData>
+        )}
       </Books>
     </Container>
   );
@@ -71,25 +61,41 @@ const Books = styled.div`
 `;
 
 const Book = styled.div`
-  width: fit-content;
+  cursor: pointer;
+
+  width: 184px;
   height: fit-content;
   & > .title {
     margin: 14px 0 0 0;
     font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   & > .author {
     margin: 8px 0 0 0;
     font-size: 12px;
     color: ${({ theme }) => theme.colors.gray};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
 const Image = styled.div`
-  border: ${({ theme }) => `1px solid ${theme.colors.gray200}`};
   background-color: ${({ theme }) => theme.colors.gray50};
   width: 184px;
   height: 276px;
   border-radius: 8px;
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
+  background-position: center;
+`;
+
+const NotData = styled.div`
+  margin-top: 120px;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default RentHistory;

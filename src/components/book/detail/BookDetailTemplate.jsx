@@ -21,7 +21,6 @@ const BookDetailTemplate = (props) => {
 
   const bookNo = location.pathname.split("/")[3];
 
-
   const goToSearch = () => {
     navigate("/book");
     props.setPage(0);
@@ -30,6 +29,17 @@ const BookDetailTemplate = (props) => {
   const goToReview = () => {
     navigate("/reviewList");
   };
+
+  const addBookCart = () => {
+    const bookCart = sessionStorage.getItem("bookCart");
+    const bookArr = bookCart ? JSON.parse(bookCart) : [];
+    if (bookArr.includes(bookNo)) {
+      window.alert("이미 책바구니에 담긴 책입니다.");
+    } else {
+      sessionStorage.setItem("bookCart", JSON.stringify([...bookArr, bookNo]));
+    }
+  };
+
   const book = useSelector((state) => state.book.book);
   const reviewList = useSelector((state) => state.book.review);
 
@@ -59,7 +69,7 @@ const BookDetailTemplate = (props) => {
             </Button>
           </div>
           <div>
-            <Button type="middle" color="green">
+            <Button type="middle" color="green" onClick={addBookCart}>
               책 바구니 담기
             </Button>
           </div>
