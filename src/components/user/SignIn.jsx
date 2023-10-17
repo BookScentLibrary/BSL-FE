@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import * as S from "./SignIn.style";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useDispatch } from "react-redux";
@@ -25,41 +24,36 @@ const SignIn = () => {
   };
   return (
     <>
-      <div>
-        <div>
-          <StyledWord>
-            <h1>로그인</h1>
-            <hr />
-            <br />
-          </StyledWord>
-          <Input
-            type="text"
-            name="username"
-            label="아이디"
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ marginBottom: "20px" }}
-          />
-          <br />
-          <Input
-            password
-            name="password"
-            label="비밀번호"
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ marginBottom: "20px" }}
-          />
-          <br />
-        </div>
-      </div>
-      <div>
+      <S.StyledWord>
+        <h1>로그인</h1>
+        <hr />
+        <br />
+      </S.StyledWord>
+      <S.Container>
+        <Input
+          type="text"
+          name="username"
+          width="400px"
+          label="아이디"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <br />
+      </S.Container>
+      <S.Container>
+        <Input
+          password
+          name="password"
+          width="400px"
+          label="비밀번호"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
+      </S.Container>
+      <S.Container>
         <Button onClick={() => SignInHandler()}>로그인</Button>
-      </div>
+      </S.Container>
     </>
   );
 };
 
 export default SignIn;
-
-const StyledWord = styled.div`
-  text-align: left;
-  margin-left: 20px;
-`;

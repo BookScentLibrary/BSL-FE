@@ -3,8 +3,6 @@ import { userAPI } from "../apis";
 
 export const initialState = {
   user: null,
-  usernameDBCheck: false,
-  nicknameDBCheck: false,
   is_login: false,
 };
 //회원가입용 API
@@ -26,40 +24,6 @@ export const signUpAPI = createAsyncThunk(
     }
   }
 );
-//아이디 중복확인용 API
-// export const usernameAPI = createAsyncThunk(
-//   "user/idCheck",
-//   async (data, thunkAPI) => {
-//     try {
-//       console.log("아이디 중복확인 data:" + data);
-//       const response = await userAPI.idCheck(data);
-//       if (response.status === 200) {
-//         console.log("아이디 중복확인 response:" + response);
-//       } else {
-//         window.alert("뭔가 문제가 있음");
-//       }
-//     } catch (error) {
-//       console.log("usernameAPI : error response", error.response.data);
-//     }
-//   }
-// );
-// //닉네임 중복확인용 API
-// export const nicknameAPI = createAsyncThunk(
-//   "user/nickCheck",
-//   async (data, thunkAPI) => {
-//     try {
-//       console.log("닉네임 중복확인 data:" + data);
-//       const response = await userAPI.signUp(data);
-//       if (response.status === 200) {
-//         console.log("닉네임 중복확인 response:" + response);
-//       } else {
-//         window.alert("뭔가 문제가 있음");
-//       }
-//     } catch (error) {
-//       console.log("nicknameAPI : error response", error.response.data);
-//     }
-//   }
-// );
 
 //로그인 API
 export const signInAPI = createAsyncThunk(
@@ -107,13 +71,6 @@ export const userSlice = createSlice({
       state.user = action.payload.user;
       state.is_login = true;
     },
-    deleteUser: (state, action) => {
-      state.user = null;
-      state.is_login = false;
-    },
-    idCheck: (state, action) => {
-      state.usernameDBCheck = action.payload.result;
-    },
     getUser: (state, action) => {
       state.user = action.payload;
       state.is_login = true;
@@ -122,10 +79,6 @@ export const userSlice = createSlice({
     deleteUser: (state, action) => {
       state.user = null;
       state.is_login = false;
-      return;
-    },
-    idCheck: (state, action) => {
-      state.usernameDBCheck = action.payload.result;
       return;
     },
   },
