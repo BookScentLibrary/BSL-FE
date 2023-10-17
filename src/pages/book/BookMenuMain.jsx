@@ -56,6 +56,8 @@ const BookMenuMain = (props) => {
   React.useEffect(() => {
     if (pathname === "/book") {
       setPageIdx(0);
+    } else if (pathname.split("/")[1] === "newbook") {
+      setPageIdx(1);
     } else if (pathname.split("/")[2] === "detail") {
       setPageIdx(4);
     } else if (pathname.split("/")[2] === "recommendList") {

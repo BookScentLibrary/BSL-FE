@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NewBookList = ({ items }) => {
@@ -30,7 +31,11 @@ const NewBookList = ({ items }) => {
             items.map((item) => (
               <tr key={item.newBookNo}>
                 <TableCell>{item.newBookNo}</TableCell>
-                <TableTitle>{truncateText(item.bookname, 45)}</TableTitle>
+                <TableTitle>
+                  <StyledLink to={`/book/detail/${item.bookNo}`}>
+                    {truncateText(item.bookname, 45)}
+                  </StyledLink>
+                </TableTitle>
                 <TableCell>{truncateText(item.author, 3)}</TableCell>
                 <TableCell>{truncateText(item.publisher, 4)}</TableCell>
                 <TableCell>{item.publicationYear}</TableCell>
@@ -102,6 +107,15 @@ const TableTitle = styled.td`
   text-align: left;
   border-bottom: 1px solid #ddd;
 `;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  `;
 
 const NoDataCell = styled.td`
   padding: 12px;

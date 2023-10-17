@@ -5,6 +5,7 @@ import { userSlice } from "./redux/userSlice";
 import { bookSlice } from "./redux/bookSlice";
 import { postSlice } from "./redux/postSlice";
 import { mainSlice } from "./redux/mainSlice";
+import { newBookSlice } from "./redux/newBookSlice";
 import { mypageSlice } from "./redux/mypageSlice";
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   book: bookSlice.reducer,
   post: postSlice.reducer,
   main: mainSlice.reducer,
+  newBook: newBookSlice.reducer,
   mypage: mypageSlice.reducer,
 });
 

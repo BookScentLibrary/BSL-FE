@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewBookList from "./NewBookList";
-import axios from 'axios';
+import { newBookAPI } from "../../core/apis/newBook";
 
 const NewBookDetail = () => {
     const [items, setItems] = useState([]);
@@ -8,11 +8,11 @@ const NewBookDetail = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/book/newbook");
+                const response = await newBookAPI.getNewBookList();
                 if (response.data) {
                     const newBookData = response.data.map((item, index) => ({
-                        bookNo: item.bookNo,
                         newBookNo: index + 1,
+                        bookNo: item.bookNo,
                         bookname: item.bookname,
                         author: item.author,
                         publisher: item.publisher,
@@ -28,15 +28,6 @@ const NewBookDetail = () => {
 
         fetchData();
     }, []);
-
-    useEffect(() => {
-        setItems(prevItems =>
-            prevItems.map((item, index) => ({
-                ...item,
-                newBookNo: index + 1
-            }))
-        );
-    }, [items]);
 
     return <NewBookList items={items} />;
 };

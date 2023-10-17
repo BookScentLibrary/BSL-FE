@@ -13,7 +13,7 @@ const MainNewBook = () => {
   const books = useSelector((state) => state.main.newbook);
 
   const goToNewBook = () => {
-    navigate("/book");
+    navigate("/book/newbook");
   };
 
   React.useEffect(() => {

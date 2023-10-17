@@ -27,6 +27,8 @@ import RecommendUpdate from "./components/recommend/RecommendUpdate";
 import MyPage from "./pages/mypage/MyPage";
 import BestSeller from "./components/bestBookPage/BestSeller";
 
+import NewBookList from "./components/newBook/NewBookDetail"
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
@@ -161,5 +163,9 @@ export default [
   {
     path: "/book/bestseller",
     element: BestSeller,
+  },
+  {
+    path: "/book/newbook",
+    element: NewBookList,
   },
 ];
