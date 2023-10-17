@@ -19,7 +19,7 @@ const MyPageReview = () => {
           return (
             <Content>
               <p className="mypage_review__title">{cur.postTitle}</p>
-              <p className="mypage_review__createdAt">2023.10.23</p>
+              <p className="mypage_review__createdAt">{cur.createdAt}</p>
             </Content>
           );
         })
