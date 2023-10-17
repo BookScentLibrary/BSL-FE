@@ -5,6 +5,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as S from "./RecommendUpdate.style";
 import SearchModal from "./SearchModal";
+import styled from "styled-components";
 
 const RecommendUpdate = () => {
   const { recPostId } = useParams();

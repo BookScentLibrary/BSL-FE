@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { BookRecommendAPI } from "../../core/redux/bookSlice";
 import * as S from "./RecommendWrite.style";
 import SearchModal from "./SearchModal";
-import { BookRecommendAPI } from "../../core/redux/bookSlice";
 
 const RecommendWrite = () => {
   const [postTitle, setPostTitle] = useState(""); //게시글 제목
@@ -160,6 +159,5 @@ const RecommendWrite = () => {
     </>
   );
 };
-
 
 export default RecommendWrite;

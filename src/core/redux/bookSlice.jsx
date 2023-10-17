@@ -18,8 +18,7 @@ export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
     try {
-          
-           const response = await bookAPI.searchBook(data);
+      const response = await bookAPI.searchBook(data);
       console.log("searchAPI response : ", response);
       thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
@@ -27,7 +26,6 @@ export const searchBookAPI = createAsyncThunk(
     }
   }
 );
-
 
 export const ppBooksAPI = createAsyncThunk(
   "book/ppBooks",
@@ -42,11 +40,6 @@ export const ppBooksAPI = createAsyncThunk(
     }
   }
 );
-
-
-
-
-
 
 export const SelectBookRecommendAPI = createAsyncThunk(
   "book/search",
@@ -73,28 +66,12 @@ export const SelectBookRecommendAPI = createAsyncThunk(
   }
 );
 
-//사서 추천 도서 글 등록
-export const BookRecommendAPI = createAsyncThunk(
-  "admin/recommendCreate",
-  async (data, thunkAPI) => {
-    try {
-      const response = await bookAPI.bookRecommendAPI(data);
-      console.log(response.data);
-      thunkAPI.dispatch(
-        bookSlice.actions.setSelectedBookRecommend(response.data)
-      );
-    } catch (error) {
-      console.log("testAPI : error response", error.response.data);
-    }
-  }
-);
-
 //리뷰 등록
 export const BookReivewAPI = createAsyncThunk(
   "news/reviewWrite",
   async (data, thunkAPI) => {
     try {
-    console.log("Ddddd",data.isbn)
+      console.log("Ddddd", data.isbn);
 
       const response = await bookAPI.BookReivewAPI(data);
       console.log(response.data);
@@ -257,7 +234,6 @@ export const getSelectedBookReviewAPI = createAsyncThunk(
   }
 );
 
-
 //사서 추천 도서 글 등록
 export const BookRecommendAPI = createAsyncThunk(
   "admin/recommendCreate",
@@ -306,10 +282,10 @@ export const bookSlice = createSlice({
       state.searchResults = action.payload; // 검색 결과를 업데이트
     },
     setSearchList: (state, action) => {
-      state.search =action.payload;
+      state.search = action.payload;
     },
     setppBookList: (state, action) => {
       state.ppBooks = action.payload;
-    }
+    },
   },
 });
