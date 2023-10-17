@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../shared/elements/Button";
 import { ReactComponent as DefaultProfile } from "../../asset/images/default-profile.svg";
-import MoreButton from "../shared/elements/MoreButton";
 import Flex from "../shared/elements/Flex";
-import RentNow from "./RentNow";
 import CountInfoBlock from "./element/CountInfoBlock";
-import RentStatus from "./RentStatus";
-import RentHistory from "./RentHistory";
-import MyReview from "./MyReview";
+import MyPageMain from "./main/MyPageMain";
+import MyPageBookCart from "./MyPageBookCart";
+import { useLocation, useNavigate } from "react-router-dom";
+import MyPageHistory from "./MyPageHistory";
+import NotFunc from "./NotFunc";
+import MyPageReview from "./MyPageReview";
 
 const user = {
   username: "river123",
@@ -19,49 +20,94 @@ const user = {
 };
 
 const MyPageTemplate = () => {
+  const pathname = useLocation().pathname;
+  const navigate = useNavigate();
   const [pageIdx, setPageIdx] = React.useState(0);
+
+  const pages = {
+    0: <MyPageMain />,
+    1: <MyPageBookCart />,
+    2: <MyPageHistory />,
+    3: <MyPageReview />,
+    4: (
+      <NotFunc
+        title="프로그램 참여 내역"
+        content="아직 참여한 프로그램이 없습니다."
+      />
+    ),
+    5: (
+      <NotFunc
+        title="희망 도서 내역"
+        content="아직 작성한 희망도서가 없습니다."
+      />
+    ),
+  };
 
   const goToMain = () => {
     setPageIdx(0);
+    navigate("/user/mypage");
+  };
+
+  const goToBookCart = () => {
+    setPageIdx(1);
+    navigate("/user/mypage/cart");
   };
 
   const goToRentHistory = () => {
-    setPageIdx(1);
-  };
-
-  const goToProgram = () => {
     setPageIdx(2);
+    navigate("/user/mypage/history");
   };
 
   const goToReview = () => {
     setPageIdx(3);
+    navigate("/user/mypage/review");
   };
 
-  const goToLike = () => {
+  const goToProgram = () => {
     setPageIdx(4);
+    navigate("/user/mypage/program");
   };
 
   const goToHope = () => {
     setPageIdx(5);
+    navigate("/user/mypage/hope");
   };
+
   const funcArr = [
     goToMain,
+    goToBookCart,
     goToRentHistory,
-    goToProgram,
     goToReview,
-    goToLike,
+    goToProgram,
     goToHope,
   ];
   const menuArr = [
     "홈",
-    "대출 도서 조회",
-    "프로그램 참여 내역",
+    "책바구니",
+    "대출 내역 조회",
     "리뷰 내역",
-    "관심 도서",
+    "프로그램 참여 내역",
     "희망 도서 내역",
   ];
+
+  React.useEffect(() => {
+    if (pathname === "/user/mypage") {
+      setPageIdx(0);
+    } else if (pathname.split("/")[3] === "cart") {
+      setPageIdx(1);
+    } else if (pathname.split("/")[3] === "history") {
+      setPageIdx(2);
+    } else if (pathname.split("/")[3] === "review") {
+      setPageIdx(3);
+    } else if (pathname.split("/")[3] === "program") {
+      setPageIdx(4);
+    } else if (pathname.split("/")[3] === "hope") {
+      setPageIdx(5);
+    }
+  }, [pathname]);
+
   return (
-    <Container>
+    <>
       <UserSection>
         <Flex center gap="48px" margin="0 0 80px 0">
           <DefaultProfile width="100px" height="100px" />
@@ -72,7 +118,9 @@ const MyPageTemplate = () => {
               마이페이지
             </p>
             <Flex gap="16px">
-              <Button type="small">책바구니 확인하기</Button>
+              <Button type="small" onClick={goToBookCart}>
+                책바구니 확인하기
+              </Button>
               <Button type="small" color="gray">
                 대출내역 확인하기
               </Button>
@@ -99,22 +147,10 @@ const MyPageTemplate = () => {
             }
           })}
       </MenuSection>
-      <Flex>
-        <RentStatus />
-        <RentNow />
-      </Flex>
-      <RentHistory />
-      <Flex>
-        <AdSection></AdSection>
-        <MyReview />
-      </Flex>
-    </Container>
+      {pages[pageIdx]}
+    </>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-`;
 
 const UserSection = styled.div`
   box-sizing: border-box;
@@ -150,15 +186,6 @@ const Option = styled.p`
   color: ${({ $on, theme }) => ($on ? theme.colors.primary : "#000")};
   border-bottom: ${({ $on, theme }) =>
     $on ? `2px solid ${theme.colors.primary}` : ""};
-`;
-
-const AdSection = styled.div`
-  width: 396px;
-  height: 540px;
-  border-radius: 20px;
-  background-color: #fff;
-
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.05);
 `;
 
 const TitleArea = styled.div`

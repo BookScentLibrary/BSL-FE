@@ -1,62 +1,42 @@
 import React from "react";
-import Flex from "../shared/elements/Flex";
+import Flex from "../../shared/elements/Flex";
 import styled from "styled-components";
-import MoreButton from "../shared/elements/MoreButton";
+import MoreButton from "../../shared/elements/MoreButton";
 import { useNavigate } from "react-router";
-
-const reviews = [
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 1,
-  },
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 2,
-  },
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 3,
-  },
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 4,
-  },
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 5,
-  },
-  {
-    title: "리뷰",
-    createdAt: "2023.10.16",
-    rev_postId: 6,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getReviewAPI } from "../../../core/redux/mypageSlice";
 
 const MyReview = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.mypage.myreview);
 
-  const goToReview = (postId) => {
+  const goToReview = () => {
+    navigate("/news/reviewList");
+  };
+
+  const goToReviewDetail = (postId) => {
     navigate(`/news/reviewDetail/${postId}`);
   };
+
+  React.useEffect(() => {
+    dispatch(getReviewAPI());
+  }, [])
 
   return (
     <ReviewSection>
       <Flex sb center>
         <p className="mypage_harp__title">최근 작성 리뷰</p>
-        <MoreButton />
+        <MoreButton onClick={goToReview} />
       </Flex>
       <Line />
       {reviews &&
         reviews.map((cur, i) => {
           return (
-            <Title key={cur.rev_postId}
+            <Title
+              key={cur.rev_postId}
               onClick={() => {
-                goToReview(cur.rev_postId);
+                goToReviewDetail(cur.rev_postId);
               }}
             >
               <p className="title">리뷰제목[책제목]</p>

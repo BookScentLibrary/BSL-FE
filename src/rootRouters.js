@@ -132,8 +132,29 @@ export default [
     path: "/admin/recommendUpdate/:recPostId",
     element: RecommendUpdate,
   },
+  //마이페이지
   {
     path: "/user/mypage",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/cart",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/history",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/program",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/review",
+    element: MyPage,
+  },
+  {
+    path: "/user/mypage/hope",
     element: MyPage,
   },
   //인기도서 페이지
