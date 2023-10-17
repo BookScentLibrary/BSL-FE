@@ -230,3 +230,11 @@ const RecommendUpdate = () => {
 };
 
 export default RecommendUpdate;
+
+const Image = styled.div`
+  width: 200px;
+  height: 320px;
+  flex-shrink: 0;
+  background-image: ${({ src }) => (src ? `url(${src})` : "")};
+  background-repeat: no-repeat;
+`;

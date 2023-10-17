@@ -26,7 +26,7 @@ const ReviewListPage = () => {
   const getReviewList = async () => {
     try {
       const response = await axios.get("http://localhost:8080/news/reviewList");
-      //console.log(response.data);
+      console.log(response.data);
       setReviewList(response.data);
     } catch (error) {
       console.error("Error fetching review list:", error);
@@ -117,10 +117,10 @@ const ReviewListPage = () => {
               <th>{review.rev_postId}</th>
               <td>
                 <Link to={`/news/reviewDetail/${review.rev_postId}`}>
-                  {review.postTitle} [{review.bookname}]
+                  {review.postTitle} [{review.book.bookname}]
                 </Link>
               </td>
-              <td> {review.nickname} </td>
+              <td> {review.user.nickname} </td>
               <td> {formatDate(review.createdAt)}</td>
             </tr>
           ))}

@@ -285,3 +285,4 @@ const RecommendDetail = (props) => {
 };
 
 export default RecommendDetail;
+
