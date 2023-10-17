@@ -13,7 +13,7 @@ export const initialState = {
   ppBooks: [],
 };
 
-//책과 관련된 액션 정의
+//책 검색
 export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
@@ -32,12 +32,13 @@ export const searchBookAPI = createAsyncThunk(
 export const ppBooksAPI = createAsyncThunk(
   "book/ppBooks",
   async (data, thunkAPI) => {
-    console.log(data);
-    try {const response = await bookAPI.ppBook(data);
-      console.log("searchAPI response : ", response);
+    // console.log(data);
+    try {
+      const response = await bookAPI.ppBook();
+      console.log("searchAPI response : ", response.data);
       thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
     } catch (error) {
-      console.log("searchAPI : error response", error.response.data);
+      console.log("ppBooksAPI : error response", error.response);
     }
   }
 );

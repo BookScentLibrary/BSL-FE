@@ -6,6 +6,7 @@ import { searchBookAPI } from "../../core/redux/bookSlice.jsx";
 import { incrementPage } from "./action.js";
 import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
 import Grid from "./Grid";
+import style from "styled-components";
 
 
 
@@ -32,8 +33,8 @@ const SearchMain = () => {
   const searchBookForm = () => {
     dispatch(
       searchBookAPI({
-        searchValue: searchValue,
         searchType: 1,
+        searchValue: searchValue,
         pageNumber: pageNumber,
         pageSize: 20, // 원하는 페이지당 항목 수로 수정
       })
@@ -65,21 +66,37 @@ const SearchMain = () => {
           onClick={onClickSearch}
         ></Input>
       </div>
-      <div className="book-list">
+      <Booklist>
         {books&&books.map((book) => (
-          <div key={book.bookNo} className="book-item">
+          <Bookitem>
+          <div key={book.bookNo} >
             <Image src={book.bookImageURL} />
-            <h3>{book.bookname}</h3>
+            <Booktitle><h3>{book.bookname}</h3></Booktitle>
+            <Columns>
+            <p>저자</p>
+            <p>발행처</p>
+            <p>청구기호</p>
+            <p>자료실</p>
+            </Columns>
+            <Bookinfo>
             <p>{book.author}</p>
-            <p>{book.publisher}</p>
+            <AuthorandPubli>
+            <p>{book.publisher}  <span>|</span></p>
             <p>{book.publicationYear}</p>
+            </AuthorandPubli>
             <p>{book.callNum}</p>
-            <p>{book.bookStatus}</p>
-            <p>{book.rentCnt}</p>
-            <p>{book.isbn}</p>
+            <p>{book.shelfArea}</p>
+            </Bookinfo>
           </div>
+          </Bookitem>
+     
         ))}
-      </div>
+          {/* <div className="book-actions">
+            <button className="button1">도서대출</button>
+            <button className="button2">관심도서 담기</button>
+            <button className="button3">예약하기</button> */}
+          {/* </div> */}
+          </Booklist>
     </div>
   );
 };
@@ -92,7 +109,77 @@ const Image = styled.div`
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
+  float:left;
+  margin-right: 8px;
 `
+
+const Booktitle = style.div`
+  font-size: 1.2em;
+  margin-left: 8px;
+  border-bottom: 1px solid #ddd;
+
+  h3{
+  width: 750px;
+  height: 26px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 0 0 auto;
+ 
+  }
+
+`;
+
+const Bookinfo = styled.div`
+ p{
+  padding: 10px;
+  margin-left: 10px;
+ }
+ padding: 2px;
+ display: flex;
+ flex-direction: column;
+ margin-bottom: 20px;
+
+`;
+
+const Bookitem = styled.div`
+clear: both; 
+padding: 8px;
+border-bottom: 1px solid #ddd;
+
+`;
+
+const AuthorandPubli = style.div`
+display: flex;
+align-items: center;
+margin-left: 16px;
+
+
+  p {
+    padding: 2px;
+    margin: 0;
+  }
+
+
+`;
+
+const Booklist = style.div`
+
+`;                 
+
+const Columns = style.div`
+float:left;
+padding: 10px;
+display: flex;
+flex-direction: column;
+padding-bottom: 20px;
+letter-spacing: 2px;
+
+p {
+
+  margin: 6px;
+}
+`;
 
 
 export default SearchMain;
