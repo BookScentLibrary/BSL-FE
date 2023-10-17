@@ -3,7 +3,7 @@ import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styled from "styled-components";
+import * as S from "./RecommendUpdate.style";
 import SearchModal from "./SearchModal";
 
 const RecommendUpdate = () => {
@@ -148,11 +148,11 @@ const RecommendUpdate = () => {
       <div>
         {selectedBook ? (
           <div style={{ display: "flex", gap: "10px" }}>
-            <Image src={selectedBook.bookImageURL} />
+            <S.Image src={selectedBook.bookImageURL} />
             <div>
-              <BookInfoContainer>
-                <BookInfoHeader>{selectedBook.bookname}</BookInfoHeader>
-                <BookInfoText>
+              <S.BookInfoContainer>
+                <S.BookInfoHeader>{selectedBook.bookname}</S.BookInfoHeader>
+                <S.BookInfoText>
                   <span
                     style={{
                       fontWeight: "800",
@@ -163,8 +163,8 @@ const RecommendUpdate = () => {
                     저자
                   </span>
                   {selectedBook.author}
-                </BookInfoText>
-                <BookInfoText>
+                </S.BookInfoText>
+                <S.BookInfoText>
                   <span
                     style={{
                       fontWeight: "800",
@@ -175,8 +175,8 @@ const RecommendUpdate = () => {
                     발행처
                   </span>
                   {selectedBook.publisher}
-                </BookInfoText>
-                <BookInfoText>
+                </S.BookInfoText>
+                <S.BookInfoText>
                   <span
                     style={{
                       fontWeight: "800",
@@ -187,34 +187,34 @@ const RecommendUpdate = () => {
                     청구기호
                   </span>
                   {selectedBook.callNum}
-                </BookInfoText>
-                <BookInfoText>
+                </S.BookInfoText>
+                <S.BookInfoText>
                   <span
                     style={{
                       fontWeight: "800",
                       margin: "5px",
-                      marginRight: "30px",
+                      marginRight: "34px",
                     }}
                   >
                     자료실
                   </span>
                   {selectedBook.shelfArea}
-                </BookInfoText>
-              </BookInfoContainer>
-              <ButtonWrapper>
+                </S.BookInfoText>
+              </S.BookInfoContainer>
+              <S.ButtonWrapper>
                 <Button onClick={handleSearch}>다시 검색하기</Button>
-              </ButtonWrapper>
+              </S.ButtonWrapper>
             </div>
           </div>
         ) : null}
       </div>
       <div>
-        <Textarea
+        <S.Textarea
           name="content"
           value={formData.content}
           onChange={handleFormChange}
         />
-        <div style={{ display: "flex", gap: "10px" }}>
+        <S.CenteredButtonGroup>
           <Button type="middle" onClick={handleUpdate}>
             수정
           </Button>
@@ -223,56 +223,10 @@ const RecommendUpdate = () => {
               취소
             </Button>
           </Link>
-        </div>
+        </S.CenteredButtonGroup>
       </div>
     </>
   );
 };
 
 export default RecommendUpdate;
-
-const Image = styled.div`
-  width: 230px;
-  height: 330px;
-  flex-shrink: 0;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid black;
-  margin: 20px;
-`;
-
-const BookInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  margin-left: 10px;
-  margin-top: 10px;
-`;
-
-const BookInfoHeader = styled.h2`
-  margin: 5px;
-  margin-bottom: 20px;
-  font-weight: "800"
-  font-size: 20px;
-`;
-
-const BookInfoText = styled.p`
-  margin: 4px 0;
-  font-size: 18px;
-`;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 16px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  font-size: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  height: 1000px;
-`;
-
-const ButtonWrapper = styled.div`
-  margin: 10px;
-`;
