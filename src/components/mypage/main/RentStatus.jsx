@@ -5,6 +5,7 @@ const RentStatus = () => {
   return (
     <HarpSection>
       <p className="mypage_harp__title">대출 도서 통계</p>
+      <NotData>아직 집계된 데이터가 없습니다.</NotData>
     </HarpSection>
   );
 };
@@ -24,5 +25,11 @@ const HarpSection = styled.div`
   & > .mypage_harp__title {
     font-size: 24px;
   }
+`;
+const NotData = styled.div`
+  margin: 140px auto;
+  width: fit-content;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 export default RentStatus;

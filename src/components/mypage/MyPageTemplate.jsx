@@ -22,7 +22,11 @@ const user = {
 const MyPageTemplate = () => {
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
+
   const [pageIdx, setPageIdx] = React.useState(0);
+
+  const username = sessionStorage.getItem("username");
+  const nickname = sessionStorage.getItem("nickname");
 
   const pages = {
     0: <MyPageMain />,
@@ -112,22 +116,22 @@ const MyPageTemplate = () => {
         <Flex center gap="48px" margin="0 0 80px 0">
           <DefaultProfile width="100px" height="100px" />
           <TitleArea>
-            <p className="mypage_user__username">@{user.username}</p>
+            <p className="mypage_user__username">@{username}</p>
             <p className="mypage_user__title">
-              <span className="mypage_user__nickname">{user.nickname}</span>의
+              <span className="mypage_user__nickname">{nickname}</span>의
               마이페이지
             </p>
             <Flex gap="16px">
               <Button type="small" onClick={goToBookCart}>
                 책바구니 확인하기
               </Button>
-              <Button type="small" color="gray">
+              <Button type="small" color="gray" onClick={goToRentHistory}>
                 대출내역 확인하기
               </Button>
             </Flex>
           </TitleArea>
         </Flex>
-        <CountInfoBlock user={user} />
+        <CountInfoBlock user={user} setPageIdx={setPageIdx} />
       </UserSection>
       <MenuSection idx={pageIdx}>
         {menuArr &&
@@ -186,6 +190,12 @@ const Option = styled.p`
   color: ${({ $on, theme }) => ($on ? theme.colors.primary : "#000")};
   border-bottom: ${({ $on, theme }) =>
     $on ? `2px solid ${theme.colors.primary}` : ""};
+
+  transition: 0.2s;
+  &:hover {
+    color: ${({ $on, theme }) =>
+      $on ? theme.colors.darkgreen10 : theme.colors.darkgray};
+  }
 `;
 
 const TitleArea = styled.div`

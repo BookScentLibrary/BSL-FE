@@ -6,13 +6,15 @@ import Flex from "../../shared/elements/Flex";
 import { useNavigate } from "react-router-dom";
 
 const Book = (props) => {
-  const { book } = props;
+  const { book, onCheckedItem } = props;
   const navigate = useNavigate();
 
-  // const [check, setCheck] = React.useState(0);
-  // const checkHandler = (checked) => {
-  //   setCheck(checked);
-  // };
+  const [check, setCheck] = React.useState(0);
+
+  const checkHandler = (checked, item) => {
+    setCheck((prev) => (prev === 1 ? 0 : 1));
+    onCheckedItem(checked, item);
+  };
 
   const goToDetail = (bookNo) => {
     navigate(`/book/detail/${bookNo}`);
@@ -20,7 +22,7 @@ const Book = (props) => {
 
   return (
     <Container>
-      {/* <Radio check={check} checkhandler={checkHandler} /> */}
+      <Radio check={check} checkhandler={checkHandler} />
       <BookData>
         <Image src={book.bookImageURL} />
         <BookInfoText>

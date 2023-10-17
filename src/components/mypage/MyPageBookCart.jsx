@@ -11,14 +11,29 @@ const MyPageBookCart = () => {
   const bookArr = JSON.parse(bookCart);
   const booklist = useSelector((state) => state.mypage.bookcart);
 
+  const [checkedList, setCheckedList] = React.useState([]);
+
+  const onCheckedItem = React.useCallback(
+    (checked, item) => {
+      if (checked) {
+        setCheckedList((prev) => [...prev, item]);
+      } else if (!checked) {
+        setCheckedList(checkedList.filter((el) => el !== item));
+      }
+    },
+    [checkedList]
+  );
+
   const cleanCart = () => {
     sessionStorage.removeItem("bookCart");
   };
 
-  const bookRent = () => {};
+  const bookRent = () => {
+
+  };
 
   React.useEffect(() => {
-      dispatch(getBookListAPI(bookArr));
+    dispatch(getBookListAPI(bookArr));
   }, [bookArr]);
 
   return (
@@ -26,7 +41,7 @@ const MyPageBookCart = () => {
       <Title>책바구니</Title>
       {booklist && booklist.length > 0 ? (
         booklist.map((cur, i) => {
-          return <Book key={i} book={cur} bookArr={bookArr} />;
+          return <Book key={i} book={cur} bookArr={bookArr} onCheckedItem={onCheckedItem}/>;
         })
       ) : (
         <NotData>바구니에 담긴 책이 없습니다.</NotData>

@@ -95,7 +95,7 @@ const Book = styled.div`
 `;
 
 const NotData = styled.div`
-  margin-top: 60px;
+  margin: 80px;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.gray};
 `;

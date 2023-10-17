@@ -4,19 +4,23 @@ import { ReactComponent as RadioCheck } from "../../../asset/icons/radio_check.s
 import { ReactComponent as RadioUnCheck } from "../../../asset/icons/radio_uncheck.svg";
 
 const Radio = (props) => {
-  const { check, checkhandler } = props;
+  const { check, checkhandler, bookNo } = props;
 
   return (
     <Container>
       {check === 1 ? (
         <RadioCheck
-          onClick={() => checkhandler(0)}
+          onClick={(e) => checkhandler()}
           width="32px"
           height="32px"
           fill="#A1E092"
         />
       ) : (
-        <RadioUnCheck onClick={() => checkhandler(1)} width="32px" height="32px" />
+        <RadioUnCheck
+          onClick={() => checkhandler(bookNo)}
+          width="32px"
+          height="32px"
+        />
       )}
     </Container>
   );

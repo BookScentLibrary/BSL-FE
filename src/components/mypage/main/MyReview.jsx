@@ -21,7 +21,7 @@ const MyReview = () => {
 
   React.useEffect(() => {
     dispatch(getReviewAPI());
-  }, [])
+  }, []);
 
   return (
     <ReviewSection>
@@ -29,8 +29,8 @@ const MyReview = () => {
         <p className="mypage_harp__title">최근 작성 리뷰</p>
         <MoreButton onClick={goToReview} />
       </Flex>
-      <Line />
-      {reviews &&
+      {reviews.length > 0 && <Line />}
+      {reviews && reviews.length > 0 ? (
         reviews.map((cur, i) => {
           return (
             <Title
@@ -43,7 +43,10 @@ const MyReview = () => {
               <p>2023.09.10</p>
             </Title>
           );
-        })}
+        })
+      ) : (
+        <NotData>아직 작성한 리뷰가 없습니다.</NotData>
+      )}
     </ReviewSection>
   );
 };
@@ -86,5 +89,12 @@ const Title = styled.div`
       color: ${({ theme }) => theme.colors.darkgray};
     }
   }
+`;
+
+const NotData = styled.div`
+  margin: 160px auto;
+  width: fit-content;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 export default MyReview;

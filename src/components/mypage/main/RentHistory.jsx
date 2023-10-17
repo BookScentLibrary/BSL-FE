@@ -93,7 +93,7 @@ const Image = styled.div`
 `;
 
 const NotData = styled.div`
-  margin-top: 120px;
+  margin-top: 140px;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.gray};
 `;

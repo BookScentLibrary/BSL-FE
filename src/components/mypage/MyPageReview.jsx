@@ -33,7 +33,7 @@ const MyPageReview = () => {
 const Container = styled.div`
   position: relative;
   box-sizing: border-box;
-  padding: 73px 120px 180px 120px;
+  padding: 73px 120px 120px 120px;
   width: 100%;
   height: fit-content;
   border-radius: 20px;

@@ -41,6 +41,7 @@ export const signInAPI = createAsyncThunk(
         sessionStorage.clear();
         sessionStorage.setItem("token", accessToken);
         sessionStorage.setItem("nickname", response.data.data.user.nickname);
+        sessionStorage.setItem("username", response.data.data.user.username);
         sessionStorage.setItem("userId", response.data.data.user.userId);
         sessionStorage.setItem(
           "permission",
