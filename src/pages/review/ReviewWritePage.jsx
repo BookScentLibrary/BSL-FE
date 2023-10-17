@@ -29,6 +29,7 @@ function ReviewWritePage() {
 
   const dispatch = useDispatch();
   const userId = sessionStorage.getItem("userId");
+  console.log(userId);
   const [selectedBook, setSelectedBook] = useState(null);
 
   const handleSelectBook = (book) => {
