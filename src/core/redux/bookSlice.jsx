@@ -76,7 +76,6 @@ export const getBookAPI = createAsyncThunk(
   async (bookNo, thunkAPI) => {
     try {
       const response = await bookAPI.getBook(bookNo);
-      console.log(response.data);
       const book = {
         ...response.data,
         author: response.data.author.split(";"),

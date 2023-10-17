@@ -5,12 +5,14 @@ import { userSlice } from "./redux/userSlice";
 import { bookSlice } from "./redux/bookSlice";
 import { postSlice } from "./redux/postSlice";
 import { mainSlice } from "./redux/mainSlice";
+import { mypageSlice } from "./redux/mypageSlice";
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   book: bookSlice.reducer,
   post: postSlice.reducer,
   main: mainSlice.reducer,
+  mypage: mypageSlice.reducer,
 });
 
 export const configStore = configureStore({
