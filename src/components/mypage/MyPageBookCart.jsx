@@ -2,46 +2,81 @@ import React from "react";
 import styled from "styled-components";
 import Book from "./element/Book";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookListAPI } from "../../core/redux/mypageSlice";
 import Button from "../shared/elements/Button";
+import {
+  deleteAllBookCartAPI,
+  getBookCartAPI,
+  getRentNowAPI,
+  rentBookAPI,
+} from "../../core/redux/mypageSlice";
 
 const MyPageBookCart = () => {
   const dispatch = useDispatch();
-  const bookCart = sessionStorage.getItem("bookCart");
-  const bookArr = JSON.parse(bookCart);
   const booklist = useSelector((state) => state.mypage.bookcart);
+  const rentNow = useSelector((state) => state.mypage.rentnow);
 
   const [checkedList, setCheckedList] = React.useState([]);
 
-  const onCheckedItem = React.useCallback(
-    (checked, item) => {
-      if (checked) {
-        setCheckedList((prev) => [...prev, item]);
-      } else if (!checked) {
-        setCheckedList(checkedList.filter((el) => el !== item));
-      }
-    },
-    [checkedList]
-  );
-
-  const cleanCart = () => {
-    sessionStorage.removeItem("bookCart");
+  const messages = {
+    0: "도서 대출은 3권까지 가능합니다.",
+    1:
+      "도서 대출은 3권까지 가능합니다.\n 현재 " +
+      rentNow.length +
+      "권의 도서를 대출중입니다.",
+    2: "대출할 도서를 선택해주세요!",
+    3: "대출이 완료되었습니다.",
   };
 
+  const cleanCart = () => {
+    dispatch(deleteAllBookCartAPI());
+  };
   const bookRent = () => {
+    if (checkedList.length > 3) {
+      window.alert(messages[0]);
+      return;
+    } else if (3 - rentNow.length < checkedList.length) {
+      window.alert(messages[1]);
+    } else if (checkedList.length === 0) {
+      window.alert(messages[2]);
+      return;
+    } else {
+      dispatch(rentBookAPI(checkedList)).then(window.alert(messages[3]));
+    }
+  };
 
+  const addRentBookList = (bookNo, cancel) => {
+    setCheckedList((prev) => {
+      if (cancel === "cancel") {
+        return prev.filter((item) => item !== bookNo);
+      } else if (!prev.includes(bookNo)) {
+        return [...prev, bookNo];
+      } else {
+        return [...prev];
+      }
+    });
+    return;
   };
 
   React.useEffect(() => {
-    dispatch(getBookListAPI(bookArr));
-  }, [bookArr]);
+    dispatch(getBookCartAPI());
+    dispatch(getRentNowAPI());
+  }, []);
 
   return (
     <Container>
       <Title>책바구니</Title>
       {booklist && booklist.length > 0 ? (
         booklist.map((cur, i) => {
-          return <Book key={i} book={cur} bookArr={bookArr} onCheckedItem={onCheckedItem}/>;
+          return (
+            <Book
+              key={i}
+              book={cur.book}
+              bookStatus={cur.book.bookStatus}
+              rentedDate={cur.rentedDate}
+              returnedDate={cur.returnedDate}
+              addRentBookList={addRentBookList}
+            />
+          );
         })
       ) : (
         <NotData>바구니에 담긴 책이 없습니다.</NotData>
@@ -79,7 +114,7 @@ const Container = styled.div`
 const Title = styled.div`
   width: 100%;
   font-size: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 60px;
 `;
 
 const NotData = styled.div`

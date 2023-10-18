@@ -12,7 +12,7 @@ const MyReview = () => {
   const reviews = useSelector((state) => state.mypage.myreview);
 
   const goToReview = () => {
-    navigate("/news/reviewList");
+    navigate("/user/mypage/review");
   };
 
   const goToReviewDetail = (postId) => {
@@ -29,7 +29,7 @@ const MyReview = () => {
         <p className="mypage_harp__title">최근 작성 리뷰</p>
         <MoreButton onClick={goToReview} />
       </Flex>
-      {reviews.length > 0 && <Line />}
+      {reviews && reviews.length > 0 && <Line />}
       {reviews && reviews.length > 0 ? (
         reviews.map((cur, i) => {
           return (

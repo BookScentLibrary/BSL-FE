@@ -10,7 +10,7 @@ const Radio = (props) => {
     <Container>
       {check === 1 ? (
         <RadioCheck
-          onClick={(e) => checkhandler()}
+          onClick={(e) => checkhandler(bookNo, "cancel")}
           width="32px"
           height="32px"
           fill="#A1E092"

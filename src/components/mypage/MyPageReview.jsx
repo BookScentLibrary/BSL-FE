@@ -16,10 +16,20 @@ const MyPageReview = () => {
       <Title>리뷰 내역</Title>
       {reviews && reviews.length > 0 ? (
         reviews.map((cur, i) => {
+          const date = new Date(cur.createdAt);
+          const year = date.getFullYear();
+          const month =
+            date.getMonth() > 9 ? date.getMonth() : "0" + date.getMonth();
+          const day =
+            date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
           return (
             <Content>
-              <p className="mypage_review__title">{cur.postTitle}</p>
-              <p className="mypage_review__createdAt">{cur.createdAt}</p>
+              <p className="mypage_review__title">
+                {cur.postTitle} [{cur.book.bookname}]
+              </p>
+              <p className="mypage_review__createdAt">
+                {year}.{month}.{day}
+              </p>
             </Content>
           );
         })
@@ -53,7 +63,7 @@ const Container = styled.div`
 const Title = styled.div`
   width: 100%;
   font-size: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 60px;
 `;
 
 const Content = styled.div`
@@ -62,6 +72,17 @@ const Content = styled.div`
   align-items: center;
   height: 40px;
   border-bottom: 1px solid #000;
+
+  & > .mypage_review__title {
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    &: hover {
+      color: ${({ theme }) => theme.colors.darkgray};
+    }
+  }
 `;
 
 const NotData = styled.div`

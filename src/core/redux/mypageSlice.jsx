@@ -102,6 +102,84 @@ export const getBookListAPI = createAsyncThunk(
   }
 );
 
+export const getBookCartAPI = createAsyncThunk(
+  "book/GET_BOOK_CART",
+  async (data, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      const response = await mypageAPI.getBookCart(userId);
+      console.log(response);
+      thunkAPI.dispatch(mypageSlice.actions.setBookCart(response.data));
+    } catch (error) {
+      console.log("BOOK_GET_BOOK_CART : error response", error.response.data);
+    }
+  }
+);
+
+export const deleteAllBookCartAPI = createAsyncThunk(
+  "book/DELETE_ALL_BOOK_CART",
+  async (data, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      const response = await mypageAPI.deleteAllBookCart(userId);
+      response.status === 200 &&
+        thunkAPI.dispatch(mypageSlice.actions.setBookCart([]));
+    } catch (error) {
+      console.log(
+        "BOOK_DELETE_ALL_BOOK_CART : error response",
+        error.response.data
+      );
+    }
+  }
+);
+
+export const rentBookAPI = createAsyncThunk(
+  "book/RENT_BOOK",
+  async (bookNos, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+
+      for (let i = 0; i < bookNos.length; i++) {
+        const data = {
+          userId: userId,
+          bookNo: bookNos[i],
+        };
+        const response = await mypageAPI.rentBook(data);
+        if (response.status === 200) {
+          thunkAPI.dispatch(getBookCartAPI(userId));
+        }
+      }
+    } catch (error) {
+      console.log(
+        "BOOK_DELETE_ALL_BOOK_CART : error response",
+        error.response.data
+      );
+    }
+  }
+);
+
+export const returnBookAPI = createAsyncThunk(
+  "book/RETURN_BOOK",
+  async (bookNo, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      const data = {
+        bookNo: bookNo,
+        userId: userId,
+      };
+      console.log(data);
+      const response = await mypageAPI.returnBook(data);
+
+      if (response.status === 200) {
+        window.alert("도서 반납처리가 완료되었습니다.");
+        thunkAPI.dispatch(getRentNowAPI(userId));
+      }
+    } catch (error) {
+      console.log("BOOK_RETURN_BOOK : error response", error.response.data);
+    }
+  }
+);
+
 export const mypageSlice = createSlice({
   name: "mypageReducer",
   initialState,

@@ -2,19 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import Book from "./element/Book";
 import { useDispatch, useSelector } from "react-redux";
-import { getRentHistoryAllAPI } from "../../core/redux/mypageSlice";
-import Button from "../shared/elements/Button";
+import { getRentNowAPI, returnBookAPI } from "../../core/redux/mypageSlice";
 
-const MyPageHistory = () => {
+const MyPageRentNow = () => {
   const dispatch = useDispatch();
-  const booklist = useSelector((state) => state.mypage.renthistory);
+  const booklist = useSelector((state) => state.mypage.rentnow);
+
+  const returnBook = (bookNo) => {
+    dispatch(returnBookAPI(bookNo));
+  };
 
   React.useEffect(() => {
-    dispatch(getRentHistoryAllAPI());
+    dispatch(getRentNowAPI());
   }, []);
+
   return (
     <Container>
-      <Title>대출 내역 조회</Title>
+      <Title>대출중인 도서</Title>
       {booklist && booklist.length > 0 ? (
         booklist.map((cur, i) => {
           return (
@@ -22,13 +26,13 @@ const MyPageHistory = () => {
               noRadio
               key={i}
               book={cur.book}
-              rentedDate={cur.rentedDate}
-              returnedDate={cur.returnedDate}
+              expireDate={cur.expireDate}
+              returnBook={returnBook}
             />
           );
         })
       ) : (
-        <NotData>바구니에 담긴 책이 없습니다.</NotData>
+        <NotData>대출중인 도서가 없습니다.</NotData>
       )}
     </Container>
   );
@@ -67,4 +71,4 @@ const NotData = styled.div`
   color: ${({ theme }) => theme.colors.gray};
 `;
 
-export default MyPageHistory;
+export default MyPageRentNow;

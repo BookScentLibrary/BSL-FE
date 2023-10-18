@@ -9,6 +9,7 @@ const RentStatus = () => {
     </HarpSection>
   );
 };
+
 const HarpSection = styled.div`
   box-sizing: border-box;
   padding: 28px 40px;
@@ -26,10 +27,12 @@ const HarpSection = styled.div`
     font-size: 24px;
   }
 `;
+
 const NotData = styled.div`
   margin: 140px auto;
   width: fit-content;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.gray};
 `;
+
 export default RentStatus;

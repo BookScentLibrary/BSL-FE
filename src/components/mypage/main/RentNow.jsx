@@ -15,6 +15,10 @@ const RentNow = () => {
     navigate(`/book/detail/${bookNo}`);
   };
 
+  const goToRentNow = () => {
+    navigate('/user/mypage/rent');
+  }
+
   React.useEffect(() => {
     dispatch(getRentNowAPI());
   }, []);
@@ -23,7 +27,7 @@ const RentNow = () => {
     <HarpSection>
       <Flex sb center>
         <p className="mypage_harp__title">대출 중인 도서</p>
-        <MoreButton />
+        <MoreButton onClick={goToRentNow}/>
       </Flex>
       <div style={{ marginLeft: "32px" }}>
         <Books>

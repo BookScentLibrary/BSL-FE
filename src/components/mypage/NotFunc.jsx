@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const NotFunc = (props) => {
-  const {title, content} = props
+  const { title, content } = props;
   return (
     <Container>
       <Title>{title}</Title>
@@ -34,7 +34,7 @@ const Container = styled.div`
 const Title = styled.div`
   width: 100%;
   font-size: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 60px;
 `;
 
 const NotData = styled.div`

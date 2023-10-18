@@ -148,7 +148,7 @@ export default [
     element: MyPage,
   },
   {
-    path: "/user/mypage/program",
+    path: "/user/mypage/rent",
     element: MyPage,
   },
   {

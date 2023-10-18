@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import MyPageHistory from "./MyPageHistory";
 import NotFunc from "./NotFunc";
 import MyPageReview from "./MyPageReview";
+import MyPageRentNow from "./MyPageRentNow";
 
 const user = {
   username: "river123",
@@ -31,14 +32,9 @@ const MyPageTemplate = () => {
   const pages = {
     0: <MyPageMain />,
     1: <MyPageBookCart />,
-    2: <MyPageHistory />,
-    3: <MyPageReview />,
-    4: (
-      <NotFunc
-        title="프로그램 참여 내역"
-        content="아직 참여한 프로그램이 없습니다."
-      />
-    ),
+    2: <MyPageRentNow />,
+    3: <MyPageHistory />,
+    4: <MyPageReview />,
     5: (
       <NotFunc
         title="희망 도서 내역"
@@ -57,19 +53,19 @@ const MyPageTemplate = () => {
     navigate("/user/mypage/cart");
   };
 
-  const goToRentHistory = () => {
+  const goToRentNow = () => {
     setPageIdx(2);
+    navigate("/user/mypage/rent");
+  };
+
+  const goToRentHistory = () => {
+    setPageIdx(3);
     navigate("/user/mypage/history");
   };
 
   const goToReview = () => {
-    setPageIdx(3);
-    navigate("/user/mypage/review");
-  };
-
-  const goToProgram = () => {
     setPageIdx(4);
-    navigate("/user/mypage/program");
+    navigate("/user/mypage/review");
   };
 
   const goToHope = () => {
@@ -80,17 +76,17 @@ const MyPageTemplate = () => {
   const funcArr = [
     goToMain,
     goToBookCart,
+    goToRentNow,
     goToRentHistory,
     goToReview,
-    goToProgram,
     goToHope,
   ];
   const menuArr = [
     "홈",
     "책바구니",
+    "대출중인 도서",
     "대출 내역 조회",
     "리뷰 내역",
-    "프로그램 참여 내역",
     "희망 도서 내역",
   ];
 
@@ -99,11 +95,11 @@ const MyPageTemplate = () => {
       setPageIdx(0);
     } else if (pathname.split("/")[3] === "cart") {
       setPageIdx(1);
-    } else if (pathname.split("/")[3] === "history") {
+    } else if (pathname.split("/")[3] === "rent") {
       setPageIdx(2);
-    } else if (pathname.split("/")[3] === "review") {
+    } else if (pathname.split("/")[3] === "history") {
       setPageIdx(3);
-    } else if (pathname.split("/")[3] === "program") {
+    } else if (pathname.split("/")[3] === "review") {
       setPageIdx(4);
     } else if (pathname.split("/")[3] === "hope") {
       setPageIdx(5);
@@ -117,7 +113,7 @@ const MyPageTemplate = () => {
           <DefaultProfile width="100px" height="100px" />
           <TitleArea>
             <p className="mypage_user__username">@{username}</p>
-            <p className="mypage_user__title">
+            <p className="mypage_user__title" onClick={goToMain}>
               <span className="mypage_user__nickname">{nickname}</span>의
               마이페이지
             </p>
@@ -207,6 +203,7 @@ const TitleArea = styled.div`
   & > .mypage_user__title {
     margin: 4px 0 16px 0;
     font-size: 32px;
+    cursor: pointer;
   }
 
   & > p > .mypage_user__nickname {

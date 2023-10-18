@@ -18,6 +18,7 @@ const Button = (props) => {
 };
 
 const Btn = styled.button`
+  cursor: pointer;
   box-sizing: border-box;
   background: ${({ color, theme }) =>
     color
