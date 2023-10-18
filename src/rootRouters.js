@@ -166,6 +166,6 @@ export default [
   },
   {
     path: "/book/newbook",
-    element: NewBookList,
+    element: BookMenuMain,
   },
 ];

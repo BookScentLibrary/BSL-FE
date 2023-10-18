@@ -20,7 +20,7 @@ const BookMenuMain = (props) => {
   const page = {
     0: <SearchMain />,
     1: <NewBookMain />,
-    2: <BestSeller/>,
+    2: <BestSeller />,
     3: <RecommendList />,
     4: <BookDetail page={pageIdx} setPage={setPageIdx} />,
     5: <RecommendDetail recPostId={recPostId} setRecPostId={setRecPostId} />,
@@ -33,6 +33,7 @@ const BookMenuMain = (props) => {
 
   const goToNewBook = () => {
     setPageIdx(1);
+    
   };
 
   const goToBestseller = () => {
@@ -50,24 +51,19 @@ const BookMenuMain = (props) => {
     navigate(`/book/detail/${value}`);
   };
 
-  const goToRecommendDetail = () => {
-    setPageIdx(5);
-    navigate(`/user/recommendDetail/${recPostId}`);
-  };
-
   React.useEffect(() => {
     if (pathname === "/book") {
       setPageIdx(0);
     } else if (pathname.split("/")[1] === "newbook") {
       setPageIdx(1);
-    } else if (pathname.split("/")[2] === "detail") {
-      setPageIdx(4);
+    } else if (pathname.split("/")[1] === "bestseller") {
+      setPageIdx(2);
     } else if (pathname.split("/")[2] === "recommendList") {
       setPageIdx(3);
+    } else if (pathname.split("/")[2] === "detail") {
+      setPageIdx(4);
     } else if (pathname.split("/")[2] === "recommendDetail") {
       setPageIdx(5);
-    } else if (pathname.split("/")[1] === "bestseller"){
-      setPageIdx(2);
     }
   }, [pathname]);
 
