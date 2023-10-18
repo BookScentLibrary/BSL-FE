@@ -3,12 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Input from "../shared/elements/Input.jsx";
 import { bookSlice, searchBookAPI } from "../../core/redux/bookSlice.jsx";
-import { incrementPage } from "./action.js";
-import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
-import Grid from "./Grid";
 import style from "styled-components";
 import Button from "../shared/elements/Button";
-import InfiniteScroll from "./InfiniteScroll.jsx";
 import Pagination from "../../pages/review/Pagination.jsx";
 import { useNavigate } from "react-router-dom";
 import SearchErrorPage from "./SearchErrorPage.jsx";
@@ -64,12 +60,6 @@ const SearchMain = () => {
 
 
 
-  const handleEnterKeyPress = (e) => {
-    if (e.key === "Enter") {
-      onClickSearch();
-    }
-  };
-
 
   const goToDetail = (bookNo) => {
     navigate(`/book/detail/${bookNo}`);
@@ -120,9 +110,7 @@ const SearchMain = () => {
                       </Columns>
                       <Bookinfo>
                         <p>{book.author}</p>
-
                         <p>{book.publisher}  | {book.publicationYear}</p>
-
                         <p>{book.callNum}</p>
                         <p>{book.shelfArea}</p>
                       </Bookinfo>
