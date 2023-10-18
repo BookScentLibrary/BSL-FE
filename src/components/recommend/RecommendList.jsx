@@ -32,10 +32,9 @@ const RecommendList = () => {
       const response = await axios.get(
         "http://localhost:8080/user/recommendList"
       );
-      console.log(response.data);
       setRecommendList(response.data.data);
     } catch (error) {
-      console.error("Error fetching recommend list:", error);
+      console.error("목록을 가져오는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -51,7 +50,6 @@ const RecommendList = () => {
     const recommendYear = new Date(recommend.createdAt).getFullYear();
     return recommendYear === parseInt(year);
   };
-
 
   const filteredRecommendList = recommendList
     .filter(filterByYear)

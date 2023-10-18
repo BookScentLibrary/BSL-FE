@@ -16,7 +16,6 @@ function UserList() {
           (a, b) => b.permission - a.permission
         );
         setUsers(sortedUsers);
-        console.log(users);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생: " + error);
@@ -44,7 +43,6 @@ function UserList() {
         window.location.replace("/superAdmin/userList");
       } else {
         window.alert("권한 변경에 실패했습니다.");
-        console.log(response.message);
       }
     } catch (error) {
       console.error("API 호출 중 오류 발생: " + error);
@@ -96,6 +94,7 @@ function UserList() {
                   <Button
                     type="small"
                     width="100px"
+                    color="gray"
                     onClick={() => revokePermission(item.userId)}
                   >
                     취소하기
@@ -135,8 +134,6 @@ const StyledTable = styled.table`
   }
 
   button {
-    background-color: #007bff;
-    color: #fff;
     border: none;
     cursor: pointer;
     padding: 5px 10px;
