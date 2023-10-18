@@ -22,12 +22,11 @@ import ProgramDetail from "./pages/program/ProgramDetail";
 import ProgramForm from "./pages/program/ProgramForm";
 
 import RecommendWrite from "./components/recommend/RecommendWrite";
-import RecommendDetail from "./components/recommend/RecommendDetail";
 import RecommendUpdate from "./components/recommend/RecommendUpdate";
 import MyPage from "./pages/mypage/MyPage";
 import BestSeller from "./components/bestBookPage/BestSeller";
 
-import NewBookList from "./components/newBook/NewBookDetail"
+import NewBookList from "./components/newBook/NewBookDetail";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [

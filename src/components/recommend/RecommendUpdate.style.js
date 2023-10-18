@@ -32,14 +32,14 @@ export const BookInfoText = styled.p`
 `;
 
 export const Textarea = styled.textarea`
-  width: 100%;
+  width: 1208px;
   padding: 16px;
   border: 1px solid gray;
   border-radius: 10px;
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  height: 1000px;
+  height: 800px;
 `;
 
 export const ButtonWrapper = styled.div`

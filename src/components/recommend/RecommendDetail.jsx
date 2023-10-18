@@ -8,7 +8,6 @@ const RecommendDetail = (props) => {
   // URL 매개변수로부터 리뷰 ID 가져오기
   const { recPostId } = useParams();
   const location = useLocation().pathname.split("/")[3];
-  console.log(location);
 
   // 추천 도서 게시물 데이터를 저장할 상태 변수
   const [recommend, setRecommend] = useState({});
@@ -23,7 +22,6 @@ const RecommendDetail = (props) => {
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
@@ -31,9 +29,8 @@ const RecommendDetail = (props) => {
       setRecommend(response.data.data); // 가져온 추천 도서 게시물 데이터 저장
       setAuthorUserId(response.data.data.userId);
       setBookNo(response.data.data.bookNo);
-      console.log(response.data.data);
     } catch (error) {
-      console.error("Error fetching review detail:", error);
+      console.error("글 정보를 가져오는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -44,7 +41,7 @@ const RecommendDetail = (props) => {
       );
       setRecommendList(response.data.data);
     } catch (error) {
-      console.error("Error fetching recommend list:", error);
+      console.error("목록을 가져오는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -285,4 +282,3 @@ const RecommendDetail = (props) => {
 };
 
 export default RecommendDetail;
-

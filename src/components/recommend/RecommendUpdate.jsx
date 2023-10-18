@@ -52,7 +52,6 @@ const RecommendUpdate = () => {
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
@@ -76,9 +75,8 @@ const RecommendUpdate = () => {
         shelfArea: newRecommend.shelfArea,
       });
       setRecommend(newRecommend);
-      console.log("response.data.data :", newRecommend);
     } catch (error) {
-      console.error("Error fetching review detail:", error);
+      console.error("Error fetching recommend detail:", error);
     }
   };
 
@@ -112,7 +110,6 @@ const RecommendUpdate = () => {
         bookNo: selectedBook.bookNo,
         userId: userId,
       };
-      console.log("updatedRecommend : ", updatedRecommend);
 
       const response = await axios.put(
         `http://localhost:8080/admin/recommendUpdate/${recPostId}`,
@@ -123,10 +120,10 @@ const RecommendUpdate = () => {
         // 수정이 성공하면 수정된 리뷰 상세 페이지로 이동
         navigate(`/user/recommendDetail/${recPostId}`);
       } else {
-        console.error("Error updating recommend:", response.data);
+        console.error("글을 수정하는 중 오류가 발생했습니다:", response.data);
       }
     } catch (error) {
-      console.error("Error updating recommend:", error);
+      console.error("글을 수정하는 중 오류가 발생했습니다:", error);
     }
   };
 

@@ -58,12 +58,10 @@ const SignUp = () => {
   //아이디 중복 검사
   const idDueCheck = async () => {
     if (username === "") {
-      console.log(username);
       window.alert("아이디를 입력해주세요");
       return;
     }
     if (!usernameCheck(username)) {
-      console.log(username);
       window.alert("아이디 형식이 올바르지 않습니다.");
       return;
     }
@@ -74,13 +72,11 @@ const SignUp = () => {
 
       if (response.data.result === true) {
         // 아이디가 중복되지 않는 경우
-        console.log(username);
         setUsernameDBCheck(true);
         window.alert("중복된 아이디가 없습니다.");
       } else {
         // 중복된 아이디가 있는 경우
         setUsernameDBCheck(false);
-        console.log(username);
         window.alert("중복된 아이디입니다.");
       }
     } catch (error) {
@@ -91,12 +87,10 @@ const SignUp = () => {
   //닉네임 중복 검사
   const nickDueCheck = async () => {
     if (nickname === "") {
-      console.log(nickname);
       window.alert("닉네임을 입력해주세요");
       return;
     }
     if (!nicknameCheck(nickname)) {
-      console.log(nickname);
       window.alert("3~8자 이내의 한글 닉네임을 입력해주세요");
       return;
     }
@@ -108,13 +102,11 @@ const SignUp = () => {
 
       if (response.data.result === true) {
         // 닉네임이 중복되지 않는 경우
-        console.log(nickname);
         setNicknameDBCheck(true);
         window.alert("중복된 닉네임이 없습니다.");
       } else {
         // 중복된 닉네임이 있는 경우
         setNicknameDBCheck(false);
-        console.log(nickname);
         window.alert("중복된 닉네임입니다.");
       }
     } catch (error) {

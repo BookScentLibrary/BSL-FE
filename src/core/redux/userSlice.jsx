@@ -10,10 +10,8 @@ export const signUpAPI = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
     try {
-      console.log("signUpAPI" + data);
       const response = await userAPI.signUp(data);
       if (response.status === 200) {
-        console.log(response);
         //회원가입 성공시 로그인창으로 이동;
         window.location.replace("/signIn");
       } else {
@@ -37,7 +35,6 @@ export const signInAPI = createAsyncThunk(
           return;
         }
         const accessToken = response.data.data.token;
-        console.log(response.data);
         sessionStorage.clear();
         sessionStorage.setItem("token", accessToken);
         sessionStorage.setItem("nickname", response.data.data.user.nickname);
@@ -54,12 +51,11 @@ export const signInAPI = createAsyncThunk(
         //로그인 성공하면 메인페이지로 이동
         window.location.replace("/");
       } else {
-        window.alert("뭔가 문제가 있음");
+        window.alert("로그인에 실패했습니다.");
       }
     } catch (error) {
-      console.log("signInAPI : error response", error.response.data);
       window.alert("로그인에 실패했습니다.");
-      console.log(error);
+      console.log("signInAPI : error response", error);
     }
   }
 );
