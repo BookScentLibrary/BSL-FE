@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const NewBookList = ({ items }) => {
@@ -8,7 +8,14 @@ const NewBookList = ({ items }) => {
       return text.substring(0, maxLength) + "...";
     }
     return text;
-  }
+  };
+
+  const navigate = useNavigate();
+    
+  const goToDetail = (bookNo) => {
+    navigate(`/book/detail/${bookNo}`);
+  };
+
   return (
     <Wrapper>
       <h1>신간 도서</h1>
@@ -31,10 +38,8 @@ const NewBookList = ({ items }) => {
             items.map((item) => (
               <tr key={item.newBookNo}>
                 <TableCell>{item.newBookNo}</TableCell>
-                <TableTitle>
-                  <StyledLink to={`/book/detail/${item.bookNo}`}>
-                    {truncateText(item.bookname, 45)}
-                  </StyledLink>
+                <TableTitle onClick={() => goToDetail(item.bookNo)}>
+                  {truncateText(item.bookname, 45)}
                 </TableTitle>
                 <TableCell>{truncateText(item.author, 3)}</TableCell>
                 <TableCell>{truncateText(item.publisher, 4)}</TableCell>
@@ -107,15 +112,6 @@ const TableTitle = styled.td`
   text-align: left;
   border-bottom: 1px solid #ddd;
 `;
-
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
-    &:hover {
-      text-decoration: none;
-      color: inherit;
-    }
-  `;
 
 const NoDataCell = styled.td`
   padding: 12px;

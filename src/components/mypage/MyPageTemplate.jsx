@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import MyPageHistory from "./MyPageHistory";
 import NotFunc from "./NotFunc";
 import MyPageReview from "./MyPageReview";
+import MyPageRentNow from "./MyPageRentNow";
 
 const user = {
   username: "river123",
@@ -22,19 +23,18 @@ const user = {
 const MyPageTemplate = () => {
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
+
   const [pageIdx, setPageIdx] = React.useState(0);
+
+  const username = sessionStorage.getItem("username");
+  const nickname = sessionStorage.getItem("nickname");
 
   const pages = {
     0: <MyPageMain />,
     1: <MyPageBookCart />,
-    2: <MyPageHistory />,
-    3: <MyPageReview />,
-    4: (
-      <NotFunc
-        title="프로그램 참여 내역"
-        content="아직 참여한 프로그램이 없습니다."
-      />
-    ),
+    2: <MyPageRentNow />,
+    3: <MyPageHistory />,
+    4: <MyPageReview />,
     5: (
       <NotFunc
         title="희망 도서 내역"
@@ -53,19 +53,19 @@ const MyPageTemplate = () => {
     navigate("/user/mypage/cart");
   };
 
-  const goToRentHistory = () => {
+  const goToRentNow = () => {
     setPageIdx(2);
+    navigate("/user/mypage/rent");
+  };
+
+  const goToRentHistory = () => {
+    setPageIdx(3);
     navigate("/user/mypage/history");
   };
 
   const goToReview = () => {
-    setPageIdx(3);
-    navigate("/user/mypage/review");
-  };
-
-  const goToProgram = () => {
     setPageIdx(4);
-    navigate("/user/mypage/program");
+    navigate("/user/mypage/review");
   };
 
   const goToHope = () => {
@@ -76,17 +76,17 @@ const MyPageTemplate = () => {
   const funcArr = [
     goToMain,
     goToBookCart,
+    goToRentNow,
     goToRentHistory,
     goToReview,
-    goToProgram,
     goToHope,
   ];
   const menuArr = [
     "홈",
     "책바구니",
+    "대출중인 도서",
     "대출 내역 조회",
     "리뷰 내역",
-    "프로그램 참여 내역",
     "희망 도서 내역",
   ];
 
@@ -95,11 +95,11 @@ const MyPageTemplate = () => {
       setPageIdx(0);
     } else if (pathname.split("/")[3] === "cart") {
       setPageIdx(1);
-    } else if (pathname.split("/")[3] === "history") {
+    } else if (pathname.split("/")[3] === "rent") {
       setPageIdx(2);
-    } else if (pathname.split("/")[3] === "review") {
+    } else if (pathname.split("/")[3] === "history") {
       setPageIdx(3);
-    } else if (pathname.split("/")[3] === "program") {
+    } else if (pathname.split("/")[3] === "review") {
       setPageIdx(4);
     } else if (pathname.split("/")[3] === "hope") {
       setPageIdx(5);
@@ -112,22 +112,22 @@ const MyPageTemplate = () => {
         <Flex center gap="48px" margin="0 0 80px 0">
           <DefaultProfile width="100px" height="100px" />
           <TitleArea>
-            <p className="mypage_user__username">@{user.username}</p>
-            <p className="mypage_user__title">
-              <span className="mypage_user__nickname">{user.nickname}</span>의
+            <p className="mypage_user__username">@{username}</p>
+            <p className="mypage_user__title" onClick={goToMain}>
+              <span className="mypage_user__nickname">{nickname}</span>의
               마이페이지
             </p>
             <Flex gap="16px">
               <Button type="small" onClick={goToBookCart}>
                 책바구니 확인하기
               </Button>
-              <Button type="small" color="gray">
+              <Button type="small" color="gray" onClick={goToRentHistory}>
                 대출내역 확인하기
               </Button>
             </Flex>
           </TitleArea>
         </Flex>
-        <CountInfoBlock user={user} />
+        <CountInfoBlock user={user} setPageIdx={setPageIdx} />
       </UserSection>
       <MenuSection idx={pageIdx}>
         {menuArr &&
@@ -186,6 +186,12 @@ const Option = styled.p`
   color: ${({ $on, theme }) => ($on ? theme.colors.primary : "#000")};
   border-bottom: ${({ $on, theme }) =>
     $on ? `2px solid ${theme.colors.primary}` : ""};
+
+  transition: 0.2s;
+  &:hover {
+    color: ${({ $on, theme }) =>
+      $on ? theme.colors.darkgreen10 : theme.colors.darkgray};
+  }
 `;
 
 const TitleArea = styled.div`
@@ -197,6 +203,7 @@ const TitleArea = styled.div`
   & > .mypage_user__title {
     margin: 4px 0 16px 0;
     font-size: 32px;
+    cursor: pointer;
   }
 
   & > p > .mypage_user__nickname {

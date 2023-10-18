@@ -3,14 +3,33 @@ import Flex from "../../shared/elements/Flex";
 import MoreButton from "../../shared/elements/MoreButton";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getCountAPI } from "../../../core/redux/mypageSlice";
+import { getCountAPI, getRentNowAPI } from "../../../core/redux/mypageSlice";
+import { useNavigate } from "react-router-dom";
 
 const CountInfoBlock = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const count = useSelector((state) => state.mypage.count);
+  const rentnow = useSelector((state) => state.mypage.rentnow);
+
+  const goToRentHistory = () => {
+    props.setPageIdx(2);
+    navigate("/user/mypage/history");
+  };
+
+  const goToReview = () => {
+    props.setPageIdx(3);
+    navigate("/user/mypage/review");
+  };
+
+  const goToRentNow = () => {
+    props.setPageIdx(2);
+    navigate("/user/mypage/rent");
+  };
 
   React.useEffect(() => {
     dispatch(getCountAPI());
+    dispatch(getRentNowAPI());
   }, []);
 
   return (
@@ -22,7 +41,7 @@ const CountInfoBlock = (props) => {
           <span className="normal"> 권</span>
         </p>
         <div style={{ position: "absolute", bottom: 20, right: 20 }}>
-          <MoreButton />
+          <MoreButton onClick={goToRentHistory} />
         </div>
       </Container>
       <Container color="blue">
@@ -32,17 +51,17 @@ const CountInfoBlock = (props) => {
           <span className="normal"> 건</span>
         </p>
         <div style={{ position: "absolute", bottom: 20, right: 20 }}>
-          <MoreButton />
+          <MoreButton onClick={goToReview} />
         </div>
       </Container>
       <Container color="red">
-        <p className="mypage_stat__title">내가 참여한 프로그램</p>
+        <p className="mypage_stat__title">내가 대출중인 도서</p>
         <p className="mypage_stat__count">
-          {count?.programCnt ? count.programCnt : 0}
+          {rentnow ? rentnow.length : 0}
           <span className="normal"> 회</span>
         </p>
         <div style={{ position: "absolute", bottom: 20, right: 20 }}>
-          <MoreButton />
+          <MoreButton onClick={goToRentNow} />
         </div>
       </Container>
     </Flex>
@@ -55,6 +74,15 @@ const Container = styled.div`
   width: 212px;
   height: 200px;
   border-radius: 10px;
+
+  color: ${({ theme, color }) =>
+    color === "green"
+      ? theme.colors.darkgreen5
+      : color === "blue"
+      ? theme.colors.darkblue5
+      : color === "red"
+      ? theme.colors.darkred5
+      : theme.colors.primary};
 
   border: ${({ theme, color }) =>
     color === "green"
@@ -74,14 +102,18 @@ const Container = styled.div`
       ? "#fff2f2"
       : "#f0ffed"};
 
-  color: ${({ theme, color }) =>
-    color === "green"
-      ? theme.colors.darkgreen5
-      : color === "blue"
-      ? theme.colors.darkblue5
-      : color === "red"
-      ? theme.colors.darkred5
-      : theme.colors.primary};
+  transition: 0.2s;
+  &:hover {
+    border: ${({ theme, color }) =>
+      color === "green"
+        ? `2px solid ${theme.colors.darkgreen20}`
+        : color === "blue"
+        ? `2px solid ${theme.colors.darkblue20}`
+        : color === "red"
+        ? `2px solid ${theme.colors.darkred20}`
+        : `2px solid ${theme.colors.primary}`};
+  }
+
   & > .mypage_stat__count {
     font-size: 32px;
     color: ${({ theme }) => theme.colors.darkgray};

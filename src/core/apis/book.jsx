@@ -10,6 +10,8 @@ export const bookAPI = {
 
   getBook: (bookNo) => instance.get(`/book/detail/?bookNo=${bookNo}`),
 
+  addBookCart: (data) => instance.post("/book/rent/cart", data),
+
   getReaderData: (bookNo) =>
     instance.get(`/book/detail/reader?bookNo=${bookNo}`),
 

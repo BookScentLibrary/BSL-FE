@@ -148,7 +148,7 @@ export default [
     element: MyPage,
   },
   {
-    path: "/user/mypage/program",
+    path: "/user/mypage/rent",
     element: MyPage,
   },
   {
@@ -166,6 +166,6 @@ export default [
   },
   {
     path: "/book/newbook",
-    element: NewBookList,
+    element: BookMenuMain,
   },
 ];
