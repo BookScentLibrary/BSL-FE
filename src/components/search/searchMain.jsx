@@ -31,10 +31,6 @@ const SearchMain = () => {
 
   const dispatch = useDispatch();
 
-  console.log("나 북스야", books);
-
-
-
 
 
 
