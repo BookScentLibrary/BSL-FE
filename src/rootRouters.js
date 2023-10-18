@@ -113,7 +113,7 @@ export default [
     element: ProgramForm,
   },
   {
-    path: "/news/program/detail/:postId",
+    path: "/news/programdetail/:postId",
     element: ProgramDetail,
   },
   // 사서 추천 도서

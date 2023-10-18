@@ -4,8 +4,8 @@ import styled from "styled-components";
 import Input from "../../components/shared/elements/Input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import photo from "../../asset/images/photo.svg"
 import { getProgramListAPI } from "../../core/redux/postSlice";
-
 import "react-datepicker/dist/react-datepicker.css";
 // import "react-datepicker/dist/react-datepicker.module.css";
 const ProgramForm = (props) => {
@@ -33,6 +33,7 @@ const ProgramForm = (props) => {
     const [receiptStartDate, setReceiptStartDate] = useState(new Date());
     const [receiptEndDate, setReceiptEndDate] = useState(new Date());
 
+    
     const handleProgramSubmit = async (e) => {
         e.preventDefault();
     
@@ -116,7 +117,7 @@ return (
                         }}>
                            
                         <img
-                        src={imgFile ? imgFile :`./images/photo.png`}
+                        src={imgFile ? imgFile :`{photo}`}
                         // 이미지 없을 때 예외처리를 다른 경로로 해주세욤 
                         // 이렇게 저 경로로만 하면 엑박으로 뜹니다요
                         // alt="image"
@@ -241,8 +242,9 @@ return (
         <MarginDiv>
         
         <Input
-          inputType="ImgURL"
+          inputType="file"
           width="190px"
+          value={imgFile}
           onChange={(e) => setImgFile(e.target.value)}
           placeholder="program_ing_jpg"
         />
@@ -339,7 +341,7 @@ return (
                 <table>
                     <td><ContentInput type="text" name="content" placeholder="내용을 입력해주세요!"/></td>
                 </table>
-                    <Btn type="submit">게시물 등록</Btn>
+                    <Btn type="submit" >게시물 등록</Btn>
                 </form>
                     
                   
