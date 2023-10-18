@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const NewBookList = ({ items }) => {
@@ -7,7 +8,14 @@ const NewBookList = ({ items }) => {
       return text.substring(0, maxLength) + "...";
     }
     return text;
-  }
+  };
+
+  const navigate = useNavigate();
+    
+  const goToDetail = (bookNo) => {
+    navigate(`/book/detail/${bookNo}`);
+  };
+
   return (
     <Wrapper>
       <h1>신간 도서</h1>
@@ -30,7 +38,9 @@ const NewBookList = ({ items }) => {
             items.map((item) => (
               <tr key={item.newBookNo}>
                 <TableCell>{item.newBookNo}</TableCell>
-                <TableTitle>{truncateText(item.bookname, 45)}</TableTitle>
+                <TableTitle onClick={() => goToDetail(item.bookNo)}>
+                  {truncateText(item.bookname, 45)}
+                </TableTitle>
                 <TableCell>{truncateText(item.author, 3)}</TableCell>
                 <TableCell>{truncateText(item.publisher, 4)}</TableCell>
                 <TableCell>{item.publicationYear}</TableCell>

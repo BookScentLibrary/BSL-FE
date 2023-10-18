@@ -1,120 +1,258 @@
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import React, { useState } from "react";
-import { setSearchResults, incrementPage } from "./action.js";
-import Grid from "./Grid";
 import Input from "../shared/elements/Input.jsx";
-import { searchBookAPI } from "../../core/redux/bookSlice.jsx";
-import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
+import { bookSlice, searchBookAPI } from "../../core/redux/bookSlice.jsx";
+import style from "styled-components";
+import Button from "../shared/elements/Button";
+import Pagination from "../../pages/review/Pagination.jsx";
+import { useNavigate } from "react-router-dom";
+import SearchErrorPage from "./SearchErrorPage.jsx";
 
 
-const InfiniteScroll = (props) => {
-  const { children, page, callback, isLoading, totalPage } = props;
 
-  const [target, setTarget] = React.useState(null);
-
-  React.useEffect(() => {
-    //특정 종속성에 대한 관찰실시.
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(callback, { threshold: 0.7 });
-      observer.observe(target);
-      // Intersection Observer의 콜백 함수는 화면에 나타남 여부를 감지.
-      //따라서 콜백 함수는 요소의 상태 변화를 감지하고 대응하기 위해 호출되어야 함
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-
-  return (
-    <React.Fragment>
-      {children}
-      {totalPage - 1 > page ? <Box ref={setTarget}> </Box> : null}
-      {isLoading ? (
-        <Grid margin="auto">
-          <Spinner />
-        </Grid>
-      ) : null}
-    </React.Fragment>
-  );
-};
-
-const Box = styled.div`
-  width: 100%;
-  height: 20px;
-`;
 
 const SearchMain = () => {
-  const [searchTerm, setSearchTerm] = useState(""); //검색어의 상태
+  const [searchValue, setSearchValue] = useState("");
+  const optionData = ["제목", "저자", "발행처"];
+  const [optionValue, setOptionValue] = useState(0); 
+
+
+
+  const books = useSelector((state) => state.book.search);
+  const navigate = useNavigate();
+
+
+
+
   const dispatch = useDispatch();
+
+
+
+
   const currentPage = useSelector((state) => state.currentPage);
   const totalPages = useSelector((state) => state.totalPages);
-  //searchBooks 액션을 디스패치하여 검색 요청을 서버로 보내고, Redux 상태를 업데이트
 
-  const searchBookForm = () => {
-    dispatch(searchBookAPI(searchTerm));
-    //searchBooks액션을 사용하려면, Redux에서 사용할 액션과 액션생성자 함수가 필요,
-    //이 액션은 서버로 요청을 보내고 응답처리해야함.
-  };
 
-  const optionData = ["전체검색","제목","저자","발행처"];
-  const [optionValue, setOptionValue] = React.useState(0)
-  //초기값이라서 전체이 선택되어 있어서 0임. 이건 검색 옵션 
-  const[searchValue, setSearchValue] = React.useState(null);
-  //이건 값이 없어서 null임 검색창에 입력할 값
+
+  
+  const [pageNumber, setPageNumber] = useState(1); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [limit, setlimit] = useState(2);
+  const offset = (pageNumber - 1) * limit; 
+
+
+
+
+
   const onClickSearch = () => {
-    console.log("확정된 검색어:" + searchValue);
-    dispatch(searchBookAPI(searchTerm));
-  }
-
-
-  const books = [];
-  // InfiniteScroll 컴포넌트에 전달할 콜백 함수 정의
-  const handleInfiniteScroll = (entries) => {
-    const intersection = entries[0];
-    if (intersection.isIntersecting && currentPage < totalPages) {
-      dispatch(incrementPage());
-      // entries 배열에 대한 처리를 수행하는 코드를 작성하세요.
-      // 예를 들어, 스크롤이 끝에 도달하면 새로운 데이터를 불러올 수 있도록 액션을 디스패치할 수 있습니다.
-    }
-  };
-    return (
-      <div>
-        {/* <form> */}
-          <div className="search">
-            <Input inputType="search"
-            data={optionData}
-            optionValue={optionValue}
-            setOptionValue={setOptionValue}
-            onChange={(e)=>{setSearchTerm(e.target.value);}}
-            onClick={searchBookForm}></Input>
-          
-          </div>
-        {/* </form> */}
-        {/* <InfiniteScroll
-          page={currentPage}
-          callback={handleInfiniteScroll}
-          isLoading={isLoading}
-          totalPage={totalPages}
-        > */}
-          <div className="book-list">
-            {books.map((book) => (
-              <div key={book.bookNo} className="book-item">
-                <img src={book.bookImageUrl} alt={book.bookname} />
-                <h3>{book.bookname}</h3>
-                <p>{book.author}</p>
-                <p>{book.publisher}</p>
-                <p>{book.publicationYear}</p>
-                <p>{book.callNum}</p>
-                <p>{book.bookStatus}</p>
-                <p>{book.rentCnt}</p>
-                <p>{book.isbn}</p>
-              </div>
-            ))}
-          </div>
-        {/* </InfiniteScroll> */}
-      </div>
-    );
+    dispatch(bookSlice.actions.cleanSearchList());
+    dispatch(
+      searchBookAPI({
+        searchType: optionValue,
+        searchValue: searchValue,
+        pageNumber: pageNumber,
+        pageSize: 20, 
+      })
+    )
   };
 
+
+
+
+
+  const goToDetail = (bookNo) => {
+    navigate(`/book/detail/${bookNo}`);
+
+  };  
+
+
+  return (
+
+    <SearchStyle>
+      <SearchDesign>
+        <Input
+          inputType="search"
+          data={optionData}
+          optionValue={optionValue}
+          setOptionValue={setOptionValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+          }}
+          onClick={onClickSearch}
+        ></Input>
+      </SearchDesign>
+
+      <ButtonDesign>
+        <Button onChange={(e) => {
+          setSearchValue(e.target.value);
+        }}
+          onClick={onClickSearch}>검색</Button>
+      </ButtonDesign>
+
+      {books && ( books.length >  0 || searchValue !== "")
+      ?(
+       books.map((book, i) => (
+        book && book.content.map((book, i) => {
+          return (
+            <Booklist>
+              <Bookitem key={book.bookNo}>
+                <Detail onClick={() => goToDetail(book.bookNo)} >
+                  <Image src={book.bookImageURL} />
+                  <Wrapper>
+                    <Booktitle>{book.bookname}</Booktitle>
+                    <BookInfos>
+                      <Columns>
+                        <p>저자</p>
+                        <p>발행처</p>
+                        <p>청구기호</p>
+                        <p>자료실</p>
+                      </Columns>
+                      <Bookinfo>
+                        <p>{book.author}</p>
+                        <p>{book.publisher}  | {book.publicationYear}</p>
+                        <p>{book.callNum}</p>
+                        <p>{book.shelfArea}</p>
+                      </Bookinfo>
+                    </BookInfos>
+                  </Wrapper>
+                </Detail>
+              </Bookitem>
+            </Booklist>
+          )
+        })
+       )
+       )
+      )  : <SearchErrorPage />
+     }
+    
+
+
+      <footer>
+        {books &&
+          <Pagination
+            total={Object.keys(books).length}
+            limit={limit}
+            page={pageNumber}
+            setPage={setPageNumber}
+          />}
+      </footer>
+    </SearchStyle>
+  );
+
+};
+
+
+
+
+const SearchDesign = styled.div`
+margin: auto;
+width: fit-content;
+`
+
+const Detail = styled.div`
+ display: flex;
+ gap: 24px;
+`;
+
+
+
+const Image = styled.div`
+width: 120px;
+height: 176px;
+border-radius: 8px;
+background-color: ${({ theme }) => theme.colors.gray50};
+background-image: ${({ src }) => `url(${src})`};
+background-size: cover;
+background-position: center;
+
+`;
+
+const Columns = style.div`
+
+display: grid;
+gap: 12px;
+
+
+`;
+
+const BookInfos = styled.div`
+
+margin-top: 20px;
+display: flex;
+gap: 12px;
+`;
+
+
+
+
+
+const Wrapper = styled.div`
+width: fit-content;
+`;
+
+
+const Booklist = style.div`
+height: fit-content;
+`;
+
+
+
+const Booktitle = style.div`
+
+border-bottom: 1px solid #ddd;
+font-size: 24px;
+font-weight: 700;
+width: 750px;
+height: 46px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+
+`;
+
+
+const Bookinfo = styled.div`
+
+display: grid;
+gap: 12px;
+
+
+
+`;
+
+const Bookitem = styled.div`
+
+display:flex;
+padding: 24px 0;
+
+gap: 40px;
+
+border-bottom: 1px solid #ddd;
+
+
+// clear: both; 
+// padding: 8px;
+// border-bottom: 1px solid #ddd;
+
+`;
+
+
+
+
+const SearchStyle = styled.div`
+
+`;
+
+const MyForm = styled.div`
+height: fit-content;
+`;
+
+const ButtonDesign = styled.div`
+display: flex;
+margin: 20px;
+justify-content: center;
+`
 
 export default SearchMain;

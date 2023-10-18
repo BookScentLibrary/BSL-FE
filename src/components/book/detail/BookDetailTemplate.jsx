@@ -8,6 +8,7 @@ import * as S from "./BookDetailTemplate.style";
 import BookReviewList from "./BookReviewList";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addBookCartAPI,
   getBookAPI,
   getRatingDataAPI,
   getReaderDataAPI,
@@ -21,7 +22,6 @@ const BookDetailTemplate = (props) => {
 
   const bookNo = location.pathname.split("/")[3];
 
-
   const goToSearch = () => {
     navigate("/book");
     props.setPage(0);
@@ -30,6 +30,11 @@ const BookDetailTemplate = (props) => {
   const goToReview = () => {
     navigate("/reviewList");
   };
+
+  const addBookCart = (bookNo) => {
+    dispatch(addBookCartAPI(bookNo));
+  };
+
   const book = useSelector((state) => state.book.book);
   const reviewList = useSelector((state) => state.book.review);
 
@@ -59,7 +64,7 @@ const BookDetailTemplate = (props) => {
             </Button>
           </div>
           <div>
-            <Button type="middle" color="green">
+            <Button type="middle" color="green" onClick={() => addBookCart(book.bookNo)}>
               책 바구니 담기
             </Button>
           </div>

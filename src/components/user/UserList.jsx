@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
+import Button from "../shared/elements/Button";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -14,7 +16,6 @@ function UserList() {
           (a, b) => b.permission - a.permission
         );
         setUsers(sortedUsers);
-        console.log(users);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생: " + error);
@@ -42,7 +43,6 @@ function UserList() {
         window.location.replace("/superAdmin/userList");
       } else {
         window.alert("권한 변경에 실패했습니다.");
-        console.log(response.message);
       }
     } catch (error) {
       console.error("API 호출 중 오류 발생: " + error);
@@ -51,8 +51,12 @@ function UserList() {
 
   return (
     <div>
-      <h1>사용자 목록</h1>
-      <table>
+      <StyledWord>
+        <h1>사용자 목록</h1>
+        <hr />
+        <br />
+      </StyledWord>
+      <StyledTable>
         <thead>
           <tr>
             <th>아이디</th>
@@ -79,21 +83,60 @@ function UserList() {
               <td>{item.permission}</td>
               <td>
                 {item.permission === 0 ? (
-                  <button onClick={() => grantPermission(item.userId)}>
+                  <Button
+                    type="small"
+                    width="100px"
+                    onClick={() => grantPermission(item.userId)}
+                  >
                     승인하기
-                  </button>
+                  </Button>
                 ) : item.permission === 1 ? (
-                  <button onClick={() => revokePermission(item.userId)}>
+                  <Button
+                    type="small"
+                    width="100px"
+                    color="gray"
+                    onClick={() => revokePermission(item.userId)}
+                  >
                     취소하기
-                  </button>
+                  </Button>
                 ) : null}
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </StyledTable>
     </div>
   );
 }
 
 export default UserList;
+
+const StyledWord = styled.div`
+  text-align: left;
+  margin-left: 20px;
+`;
+
+const StyledTable = styled.table`
+  border: 1px solid #000;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+
+  th,
+  td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+`;

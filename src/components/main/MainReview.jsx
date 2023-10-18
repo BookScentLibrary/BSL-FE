@@ -17,7 +17,7 @@ const MainReview = () => {
 
   const goToReviewDetail = (postId) => {
     navigate(`/news/reviewDetail/${postId}`);
-  }
+  };
 
   React.useEffect(() => {
     dispatch(mainReviewAPI());
@@ -29,11 +29,16 @@ const MainReview = () => {
         최근 작성된 리뷰
         <MoreButton onClick={goToReview} />
       </Title>
-      {reviews &&
+      {reviews ? (
         reviews.map((cur, idx) => {
           return (
             <Content key={idx}>
-              <p className="review_title" onClick={()=>{goToReviewDetail(cur.rev_postId)}}>
+              <p
+                className="review_title"
+                onClick={() => {
+                  goToReviewDetail(cur.rev_postId);
+                }}
+              >
                 {cur.postTitle} [{cur.bookname}]
               </p>
               <div>
@@ -42,7 +47,10 @@ const MainReview = () => {
               </div>
             </Content>
           );
-        })}
+        })
+      ) : (
+        <NotData>조회된 리뷰가 없습니다.</NotData>
+      )}
     </Container>
   );
 };
@@ -72,7 +80,18 @@ const Content = styled.div`
 
   & > .review_title {
     cursor: pointer;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.darkgray};
+    }
   }
+`;
+
+const NotData = styled.div`
+  margin: 120px auto;
+  width: fit-content;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default MainReview;

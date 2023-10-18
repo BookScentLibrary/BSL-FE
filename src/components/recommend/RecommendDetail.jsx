@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import * as S from "./RecommendDetail.style";
 import axios from "axios";
 import Button from "../shared/elements/Button";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-const RecommendDetail = () => {
+const RecommendDetail = (props) => {
   // URL 매개변수로부터 리뷰 ID 가져오기
   const { recPostId } = useParams();
+  const location = useLocation().pathname.split("/")[3];
 
   // 추천 도서 게시물 데이터를 저장할 상태 변수
   const [recommend, setRecommend] = useState({});
@@ -21,7 +22,6 @@ const RecommendDetail = () => {
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
@@ -29,9 +29,8 @@ const RecommendDetail = () => {
       setRecommend(response.data.data); // 가져온 추천 도서 게시물 데이터 저장
       setAuthorUserId(response.data.data.userId);
       setBookNo(response.data.data.bookNo);
-      console.log(response.data.data);
     } catch (error) {
-      console.error("Error fetching review detail:", error);
+      console.error("글 정보를 가져오는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -42,7 +41,7 @@ const RecommendDetail = () => {
       );
       setRecommendList(response.data.data);
     } catch (error) {
-      console.error("Error fetching recommend list:", error);
+      console.error("목록을 가져오는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -62,6 +61,7 @@ const RecommendDetail = () => {
   useEffect(() => {
     getRecommend(); // 컴포넌트가 마운트될 때 추천 도서 게시물 데이터를 가져옴
     getRecommendList();
+    props.setRecPostId(recPostId);
   }, [recPostId]); // rev_postId가 변경될 때마다 다시 가져옴
 
   const findCurrentRecommendIndex = () => {
@@ -98,12 +98,12 @@ const RecommendDetail = () => {
   };
 
   return (
-    <>
-      <StyledWord>
+    <S.Container>
+      <S.StyledWord>
         <h1>사서 추천 도서</h1>
-        <hr />
+        <S.BoldSolidHr />
         <br />
-      </StyledWord>
+      </S.StyledWord>
       <div style={{ background: "#f0f0f0", padding: "10px" }}>
         <h3>{recommend.postTitle}</h3>
         <p style={{ color: "gray" }}>{formatDate(recommend.createdAt)}</p>
@@ -115,24 +115,87 @@ const RecommendDetail = () => {
           alignItems: "flex-start",
           border: "1px solid #ccc",
           borderRadius: "10px",
-          padding: "10px",
+          padding: "30px",
         }}
       >
         <div style={{ flex: 1 }}>
-          <Image src={recommend.bookImageURL} />
+          <S.Image src={recommend.bookImageURL} />
         </div>
         <div style={{ flex: 2 }}>
           <h2>{recommend.bookname}</h2>
-          <p>저자 　{recommend.author}</p>
-          <p>발행사 　{recommend.publisher}</p>
-          <p>발행년도 　{recommend.publicationYear}</p>
-          <p>청구기호 　{recommend.callNum}</p>
-          <p>자료실 　{recommend.shelfarea}</p>
+          <p>
+            <span
+              style={{
+                fontWeight: "800",
+                marginLeft: "5px",
+                marginRight: "62px",
+              }}
+            >
+              저자
+            </span>
+            {recommend.author}
+          </p>
+          <p>
+            <span
+              style={{
+                fontWeight: "800",
+                marginLeft: "5px",
+                marginRight: "48px",
+              }}
+            >
+              발행사
+            </span>
+            {recommend.publisher}
+          </p>
+          <p>
+            <span
+              style={{
+                fontWeight: "800",
+                marginLeft: "5px",
+                marginRight: "35px",
+              }}
+            >
+              발행년도
+            </span>
+            {recommend.publicationYear}
+          </p>
+          <p>
+            <span
+              style={{
+                fontWeight: "800",
+                marginLeft: "5px",
+                marginRight: "36px",
+              }}
+            >
+              청구기호
+            </span>
+            {recommend.callNum}
+          </p>
+          <p>
+            <span
+              style={{
+                fontWeight: "800",
+                marginLeft: "5px",
+                marginRight: "50px",
+              }}
+            >
+              자료실
+            </span>
+            {recommend.shelfArea}
+          </p>
           <br />
           <div style={{ borderBottom: "1px solid #ccc" }}></div>
           <br />
-          <p>{recommend.content}</p>
+          <p
+            style={{
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            {recommend.content}
+          </p>
           <Button
+            type="middle"
             onClick={() => {
               navigate(`/book/detail/${bookNo}`);
             }}
@@ -143,7 +206,7 @@ const RecommendDetail = () => {
       </div>
       <br />
       {authorUserId === userId && (
-        <>
+        <div style={{ display: "flex", gap: "10px" }}>
           <Button
             type="middle"
             onClick={() => {
@@ -163,56 +226,59 @@ const RecommendDetail = () => {
           >
             삭제
           </Button>
-        </>
+        </div>
       )}
       <div>
-        <hr />
+        <S.BoldSolidHr />
         {prevRecommendIndex >= 0 ? (
-          <ButtonStyle
+          <S.ButtonStyle
             type="middle"
             onClick={() => goToRecommend(prevRecommendIndex)}
           >
-            ∧ 　　이전 글 　　 {recommendList[prevRecommendIndex].postTitle}
-          </ButtonStyle>
+            <span style={{ color: "gray", margin: "0 5px 0 0" }}>
+              ∧　　이전 글
+            </span>
+            <S.CenteredText>
+              {recommendList[prevRecommendIndex].postTitle}
+            </S.CenteredText>
+          </S.ButtonStyle>
         ) : (
-          <p>이전글이 없습니다</p>
+          <S.NoneIndex>
+            <span
+              style={{ color: "gray", margin: "0 5px 0 0", fontSize: "13px" }}
+            >
+              ∧　　이전 글
+            </span>
+            <S.CenteredText>이전글이 없습니다</S.CenteredText>
+          </S.NoneIndex>
         )}
         <hr />
         {nextRecommendIndex < recommendList.length ? (
-          <ButtonStyle
+          <S.ButtonStyle
             type="middle"
             onClick={() => goToRecommend(nextRecommendIndex)}
           >
-            ∨ 　　다음 글 　　 {recommendList[nextRecommendIndex].postTitle}
-          </ButtonStyle>
+            <span style={{ color: "gray", margin: "0 5px 0 0" }}>
+              ∨　　다음 글
+            </span>
+            <S.CenteredText>
+              {recommendList[nextRecommendIndex].postTitle}
+            </S.CenteredText>
+          </S.ButtonStyle>
         ) : (
-          <p>다음글이 없습니다</p>
+          <S.NoneIndex>
+            <span
+              style={{ color: "gray", margin: "0 5px 0 0", fontSize: "13px" }}
+            >
+              ∨　　다음 글
+            </span>
+            <S.CenteredText>다음글이 없습니다</S.CenteredText>
+          </S.NoneIndex>
         )}
-        <hr />
+        <S.BoldSolidHr />
       </div>
-    </>
+    </S.Container>
   );
 };
 
 export default RecommendDetail;
-
-const StyledWord = styled.div`
-  text-align: left;
-  margin-left: 20px;
-`;
-
-const Image = styled.div`
-  width: 200px;
-  height: 320px;
-  flex-shrink: 0;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
-  background-repeat: no-repeat;
-`;
-
-const ButtonStyle = styled.button`
-  background: none;
-  border: none;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
-`;

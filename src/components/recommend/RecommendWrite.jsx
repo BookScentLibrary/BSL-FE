@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BookRecommendAPI } from "../../core/redux/bookSlice";
-import styled from "styled-components";
+import * as S from "./RecommendWrite.style";
 import SearchModal from "./SearchModal";
 
 const RecommendWrite = () => {
@@ -43,17 +43,21 @@ const RecommendWrite = () => {
   };
   return (
     <>
+      <S.StyledWord>
+        <h1>사서 추천 도서 작성</h1>
+      </S.StyledWord>
+      <hr />
+      <br />
       <Input
-        type="text"
+        label="제목"
+        inputType="post"
+        width="1100px"
         name="postTitle"
         value={postTitle}
-        placeholder="제목을 여기에 작성"
-        label="제목"
         onChange={(e) => setPostTitle(e.target.value)}
+        placeholder="제목을 여기에 작성"
       />
-      <div>
-        {!selectedBook && <Button onClick={handleSearch}>검색하기</Button>}
-      </div>
+      <br />
       <SearchModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -62,38 +66,98 @@ const RecommendWrite = () => {
 
       <div>
         {selectedBook ? (
-          <div>
-            <Image src={selectedBook.bookImageURL} />
+          <div style={{ display: "flex", gap: "10px" }}>
+            <S.Image src={selectedBook.bookImageURL} />
             <div>
-              <h2>{selectedBook.bookname}</h2>
-              <p>저자: {selectedBook.author}</p>
-              <p>발행처: {selectedBook.publisher}</p>
-              <p>청구기호: {selectedBook.callNum}</p>
-              <p>자료실: {selectedBook.shelfArea}</p>
+              <S.BookInfoContainer>
+                <S.BookInfoHeader>{selectedBook.bookname}</S.BookInfoHeader>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "50px",
+                    }}
+                  >
+                    저자
+                  </span>
+                  {selectedBook.author}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "34px",
+                    }}
+                  >
+                    발행처
+                  </span>
+                  {selectedBook.publisher}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "18px",
+                    }}
+                  >
+                    청구기호
+                  </span>
+                  {selectedBook.callNum}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "35px",
+                    }}
+                  >
+                    자료실
+                  </span>
+                  {selectedBook.shelfArea}
+                </S.BookInfoText>
+              </S.BookInfoContainer>
+              <S.ButtonWrapper>
+                <Button onClick={handleSearch}>다시 검색하기</Button>
+              </S.ButtonWrapper>
             </div>
-            <Button onClick={handleSearch}>다시 검색하기</Button>
           </div>
-        ) : null}
+        ) : (
+          <S.RoundedDashedBorder>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              {!selectedBook && (
+                <Button onClick={handleSearch} style={{ alignSelf: "center" }}>
+                  책 검색하기
+                </Button>
+              )}
+            </div>
+          </S.RoundedDashedBorder>
+        )}
       </div>
       <div>
-        <textarea
+        <S.Textarea
           name="content"
           value={content}
           placeholder="내용 입력"
           onChange={(e) => setContent(e.target.value)}
         />
-        <Button onClick={handleSubmit}>등록하기</Button>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <Button onClick={handleSubmit}>등록하기</Button>
+        </div>
       </div>
     </>
   );
 };
 
 export default RecommendWrite;
-
-const Image = styled.div`
-  width: 200px;
-  height: 320px;
-  flex-shrink: 0;
-  background-image: ${({ src }) => (src ? `url(${src})` : "")};
-  background-repeat: no-repeat;
-`;

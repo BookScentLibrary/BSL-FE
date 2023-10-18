@@ -3,8 +3,9 @@ import Input from "../../components/shared/elements/Input";
 import Button from "../shared/elements/Button";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styled from "styled-components";
+import * as S from "./RecommendUpdate.style";
 import SearchModal from "./SearchModal";
+import styled from "styled-components";
 
 const RecommendUpdate = () => {
   const { recPostId } = useParams();
@@ -43,7 +44,7 @@ const RecommendUpdate = () => {
         author: recommend.author,
         publisher: recommend.publisher,
         callNum: recommend.callNum,
-        shelfarea: recommend.shelfarea,
+        shelfArea: recommend.shelfArea,
       });
     }
   }, []);
@@ -51,14 +52,11 @@ const RecommendUpdate = () => {
   // 추천 도서 게시물 데이터를 백엔드 API로부터 가져오는 함수
   const getRecommend = async () => {
     try {
-      console.log("recPostId:", recPostId); // recPostId 값 확인
       const response = await axios.get(
         `http://localhost:8080/user/recommendDetail/?recPostId=${recPostId}`
       );
 
       const newRecommend = response.data.data;
-
-      setRecommend(newRecommend);
 
       setFormData({
         postTitle: newRecommend.postTitle,
@@ -74,11 +72,11 @@ const RecommendUpdate = () => {
         author: newRecommend.author,
         publisher: newRecommend.publisher,
         callNum: newRecommend.callNum,
-        shelfarea: newRecommend.shelfarea,
+        shelfArea: newRecommend.shelfArea,
       });
-      console.log("response.data.data :", newRecommend);
+      setRecommend(newRecommend);
     } catch (error) {
-      console.error("Error fetching review detail:", error);
+      console.error("Error fetching recommend detail:", error);
     }
   };
 
@@ -112,7 +110,6 @@ const RecommendUpdate = () => {
         bookNo: selectedBook.bookNo,
         userId: userId,
       };
-      console.log("updatedRecommend : ", updatedRecommend);
 
       const response = await axios.put(
         `http://localhost:8080/admin/recommendUpdate/${recPostId}`,
@@ -123,20 +120,21 @@ const RecommendUpdate = () => {
         // 수정이 성공하면 수정된 리뷰 상세 페이지로 이동
         navigate(`/user/recommendDetail/${recPostId}`);
       } else {
-        console.error("Error updating recommend:", response.data);
+        console.error("글을 수정하는 중 오류가 발생했습니다:", response.data);
       }
     } catch (error) {
-      console.error("Error updating recommend:", error);
+      console.error("글을 수정하는 중 오류가 발생했습니다:", error);
     }
   };
 
   return (
     <>
       <Input
-        type="text"
+        label="제목"
+        inputType="post"
+        width="1100px"
         name="postTitle"
         value={formData.postTitle}
-        label="제목"
         onChange={handleFormChange}
       />
       <SearchModal
@@ -147,29 +145,83 @@ const RecommendUpdate = () => {
 
       <div>
         {selectedBook ? (
-          <div>
-            <Image src={selectedBook.bookImageURL} />
+          <div style={{ display: "flex", gap: "10px" }}>
+            <S.Image src={selectedBook.bookImageURL} />
             <div>
-              <h2>{selectedBook.bookname}</h2>
-              <p>저자: {selectedBook.author}</p>
-              <p>발행처: {selectedBook.publisher}</p>
-              <p>청구기호: {selectedBook.callNum}</p>
-              <p>자료실: {selectedBook.shelfarea}</p>
+              <S.BookInfoContainer>
+                <S.BookInfoHeader>{selectedBook.bookname}</S.BookInfoHeader>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "50px",
+                    }}
+                  >
+                    저자
+                  </span>
+                  {selectedBook.author}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "34px",
+                    }}
+                  >
+                    발행처
+                  </span>
+                  {selectedBook.publisher}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "18px",
+                    }}
+                  >
+                    청구기호
+                  </span>
+                  {selectedBook.callNum}
+                </S.BookInfoText>
+                <S.BookInfoText>
+                  <span
+                    style={{
+                      fontWeight: "800",
+                      margin: "5px",
+                      marginRight: "34px",
+                    }}
+                  >
+                    자료실
+                  </span>
+                  {selectedBook.shelfArea}
+                </S.BookInfoText>
+              </S.BookInfoContainer>
+              <S.ButtonWrapper>
+                <Button onClick={handleSearch}>다시 검색하기</Button>
+              </S.ButtonWrapper>
             </div>
-            <Button onClick={handleSearch}>다시 검색하기</Button>
           </div>
         ) : null}
       </div>
       <div>
-        <textarea
+        <S.Textarea
           name="content"
           value={formData.content}
           onChange={handleFormChange}
         />
-        <button onClick={handleUpdate}>수정</button>
-        <Link to={`/user/recommendDetail/${recPostId}`}>
-          <button>취소</button>
-        </Link>
+        <S.CenteredButtonGroup>
+          <Button type="middle" onClick={handleUpdate}>
+            수정
+          </Button>
+          <Link to={`/user/recommendDetail/${recPostId}`}>
+            <Button type="middle" color="gray">
+              취소
+            </Button>
+          </Link>
+        </S.CenteredButtonGroup>
       </div>
     </>
   );

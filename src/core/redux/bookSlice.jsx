@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bookAPI } from "../apis/book";
+import { useDispatch } from "react-redux";
 
 //책 목록의 상태 정의
 export const initialState = {
@@ -9,17 +10,32 @@ export const initialState = {
   review: [],
   recommend: [],
   searchResults: [],
+  search: [],
+  ppBooks: [],
 };
 
-//책과 관련된 액션 정의
+//책 검색
 export const searchBookAPI = createAsyncThunk(
   "book/search",
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.searchBook(data);
-      console.log("searchAPI response : ", response);
+      thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
+    }
+  }
+);
+
+export const ppBooksAPI = createAsyncThunk(
+  "book/ppBooks",
+  async (data, thunkAPI) => {
+    // console.log(data);
+    try {
+      const response = await bookAPI.ppBook();
+      thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
+    } catch (error) {
+      console.log("ppBooksAPI : error response", error.response);
     }
   }
 );
@@ -41,20 +57,34 @@ export const SelectBookRecommendAPI = createAsyncThunk(
       // 검색 결과를 Redux 스토어에 저장하기 위해 setSearchResults 액션을 디스패치합니다
       thunkAPI.dispatch(bookSlice.actions.setSearchResults(searchResults));
 
-      console.log("searchAPI response : ", response);
-      console.log("searchAPI response.data : ", searchResults);
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
     }
   }
 );
 
+//리뷰 등록
+export const BookReivewAPI = createAsyncThunk(
+  "news/reviewWrite",
+  async (data, thunkAPI) => {
+    try {
+      const response = await bookAPI.BookReivewAPI(data);
+      thunkAPI.dispatch(
+        bookSlice.actions.setSelectedBookRecommend(response.data)
+      );
+      window.location.replace("/news/reviewList");
+    } catch (error) {
+      console.log("testAPI : error response", error.response.data);
+    }
+  }
+);
+
+// 선택된 도서 데이터 조회
 export const getBookAPI = createAsyncThunk(
   "book/getBook",
   async (bookNo, thunkAPI) => {
     try {
       const response = await bookAPI.getBook(bookNo);
-      console.log(response.data);
       const book = {
         ...response.data,
         author: response.data.author.split(";"),
@@ -66,6 +96,7 @@ export const getBookAPI = createAsyncThunk(
   }
 );
 
+// 대출 데이터 조회
 export const getReaderDataAPI = createAsyncThunk(
   "book/readerData",
   async (bookNo, thunkAPI) => {
@@ -81,28 +112,52 @@ export const getReaderDataAPI = createAsyncThunk(
 
       const data = [
         {
-          m: response.data.m_10 ? Math.round((response.data.m_10 / teens) * 100) + "%" : "0%",
-          f: response.data.f_10 ? Math.round((response.data.f_10 / teens) * 100) + "%" : "0%",
+          m: response.data.m_10
+            ? Math.round((response.data.m_10 / teens) * 100) + "%"
+            : "0%",
+          f: response.data.f_10
+            ? Math.round((response.data.f_10 / teens) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_20 ? Math.round((response.data.m_20 / twenteies) * 100) + "%" : "0%",
-          f: response.data.f_20 ? Math.round((response.data.f_20 / twenteies) * 100) + "%" : "0%",
+          m: response.data.m_20
+            ? Math.round((response.data.m_20 / twenteies) * 100) + "%"
+            : "0%",
+          f: response.data.f_20
+            ? Math.round((response.data.f_20 / twenteies) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_30 ? Math.round((response.data.m_30 / thirties) * 100) + "%" : "0%",
-          f: response.data.f_30 ? Math.round((response.data.f_30 / thirties) * 100) + "%" : "0%",
+          m: response.data.m_30
+            ? Math.round((response.data.m_30 / thirties) * 100) + "%"
+            : "0%",
+          f: response.data.f_30
+            ? Math.round((response.data.f_30 / thirties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_40 ? Math.round((response.data.m_40 / forties) * 100) + "%" : "0%",
-          f: response.data.f_40 ? Math.round((response.data.f_40 / forties) * 100) + "%" : "0%",
+          m: response.data.m_40
+            ? Math.round((response.data.m_40 / forties) * 100) + "%"
+            : "0%",
+          f: response.data.f_40
+            ? Math.round((response.data.f_40 / forties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_50 ? Math.round((response.data.m_50 / fifties) * 100) + "%" : "0%",
-          f: response.data.f_50 ? Math.round((response.data.f_50 / fifties) * 100) + "%" : "0%",
+          m: response.data.m_50
+            ? Math.round((response.data.m_50 / fifties) * 100) + "%"
+            : "0%",
+          f: response.data.f_50
+            ? Math.round((response.data.f_50 / fifties) * 100) + "%"
+            : "0%",
         },
         {
-          m: response.data.m_senior ? Math.round((response.data.m_senior / seniors) * 100) + "%" : "0%",
-          f: response.data.f_senior ? Math.round((response.data.f_senior / seniors) * 100) + "%" : "0%",
+          m: response.data.m_senior
+            ? Math.round((response.data.m_senior / seniors) * 100) + "%"
+            : "0%",
+          f: response.data.f_senior
+            ? Math.round((response.data.f_senior / seniors) * 100) + "%"
+            : "0%",
         },
       ];
 
@@ -113,6 +168,7 @@ export const getReaderDataAPI = createAsyncThunk(
   }
 );
 
+// 평점 데이터 조회
 export const getRatingDataAPI = createAsyncThunk(
   "book/readerData",
   async (bookNo, thunkAPI) => {
@@ -134,24 +190,33 @@ export const getRatingDataAPI = createAsyncThunk(
 
       const avg = Math.round(allPoint / allCount, 1);
 
-
       const data = {
-        avg: avg?avg.toFixed(1):"0",
-        p1: response.data.point_1 ? Math.round((response.data.point_1 / allCount) * 100) + "%" : "0%",
-        p2: response.data.point_2 ? Math.round((response.data.point_2 / allCount) * 100) + "%" : "0%",
-        p3: response.data.point_3 ? Math.round((response.data.point_3 / allCount) * 100) + "%" : "0%",
-        p4: response.data.point_4 ? Math.round((response.data.point_4 / allCount) * 100) + "%" : "0%",
-        p5: response.data.point_5 ? Math.round((response.data.point_5 / allCount) * 100) + "%" : "0%",
+        avg: avg ? avg.toFixed(1) : "0",
+        p1: response.data.point_1
+          ? Math.round((response.data.point_1 / allCount) * 100) + "%"
+          : "0%",
+        p2: response.data.point_2
+          ? Math.round((response.data.point_2 / allCount) * 100) + "%"
+          : "0%",
+        p3: response.data.point_3
+          ? Math.round((response.data.point_3 / allCount) * 100) + "%"
+          : "0%",
+        p4: response.data.point_4
+          ? Math.round((response.data.point_4 / allCount) * 100) + "%"
+          : "0%",
+        p5: response.data.point_5
+          ? Math.round((response.data.point_5 / allCount) * 100) + "%"
+          : "0%",
       };
-      
-      thunkAPI.dispatch(bookSlice.actions.ratingData(data));
 
+      thunkAPI.dispatch(bookSlice.actions.ratingData(data));
     } catch (error) {
       console.error("readerDataAPI - error response : ", error.response.data);
     }
   }
 );
 
+// 선택된 도서 관련 리뷰 조회
 export const getSelectedBookReviewAPI = createAsyncThunk(
   "book/getSelectedBookReview",
   async (bookNo, thunkAPI) => {
@@ -173,15 +238,32 @@ export const BookRecommendAPI = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.bookRecommendAPI(data);
-      console.log(response.data);
       thunkAPI.dispatch(
         bookSlice.actions.setSelectedBookRecommend(response.data)
       );
+      window.location.replace("/user/recommendList");
     } catch (error) {
       console.log(
         "BOOK_RECOMMEND CREATE : error response",
         error.response.data
       );
+    }
+  }
+);
+
+export const addBookCartAPI = createAsyncThunk(
+  "book/ADD_BOOK_CART",
+  async (bookNo, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      const data = {
+        bookNo: bookNo,
+        userId: userId,
+      };
+
+      const response = await bookAPI.addBookCart(data);
+    } catch (error) {
+      console.log("BOOK_ADD_BOOK_CART : error response", error.response.data);
     }
   }
 );
@@ -212,6 +294,15 @@ export const bookSlice = createSlice({
     },
     setSearchResults: (state, action) => {
       state.searchResults = action.payload; // 검색 결과를 업데이트
+    },
+    setSearchList: (state, action) => {
+      state.search = [...state.search, action.payload];
+    },
+    cleanSearchList: (state, action) => {
+      state.search = [];
+    },
+    setppBookList: (state, action) => {
+      state.ppBooks = action.payload;
     },
   },
 });
