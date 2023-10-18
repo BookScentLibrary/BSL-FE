@@ -19,7 +19,7 @@ import SearchErrorPage from "./SearchErrorPage.jsx";
 const SearchMain = () => {
   const [searchValue, setSearchValue] = useState("");
   const optionData = ["제목", "저자", "발행처"];
-  const [optionValue, setOptionValue] = useState(0); // 초기값 설정
+  const [optionValue, setOptionValue] = useState(0); 
 
 
 
@@ -43,11 +43,11 @@ const SearchMain = () => {
 
 
 
-  //페이징 부분
-  const [pageNumber, setPageNumber] = useState(1); //현재 페이지 
+  
+  const [pageNumber, setPageNumber] = useState(1); 
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setlimit] = useState(2);
-  const offset = (pageNumber - 1) * limit; //페이지 당 몇개가 나올지임. 
+  const offset = (pageNumber - 1) * limit; 
 
 
 
@@ -60,20 +60,13 @@ const SearchMain = () => {
         searchType: optionValue,
         searchValue: searchValue,
         pageNumber: pageNumber,
-        pageSize: 20, // 원하는 페이지당 항목 수로 수정
+        pageSize: 20, 
       })
     )
   };
 
 
 
-  // const loadingList = () => {
-  //   if (pageNumber < totalPages && !isLoading) {
-  //     setIsLoading(true);
-
-  //     dispatch(incrementPage())
-  //   }
-  // };
 
   const handleEnterKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -111,7 +104,7 @@ const SearchMain = () => {
           onClick={onClickSearch}>검색</Button>
       </ButtonDesign>
 
-      {books &&  books.length >  0 
+      {books && ( books.length >  0 || searchValue !== "")
       ?(
        books.map((book, i) => (
         book && book.content.map((book, i) => {
@@ -148,6 +141,9 @@ const SearchMain = () => {
        )
       )  : <SearchErrorPage />
      }
+    
+
+
       <footer>
         {books &&
           <Pagination

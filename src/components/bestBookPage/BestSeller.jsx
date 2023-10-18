@@ -18,9 +18,9 @@ const BestSeller = () => {
 
 
   React.useEffect(() => {
-    // getPPBookList();
+    
     dispatch(ppBooksAPI());
-  }, []); //p페이지가 랜더링 되는 순간 한번 실행
+  }, []); 
 
 
   const goToDetail = (bookNo) => {
@@ -33,6 +33,10 @@ const BestSeller = () => {
   return (
     <Myform>
       <h1>인기 도서</h1>
+      <Line>
+      </Line>
+      <DivText>인기있는 대출 도서 목록입니다</DivText>
+      <SemiLine></SemiLine>
       <Booklist>
         {popularBooks &&
           popularBooks.map((book,index) => (
@@ -89,6 +93,7 @@ width: fit-content;
 
 const Booklist = styled.div`
 height: fit-content;
+border-bottom: 1px solid #ddd;
 
 `;
 
@@ -127,11 +132,33 @@ border-bottom: 1px solid #ddd;
 `;
 
 const Ranking = styled.div`
-  margin-right: 16px; // 순위와 이미지 사이의 간격 조정
+  margin-right: 16px; 
   font-size: 24px;
   font-weight: 700;
 `;
 
+const Line = styled.div`
+  width: 980px;
+  height: 3px;
+  background: #000;
+ 
+`;
 
+
+const SemiLine = styled.div`
+display: flex;
+width: 980px;
+height: 1px;
+background: #ddd;
+color: ${({theme}) => theme.colors.primary};
+margin: 40px 0; 
+
+`;
+
+const DivText = styled.div`
+font-size: 18px;
+margin: 36px 0;
+padding: 10px;
+`;
 
 export default BestSeller;
