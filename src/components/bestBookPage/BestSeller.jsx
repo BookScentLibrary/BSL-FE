@@ -7,6 +7,7 @@ import axios from "axios";
 import BestSellerTemplate from "./BestSellerTemplate";
 import styled from "styled-components";
 
+
 const BestSeller = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,17 +15,7 @@ const BestSeller = () => {
 
   const popularBooks = useSelector((state) => state.book.ppBooks);
 
-  // const getPPBookList = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:8080/book/bestseller"
-  //     );
-  //     console.log(response.data);
-  //     setPPBookList(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching recommend list:", error);
-  //   }
-  // };
+
 
   React.useEffect(() => {
     // getPPBookList();
@@ -32,9 +23,11 @@ const BestSeller = () => {
   }, []); //p페이지가 랜더링 되는 순간 한번 실행
 
 
-  // const goToppBook = () => {
-  //   navigate("/book/bestseller");
-  // };
+  const goToDetail = (bookNo) => {
+    navigate(`/book/detail/${bookNo}`);
+
+  };  
+
 
 
   return (
@@ -42,10 +35,11 @@ const BestSeller = () => {
       <h1>인기 도서</h1>
       <Booklist>
         {popularBooks &&
-          popularBooks.map((book) => (
+          popularBooks.map((book,index) => (
             <Bookitem key={book.book.bookNo}>
+              <Ranking>{index + 1}</Ranking>
               <Image src={book.book.bookImageURL} />
-              <Wrapper>
+              <Wrapper onClick={() => goToDetail(book.book.bookNo)}>
                 <Booktitle>{book.book.bookname}</Booktitle>
                 <BookInfos>
                   <Columns>
@@ -95,6 +89,7 @@ width: fit-content;
 
 const Booklist = styled.div`
 height: fit-content;
+
 `;
 
 const Booktitle = styled.div`
@@ -131,7 +126,11 @@ gap: 40px;
 border-bottom: 1px solid #ddd;
 `;
 
-
+const Ranking = styled.div`
+  margin-right: 16px; // 순위와 이미지 사이의 간격 조정
+  font-size: 24px;
+  font-weight: 700;
+`;
 
 
 

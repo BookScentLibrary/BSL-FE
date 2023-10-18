@@ -1,3 +1,9 @@
+import React from "react";
+import styled from "styled-components";
+import Grid from "./Grid";
+
+
+
 const InfiniteScroll = (props) => {
   const { children, page, callback, isLoading, totalPage } = props;
 
@@ -21,7 +27,7 @@ const InfiniteScroll = (props) => {
       {totalPage - 1 > page ? <Box ref={setTarget}> </Box> : null}
       {isLoading ? (
         <Grid margin="auto">
-          <Spinner />
+          {/* <Spinner /> */}
         </Grid>
       ) : null}
     </React.Fragment>
@@ -33,11 +39,8 @@ const Box = styled.div`
   height: 20px;
 `;
 
-        {/* </form> */}
-        {/* <InfiniteScroll
-          page={currentPage}
-          callback={handleInfiniteScroll}
-          isLoading={isLoading}
-          totalPage={totalPages}
-        > */}
-            {/* </InfiniteScroll> */}
+
+
+
+export default InfiniteScroll;
+

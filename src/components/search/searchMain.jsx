@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Input from "../shared/elements/Input.jsx";
-import { searchBookAPI } from "../../core/redux/bookSlice.jsx";
+import { bookSlice, searchBookAPI } from "../../core/redux/bookSlice.jsx";
 import { incrementPage } from "./action.js";
 import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
 import Grid from "./Grid";
 import style from "styled-components";
+import Button from "../shared/elements/Button";
+import InfiniteScroll from "./InfiniteScroll.jsx";
+import Pagination from "../../pages/review/Pagination.jsx";
+import { useNavigate } from "react-router-dom";
+import SearchErrorPage from "./SearchErrorPage.jsx";
 
 
 
@@ -14,47 +19,79 @@ import style from "styled-components";
 const SearchMain = () => {
   const [searchValue, setSearchValue] = useState("");
   const optionData = ["제목", "저자", "발행처"];
-  const [optionValue, setOptionValue] = useState(1); // 초기값 설정 (예: 1)
- const books = useSelector((state) => state.book.search.content);
- 
+  const [optionValue, setOptionValue] = useState(0); // 초기값 설정
+
+
+
+  const books = useSelector((state) => state.book.search);
+  const navigate = useNavigate();
+
+
+
 
   const dispatch = useDispatch();
+
+  console.log("나 북스야", books);
+
+
+
+
+
+
   const currentPage = useSelector((state) => state.currentPage);
   const totalPages = useSelector((state) => state.totalPages);
 
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const pageNumber = 1; // 페이지 번호 초기화
+
+
+  //페이징 부분
+  const [pageNumber, setPageNumber] = useState(1); //현재 페이지 
+  const [isLoading, setIsLoading] = useState(false);
+  const [limit, setlimit] = useState(2);
+  const offset = (pageNumber - 1) * limit; //페이지 당 몇개가 나올지임. 
+
+
+
+
 
   const onClickSearch = () => {
-    searchBookForm();
-  };
-  console.log(searchValue);
-  const searchBookForm = () => {
+    dispatch(bookSlice.actions.cleanSearchList());
     dispatch(
       searchBookAPI({
-        searchType: 1,
+        searchType: optionValue,
         searchValue: searchValue,
         pageNumber: pageNumber,
         pageSize: 20, // 원하는 페이지당 항목 수로 수정
       })
     )
-
   };
 
 
 
-  // InfiniteScroll 컴포넌트에 전달할 콜백 함수 정의
-  // const handleInfiniteScroll = (entries) => {
-  //   const intersection = entries[0];
-  //   if (intersection.isIntersecting && currentPage < totalPages) {
-  //     dispatch(incrementPage());
+  // const loadingList = () => {
+  //   if (pageNumber < totalPages && !isLoading) {
+  //     setIsLoading(true);
+
+  //     dispatch(incrementPage())
   //   }
   // };
 
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onClickSearch();
+    }
+  };
+
+
+  const goToDetail = (bookNo) => {
+    navigate(`/book/detail/${bookNo}`);
+
+  };  
+
+
   return (
-    <div>
-      <div className="search">
+
+    <SearchStyle>
+      <SearchDesign>
         <Input
           inputType="search"
           data={optionData}
@@ -65,121 +102,177 @@ const SearchMain = () => {
           }}
           onClick={onClickSearch}
         ></Input>
-      </div>
-      <Booklist>
-        {books&&books.map((book) => (
-          <Bookitem>
-          <div key={book.bookNo} >
-            <Image src={book.bookImageURL} />
-            <Booktitle><h3>{book.bookname}</h3></Booktitle>
-            <Columns>
-            <p>저자</p>
-            <p>발행처</p>
-            <p>청구기호</p>
-            <p>자료실</p>
-            </Columns>
-            <Bookinfo>
-            <p>{book.author}</p>
-            <AuthorandPubli>
-            <p>{book.publisher}  <span>|</span></p>
-            <p>{book.publicationYear}</p>
-            </AuthorandPubli>
-            <p>{book.callNum}</p>
-            <p>{book.shelfArea}</p>
-            </Bookinfo>
-          </div>
-          </Bookitem>
-     
-        ))}
-          {/* <div className="book-actions">
-            <button className="button1">도서대출</button>
-            <button className="button2">관심도서 담기</button>
-            <button className="button3">예약하기</button> */}
-          {/* </div> */}
-          </Booklist>
-    </div>
+      </SearchDesign>
+
+      <ButtonDesign>
+        <Button onChange={(e) => {
+          setSearchValue(e.target.value);
+        }}
+          onClick={onClickSearch}>검색</Button>
+      </ButtonDesign>
+
+      {books &&  books.length >  0 
+      ?(
+       books.map((book, i) => (
+        book && book.content.map((book, i) => {
+          return (
+            <Booklist>
+              <Bookitem key={book.bookNo}>
+                <Detail onClick={() => goToDetail(book.bookNo)} >
+                  <Image src={book.bookImageURL} />
+                  <Wrapper>
+                    <Booktitle>{book.bookname}</Booktitle>
+                    <BookInfos>
+                      <Columns>
+                        <p>저자</p>
+                        <p>발행처</p>
+                        <p>청구기호</p>
+                        <p>자료실</p>
+                      </Columns>
+                      <Bookinfo>
+                        <p>{book.author}</p>
+
+                        <p>{book.publisher}  | {book.publicationYear}</p>
+
+                        <p>{book.callNum}</p>
+                        <p>{book.shelfArea}</p>
+                      </Bookinfo>
+                    </BookInfos>
+                  </Wrapper>
+                </Detail>
+              </Bookitem>
+            </Booklist>
+          )
+        })
+       )
+       )
+      )  : <SearchErrorPage />
+     }
+      <footer>
+        {books &&
+          <Pagination
+            total={Object.keys(books).length}
+            limit={limit}
+            page={pageNumber}
+            setPage={setPageNumber}
+          />}
+      </footer>
+    </SearchStyle>
   );
+
 };
 
-const Image = styled.div`
-  width: 120px;
-  height: 176px;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: cover;
-  background-position: center;
-  float:left;
-  margin-right: 8px;
+
+
+
+const SearchDesign = styled.div`
+margin: auto;
+width: fit-content;
 `
 
-const Booktitle = style.div`
-  font-size: 1.2em;
-  margin-left: 8px;
-  border-bottom: 1px solid #ddd;
+const Detail = styled.div`
+ display: flex;
+ gap: 24px;
+`;
 
-  h3{
-  width: 750px;
-  height: 26px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 0 0 auto;
- 
-  }
+
+
+const Image = styled.div`
+width: 120px;
+height: 176px;
+border-radius: 8px;
+background-color: ${({ theme }) => theme.colors.gray50};
+background-image: ${({ src }) => `url(${src})`};
+background-size: cover;
+background-position: center;
 
 `;
 
+const Columns = style.div`
+
+display: grid;
+gap: 12px;
+
+
+`;
+
+const BookInfos = styled.div`
+
+margin-top: 20px;
+display: flex;
+gap: 12px;
+`;
+
+
+
+
+
+const Wrapper = styled.div`
+width: fit-content;
+`;
+
+
+const Booklist = style.div`
+height: fit-content;
+`;
+
+
+
+const Booktitle = style.div`
+
+border-bottom: 1px solid #ddd;
+font-size: 24px;
+font-weight: 700;
+width: 750px;
+height: 46px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+
+`;
+
+
 const Bookinfo = styled.div`
- p{
-  padding: 10px;
-  margin-left: 10px;
- }
- padding: 2px;
- display: flex;
- flex-direction: column;
- margin-bottom: 20px;
+
+display: grid;
+gap: 12px;
+
+
 
 `;
 
 const Bookitem = styled.div`
-clear: both; 
-padding: 8px;
+
+display:flex;
+padding: 24px 0;
+
+gap: 40px;
+
 border-bottom: 1px solid #ddd;
 
+
+// clear: both; 
+// padding: 8px;
+// border-bottom: 1px solid #ddd;
+
 `;
 
-const AuthorandPubli = style.div`
+
+
+
+const SearchStyle = styled.div`
+
+`;
+
+const MyForm = styled.div`
+height: fit-content;
+`;
+
+const ButtonDesign = styled.div`
 display: flex;
-align-items: center;
-margin-left: 16px;
-
-
-  p {
-    padding: 2px;
-    margin: 0;
-  }
-
-
-`;
-
-const Booklist = style.div`
-
-`;                 
-
-const Columns = style.div`
-float:left;
-padding: 10px;
-display: flex;
-flex-direction: column;
-padding-bottom: 20px;
-letter-spacing: 2px;
-
-p {
-
-  margin: 6px;
-}
-`;
-
+margin: 20px;
+justify-content: center;
+`
 
 export default SearchMain;

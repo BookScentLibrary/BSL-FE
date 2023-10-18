@@ -282,7 +282,10 @@ export const bookSlice = createSlice({
       state.searchResults = action.payload; // 검색 결과를 업데이트
     },
     setSearchList: (state, action) => {
-      state.search = action.payload;
+      state.search = [...state.search, action.payload];
+    },
+    cleanSearchList: (state, action) => {
+      state.search = [];
     },
     setppBookList: (state, action) => {
       state.ppBooks = action.payload;
