@@ -2,50 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import MoreButton from "../shared/elements/MoreButton";
 import { useNavigate } from "react-router-dom";
-
-const NOTICE = [
-  {
-    title: "공지사항1",
-    createdAt: "2023-08-25",
-  },
-  {
-    title: "공지사항2",
-    createdAt: "2023-08-25",
-  },
-  {
-    title: "공지사항3",
-    createdAt: "2023-08-25",
-  },
-  {
-    title: "공지사항4",
-    createdAt: "2023-08-25",
-  },
-];
-
-const PROGRAM = [
-  {
-    title: "프로그램 안내1",
-    createdAt: "2023-08-25",
-  },
-  {
-    title: "프로그램 안내2",
-    createdAt: "2023-08-25",
-  },
-  {
-    title: "프로그램 안내3",
-    createdAt: "2023-08-25",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { mainNoticeAPI, mainProgramAPI } from "../../core/redux/mainSlice";
 
 const MainNotice = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const notice = useSelector((state) => state.main.notice);
+  const program = useSelector((state) => state.main.program);
 
   const goToNotice = () => {
     navigate("/news/noticeList");
   };
   const goToProgram = () => {
-    navigate("/");
+    navigate("/news/programList");
   };
+
+  React.useEffect(() => {
+    dispatch(mainNoticeAPI());
+    dispatch(mainProgramAPI());
+  }, []);
 
   return (
     <Container>
@@ -63,14 +40,18 @@ const MainNotice = () => {
             <MoreButton onClick={goToNotice} />
           </Title>
           <ContentContainer>
-            {NOTICE.map((cur, idx) => {
-              return (
-                <Content key={idx}>
-                  <p className="title">{cur.title}</p>
-                  <p>{cur.createdAt}</p>
-                </Content>
-              );
-            })}
+            {notice ? (
+              notice.map((cur, idx) => {
+                return (
+                  <Content key={idx}>
+                    <p className="title">{cur.title}</p>
+                    <p>{cur.createdAt}</p>
+                  </Content>
+                );
+              })
+            ) : (
+              <NotData>조회된 공지사항이 없습니다.</NotData>
+            )}
           </ContentContainer>
         </NoticeSection>
         <ProgramSection>
@@ -79,14 +60,26 @@ const MainNotice = () => {
             <MoreButton onClick={goToProgram} />
           </Title>
           <ContentContainer>
-            {PROGRAM.map((cur, idx) => {
-              return (
-                <Content key={idx}>
-                  <p className="title">{cur.title}</p>
-                  <p>{cur.createdAt}</p>
-                </Content>
-              );
-            })}
+            {program ? (
+              program.map((cur, idx) => {
+                const date = new Date(cur.createdAt);
+                const year = date.getFullYear();
+                const month =
+                  date.getMonth() > 9 ? date.getMonth : "0" + date.getMonth();
+                const day =
+                  date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+                return (
+                  <Content key={idx}>
+                    <p className="title">{cur.postTitle}</p>
+                    <p>
+                      {year}.{month}.{day}
+                    </p>
+                  </Content>
+                );
+              })
+            ) : (
+              <NotData>조회된 프로그램이 없습니다.</NotData>
+            )}
           </ContentContainer>
         </ProgramSection>
       </BoardContainer>
@@ -136,11 +129,13 @@ const BoardContainer = styled.div`
 
 const NoticeSection = styled.div`
   width: 100%;
+  height: 198px;
 `;
 
 const ProgramSection = styled.div`
   margin-top: 32px;
   width: 100%;
+  height: 159px;
 `;
 
 const Title = styled.div`
@@ -170,6 +165,12 @@ const Content = styled.div`
       color: ${({ theme }) => theme.colors.darkgray};
     }
   }
+`;
+const NotData = styled.div`
+  margin: 70px auto;
+  width: fit-content;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default MainNotice;

@@ -108,7 +108,6 @@ export const getBookCartAPI = createAsyncThunk(
     try {
       const userId = sessionStorage.getItem("userId");
       const response = await mypageAPI.getBookCart(userId);
-      console.log(response);
       thunkAPI.dispatch(mypageSlice.actions.setBookCart(response.data));
     } catch (error) {
       console.log("BOOK_GET_BOOK_CART : error response", error.response.data);
@@ -167,7 +166,6 @@ export const returnBookAPI = createAsyncThunk(
         bookNo: bookNo,
         userId: userId,
       };
-      console.log(data);
       const response = await mypageAPI.returnBook(data);
 
       if (response.status === 200) {

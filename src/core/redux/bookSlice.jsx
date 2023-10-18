@@ -20,7 +20,6 @@ export const searchBookAPI = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.searchBook(data);
-      console.log("searchAPI response : ", response);
       thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
@@ -34,7 +33,6 @@ export const ppBooksAPI = createAsyncThunk(
     // console.log(data);
     try {
       const response = await bookAPI.ppBook();
-      console.log("searchAPI response : ", response.data);
       thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
     } catch (error) {
       console.log("ppBooksAPI : error response", error.response);
@@ -59,8 +57,6 @@ export const SelectBookRecommendAPI = createAsyncThunk(
       // 검색 결과를 Redux 스토어에 저장하기 위해 setSearchResults 액션을 디스패치합니다
       thunkAPI.dispatch(bookSlice.actions.setSearchResults(searchResults));
 
-      console.log("searchAPI response : ", response);
-      console.log("searchAPI response.data : ", searchResults);
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
     }
@@ -72,10 +68,7 @@ export const BookReivewAPI = createAsyncThunk(
   "news/reviewWrite",
   async (data, thunkAPI) => {
     try {
-      console.log("Ddddd", data.isbn);
-
       const response = await bookAPI.BookReivewAPI(data);
-      console.log(response.data);
       thunkAPI.dispatch(
         bookSlice.actions.setSelectedBookRecommend(response.data)
       );
@@ -269,7 +262,6 @@ export const addBookCartAPI = createAsyncThunk(
       };
 
       const response = await bookAPI.addBookCart(data);
-      console.log("dddddddddddddddddddddddddd",response);
     } catch (error) {
       console.log("BOOK_ADD_BOOK_CART : error response", error.response.data);
     }

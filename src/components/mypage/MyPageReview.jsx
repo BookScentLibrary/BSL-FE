@@ -2,10 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getReviewAllAPI } from "../../core/redux/mypageSlice";
+import { useNavigate } from "react-router-dom";
 
 const MyPageReview = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const reviews = useSelector((state) => state.mypage.myreview);
+
+  const goToReviewDetail = (postId) => {
+    navigate(`/news/reviewDetail/${postId}`);
+  };
 
   React.useEffect(() => {
     dispatch(getReviewAllAPI());
@@ -14,6 +20,7 @@ const MyPageReview = () => {
   return (
     <Container>
       <Title>리뷰 내역</Title>
+      <Line />
       {reviews && reviews.length > 0 ? (
         reviews.map((cur, i) => {
           const date = new Date(cur.createdAt);
@@ -24,7 +31,10 @@ const MyPageReview = () => {
             date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
           return (
             <Content>
-              <p className="mypage_review__title">
+              <p
+                className="mypage_review__title"
+                onClick={() => goToReviewDetail(cur.rev_postId)}
+              >
                 {cur.postTitle} [{cur.book.bookname}]
               </p>
               <p className="mypage_review__createdAt">
@@ -59,19 +69,23 @@ const Container = styled.div`
     margin: 24px 0;
   }
 `;
-
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background: ${({ theme }) => theme.colors.black};
+`;
 const Title = styled.div`
   width: 100%;
   font-size: 32px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 `;
 
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
-  border-bottom: 1px solid #000;
+  height: 60px;
+  border-bottom: ${({ theme }) => `1px solid ${theme.colors.gray}`};
 
   & > .mypage_review__title {
     width: 800px;

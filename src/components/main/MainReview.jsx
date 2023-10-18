@@ -29,7 +29,7 @@ const MainReview = () => {
         최근 작성된 리뷰
         <MoreButton onClick={goToReview} />
       </Title>
-      {reviews &&
+      {reviews ? (
         reviews.map((cur, idx) => {
           return (
             <Content key={idx}>
@@ -47,7 +47,10 @@ const MainReview = () => {
               </div>
             </Content>
           );
-        })}
+        })
+      ) : (
+        <NotData>조회된 리뷰가 없습니다.</NotData>
+      )}
     </Container>
   );
 };
@@ -82,6 +85,13 @@ const Content = styled.div`
       color: ${({ theme }) => theme.colors.darkgray};
     }
   }
+`;
+
+const NotData = styled.div`
+  margin: 120px auto;
+  width: fit-content;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default MainReview;

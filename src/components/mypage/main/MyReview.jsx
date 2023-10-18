@@ -39,7 +39,9 @@ const MyReview = () => {
                 goToReviewDetail(cur.rev_postId);
               }}
             >
-              <p className="title">리뷰제목[책제목]</p>
+              <p className="title">
+                {cur.postTitle}[{cur.book.bookname}]
+              </p>
               <p>2023.09.10</p>
             </Title>
           );
