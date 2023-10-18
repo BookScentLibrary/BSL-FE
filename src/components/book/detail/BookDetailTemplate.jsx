@@ -8,6 +8,7 @@ import * as S from "./BookDetailTemplate.style";
 import BookReviewList from "./BookReviewList";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addBookCartAPI,
   getBookAPI,
   getRatingDataAPI,
   getReaderDataAPI,
@@ -30,14 +31,8 @@ const BookDetailTemplate = (props) => {
     navigate("/reviewList");
   };
 
-  const addBookCart = () => {
-    const bookCart = sessionStorage.getItem("bookCart");
-    const bookArr = bookCart ? JSON.parse(bookCart) : [];
-    if (bookArr.includes(bookNo)) {
-      window.alert("이미 책바구니에 담긴 책입니다.");
-    } else {
-      sessionStorage.setItem("bookCart", JSON.stringify([...bookArr, bookNo]));
-    }
+  const addBookCart = (bookNo) => {
+    dispatch(addBookCartAPI(bookNo));
   };
 
   const book = useSelector((state) => state.book.book);
@@ -69,7 +64,7 @@ const BookDetailTemplate = (props) => {
             </Button>
           </div>
           <div>
-            <Button type="middle" color="green" onClick={addBookCart}>
+            <Button type="middle" color="green" onClick={() => addBookCart(book.bookNo)}>
               책 바구니 담기
             </Button>
           </div>

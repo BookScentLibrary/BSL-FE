@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const NotFunc = (props) => {
-  const {title, content} = props
+  const { title, content } = props;
   return (
     <Container>
       <Title>{title}</Title>
@@ -14,7 +14,7 @@ const NotFunc = (props) => {
 const Container = styled.div`
   position: relative;
   box-sizing: border-box;
-  padding: 73px 120px 180px 120px;
+  padding: 73px 120px 120px 120px;
   width: 100%;
   height: fit-content;
   border-radius: 20px;
@@ -34,7 +34,7 @@ const Container = styled.div`
 const Title = styled.div`
   width: 100%;
   font-size: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 60px;
 `;
 
 const NotData = styled.div`

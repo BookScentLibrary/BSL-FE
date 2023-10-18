@@ -4,10 +4,16 @@ import MoreButton from "../../shared/elements/MoreButton";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getRentHistoryAPI } from "../../../core/redux/mypageSlice";
+import { useNavigate } from "react-router-dom";
 
 const RentHistory = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const books = useSelector((state) => state.mypage.renthistory);
+
+  const goToRentHistory = () => {
+    navigate("/user/mypage/history");
+  }
 
   React.useEffect(() => {
     dispatch(getRentHistoryAPI());
@@ -17,7 +23,7 @@ const RentHistory = () => {
     <Container>
       <Flex sb center>
         <p className="mypage_harp__title">대출 내역</p>
-        <MoreButton />
+        <MoreButton onClick={goToRentHistory}/>
       </Flex>
       <Books>
         {books.length > 0 ? (
@@ -93,7 +99,7 @@ const Image = styled.div`
 `;
 
 const NotData = styled.div`
-  margin-top: 120px;
+  margin-top: 140px;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.gray};
 `;

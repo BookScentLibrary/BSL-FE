@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bookAPI } from "../apis/book";
+import { useDispatch } from "react-redux";
 
 //책 목록의 상태 정의
 export const initialState = {
@@ -19,7 +20,6 @@ export const searchBookAPI = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.searchBook(data);
-      console.log("searchAPI response : ", response);
       thunkAPI.dispatch(bookSlice.actions.setSearchList(response.data));
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
@@ -33,7 +33,6 @@ export const ppBooksAPI = createAsyncThunk(
     // console.log(data);
     try {
       const response = await bookAPI.ppBook();
-      console.log("searchAPI response : ", response.data);
       thunkAPI.dispatch(bookSlice.actions.setppBookList(response.data));
     } catch (error) {
       console.log("ppBooksAPI : error response", error.response);
@@ -58,8 +57,6 @@ export const SelectBookRecommendAPI = createAsyncThunk(
       // 검색 결과를 Redux 스토어에 저장하기 위해 setSearchResults 액션을 디스패치합니다
       thunkAPI.dispatch(bookSlice.actions.setSearchResults(searchResults));
 
-      console.log("searchAPI response : ", response);
-      console.log("searchAPI response.data : ", searchResults);
     } catch (error) {
       console.log("searchAPI : error response", error.response.data);
     }
@@ -71,10 +68,7 @@ export const BookReivewAPI = createAsyncThunk(
   "news/reviewWrite",
   async (data, thunkAPI) => {
     try {
-      console.log("Ddddd", data.isbn);
-
       const response = await bookAPI.BookReivewAPI(data);
-      console.log(response.data);
       thunkAPI.dispatch(
         bookSlice.actions.setSelectedBookRecommend(response.data)
       );
@@ -85,6 +79,7 @@ export const BookReivewAPI = createAsyncThunk(
   }
 );
 
+// 선택된 도서 데이터 조회
 export const getBookAPI = createAsyncThunk(
   "book/getBook",
   async (bookNo, thunkAPI) => {
@@ -101,6 +96,7 @@ export const getBookAPI = createAsyncThunk(
   }
 );
 
+// 대출 데이터 조회
 export const getReaderDataAPI = createAsyncThunk(
   "book/readerData",
   async (bookNo, thunkAPI) => {
@@ -172,6 +168,7 @@ export const getReaderDataAPI = createAsyncThunk(
   }
 );
 
+// 평점 데이터 조회
 export const getRatingDataAPI = createAsyncThunk(
   "book/readerData",
   async (bookNo, thunkAPI) => {
@@ -219,6 +216,7 @@ export const getRatingDataAPI = createAsyncThunk(
   }
 );
 
+// 선택된 도서 관련 리뷰 조회
 export const getSelectedBookReviewAPI = createAsyncThunk(
   "book/getSelectedBookReview",
   async (bookNo, thunkAPI) => {
@@ -240,7 +238,6 @@ export const BookRecommendAPI = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await bookAPI.bookRecommendAPI(data);
-      console.log(response.data);
       thunkAPI.dispatch(
         bookSlice.actions.setSelectedBookRecommend(response.data)
       );
@@ -250,6 +247,23 @@ export const BookRecommendAPI = createAsyncThunk(
         "BOOK_RECOMMEND CREATE : error response",
         error.response.data
       );
+    }
+  }
+);
+
+export const addBookCartAPI = createAsyncThunk(
+  "book/ADD_BOOK_CART",
+  async (bookNo, thunkAPI) => {
+    try {
+      const userId = sessionStorage.getItem("userId");
+      const data = {
+        bookNo: bookNo,
+        userId: userId,
+      };
+
+      const response = await bookAPI.addBookCart(data);
+    } catch (error) {
+      console.log("BOOK_ADD_BOOK_CART : error response", error.response.data);
     }
   }
 );
