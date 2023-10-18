@@ -1,7 +1,7 @@
 const initialState = {
-    searchResults: [], // 검색 결과 데이터 배열
-    currentPage: 1,   // 현재 페이지 번호
-    totalPages: 0,    // 전체 페이지 수
+    searchResults: [], 
+    currentPage: 1,  
+    totalPages: 0,   
   };
   
   export const searchReducer = (state = initialState, action) => {

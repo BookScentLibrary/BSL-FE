@@ -3,12 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Input from "../shared/elements/Input.jsx";
 import { bookSlice, searchBookAPI } from "../../core/redux/bookSlice.jsx";
-import { incrementPage } from "./action.js";
-import { ReactComponent as Spinner } from "../../asset/images/spinner.svg";
-import Grid from "./Grid";
 import style from "styled-components";
 import Button from "../shared/elements/Button";
-import InfiniteScroll from "./InfiniteScroll.jsx";
 import Pagination from "../../pages/review/Pagination.jsx";
 import { useNavigate } from "react-router-dom";
 import SearchErrorPage from "./SearchErrorPage.jsx";
@@ -19,7 +15,7 @@ import SearchErrorPage from "./SearchErrorPage.jsx";
 const SearchMain = () => {
   const [searchValue, setSearchValue] = useState("");
   const optionData = ["제목", "저자", "발행처"];
-  const [optionValue, setOptionValue] = useState(0); // 초기값 설정
+  const [optionValue, setOptionValue] = useState(0); 
 
 
 
@@ -31,10 +27,6 @@ const SearchMain = () => {
 
   const dispatch = useDispatch();
 
-  console.log("나 북스야", books);
-
-
-
 
 
 
@@ -43,11 +35,11 @@ const SearchMain = () => {
 
 
 
-  //페이징 부분
-  const [pageNumber, setPageNumber] = useState(1); //현재 페이지 
+  
+  const [pageNumber, setPageNumber] = useState(1); 
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setlimit] = useState(2);
-  const offset = (pageNumber - 1) * limit; //페이지 당 몇개가 나올지임. 
+  const offset = (pageNumber - 1) * limit; 
 
 
 
@@ -60,26 +52,13 @@ const SearchMain = () => {
         searchType: optionValue,
         searchValue: searchValue,
         pageNumber: pageNumber,
-        pageSize: 20, // 원하는 페이지당 항목 수로 수정
+        pageSize: 20, 
       })
     )
   };
 
 
 
-  // const loadingList = () => {
-  //   if (pageNumber < totalPages && !isLoading) {
-  //     setIsLoading(true);
-
-  //     dispatch(incrementPage())
-  //   }
-  // };
-
-  const handleEnterKeyPress = (e) => {
-    if (e.key === "Enter") {
-      onClickSearch();
-    }
-  };
 
 
   const goToDetail = (bookNo) => {
@@ -111,7 +90,7 @@ const SearchMain = () => {
           onClick={onClickSearch}>검색</Button>
       </ButtonDesign>
 
-      {books &&  books.length >  0 
+      {books && ( books.length >  0 || searchValue !== "")
       ?(
        books.map((book, i) => (
         book && book.content.map((book, i) => {
@@ -131,9 +110,7 @@ const SearchMain = () => {
                       </Columns>
                       <Bookinfo>
                         <p>{book.author}</p>
-
                         <p>{book.publisher}  | {book.publicationYear}</p>
-
                         <p>{book.callNum}</p>
                         <p>{book.shelfArea}</p>
                       </Bookinfo>
@@ -148,6 +125,9 @@ const SearchMain = () => {
        )
       )  : <SearchErrorPage />
      }
+    
+
+
       <footer>
         {books &&
           <Pagination
