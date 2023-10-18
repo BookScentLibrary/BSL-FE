@@ -85,22 +85,22 @@ const ReviewListPage = () => {
         <option value="callNum">청구기호</option>
         <option value="publicationYear">발행년도</option>
       </select>
-        <input
-          type="text"
-          name="keyword"
-          placeholder="검색어를 입력하세요."
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-              e.preventDefault();
-            }
-          }}
-        />
- <button type="button" onClick={handleSearch}>
-          검색
-        </button>
+      <input
+        type="text"
+        name="keyword"
+        placeholder="검색어를 입력하세요."
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+            e.preventDefault();
+          }
+        }}
+      />
+      <button type="button" onClick={handleSearch}>
+        검색
+      </button>
       <hr />
       <table>
         <thead>

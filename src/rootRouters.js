@@ -27,6 +27,8 @@ import MyPage from "./pages/mypage/MyPage";
 import BestSeller from "./components/bestBookPage/BestSeller";
 
 import NewBookList from "./components/newBook/NewBookDetail";
+import NotFound from "./pages/NotFound";
+import Permit from "./components/shared/comp/Permit";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -166,5 +168,9 @@ export default [
   {
     path: "/book/newbook",
     element: BookMenuMain,
+  },
+  {
+    path: "*",
+    element: NotFound,
   },
 ];

@@ -110,7 +110,7 @@ const Inp = styled.input`
       : "1004px"};
 
   height: ${({ $inputType, size }) =>
-    $inputType === "search" ? (size == "small" ? "46px" : "60px") : "46px"};
+    $inputType === "search" ? (size === "small" ? "46px" : "60px") : "46px"};
   outline: none;
   border: 1px solid #000;
   border-radius: 4px;

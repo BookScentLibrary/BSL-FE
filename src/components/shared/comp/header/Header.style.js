@@ -25,7 +25,7 @@ export const LogoWrapper = styled.div`
 
 export const MenuWrapper = styled.div`
   display: flex;
-  width: 544px;
+  width: 546px;
   justify-content: center;
   & > p {
     cursor: pointer;

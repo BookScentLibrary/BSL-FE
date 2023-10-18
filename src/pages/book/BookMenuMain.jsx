@@ -33,7 +33,6 @@ const BookMenuMain = (props) => {
 
   const goToNewBook = () => {
     setPageIdx(1);
-    
   };
 
   const goToBestseller = () => {
@@ -86,19 +85,7 @@ const BookMenuMain = (props) => {
             사서 추천 도서
           </p>
         </Menu>
-
         {page[pageIdx]}
-
-        <div style={{ display: "grid", gap: "12px" }}>
-          <Input
-            label="책번호"
-            width="100px"
-            padding="0 20px 0 100px"
-            defaultValue="1"
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <Button onClick={() => goToDetail()}>임시 상세페이지</Button>
-        </div>
       </Container>
     </React.Fragment>
   );

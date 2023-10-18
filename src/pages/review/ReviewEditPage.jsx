@@ -6,6 +6,7 @@ import Input from "../../components/shared/elements/Input";
 import Button from "../../components/shared/elements/Button";
 import SearchModal from "../../components/recommend/SearchModal";
 import { ReactComponent as Flower } from "../../asset/icons/flower.svg";
+import Permit from "../../components/shared/comp/Permit";
 
 const ReviewEditPage = () => {
   const formatDate = (dateString) => {
@@ -16,9 +17,6 @@ const ReviewEditPage = () => {
     );
     return formattedDate.replace(/\.$/, ""); // 마지막 "." 제거
   };
-
-  
-  
 
   const { rev_postId } = useParams();
   const navigate = useNavigate();
@@ -67,8 +65,6 @@ const ReviewEditPage = () => {
       rate: newRate,
     });
   };
-  
-
 
   // useEffect를 사용하여 리뷰 정보 가져오기
   useEffect(() => {
@@ -117,8 +113,6 @@ const ReviewEditPage = () => {
     fetchReview();
   }, [rev_postId]);
 
-
-
   // 폼 입력값이 변경될 때마다 상태 업데이트
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -127,8 +121,6 @@ const ReviewEditPage = () => {
       [name]: value,
     });
   };
-
- 
 
   // 폼 데이터를 사용하여 리뷰 수정
   const handleUpdate = async () => {
@@ -175,39 +167,40 @@ const ReviewEditPage = () => {
     return <p>Loading...</p>;
   }
   return (
-    <div>
-      <h2>리뷰 수정</h2>
-      <hr />
-      <Input
-        type="text"
-        name="postTitle"
-        value={formData.postTitle}
-        label="제목"
-        onChange={handleFormChange}
-      />
-      <SearchModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSelectBook={handleSelectBook}
-      />
-
+    <Permit>
       <div>
-        {selectedBook ? (
-          <div>
-            <Image src={selectedBook.bookImageURL} />
-            <div>
-              <h2>{selectedBook.bookname}</h2>
-              <p>저자: {selectedBook.author}</p>
-              <p>발행처: {selectedBook.publisher}</p>
-              <p>청구기호: {selectedBook.callNum}</p>
-              <p>자료실: {selectedBook.shelfarea}</p>
-            </div>
-            <Button onClick={handleSearch}>다시 검색하기</Button>
-          </div>
-        ) : null}
-      </div>
+        <h2>리뷰 수정</h2>
+        <hr />
+        <Input
+          type="text"
+          name="postTitle"
+          value={formData.postTitle}
+          label="제목"
+          onChange={handleFormChange}
+        />
+        <SearchModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSelectBook={handleSelectBook}
+        />
 
-      {/* <div>
+        <div>
+          {selectedBook ? (
+            <div>
+              <Image src={selectedBook.bookImageURL} />
+              <div>
+                <h2>{selectedBook.bookname}</h2>
+                <p>저자: {selectedBook.author}</p>
+                <p>발행처: {selectedBook.publisher}</p>
+                <p>청구기호: {selectedBook.callNum}</p>
+                <p>자료실: {selectedBook.shelfarea}</p>
+              </div>
+              <Button onClick={handleSearch}>다시 검색하기</Button>
+            </div>
+          ) : null}
+        </div>
+
+        {/* <div>
           <label htmlFor="postTitle">제목:</label>
           <input
             type="text"
@@ -218,47 +211,54 @@ const ReviewEditPage = () => {
           />
           <p>{formatDate(review.createdAt)}</p>
         </div> */}
-      <div>
-        <label htmlFor="rate">평점</label>
-        <input
-          type="number"
-          id="rate"
-          name="rate"
-          value={formData.rate}
-          onChange={handleFormChange}
-        />
-      </div>
-      <Container className="startRadio">
-  {[1, 2, 3, 4, 5].map((star) => (
-    <StarBox key={star} className="startRadio__box" onClick={() => handleStarClick(star)}>
-      <input
-        type="radio"
-        name="star"
-        value={star}
-        checked={formData.rate === star} // Use formData.rate for checked state
-      />
-      <Flower
-        className={`startRadio__img ${formData.rate >= star ? "active" : ""}`} // Use formData.rate for styling
-      />
-    </StarBox>
-  ))}
-</Container>
-      <div>
-        <label htmlFor="content">내용:</label>
-        <textarea
-          id="content"
-          name="content"
-          value={formData.content}
-          onChange={handleFormChange}
-        />
-      </div>
+        <div>
+          <label htmlFor="rate">평점</label>
+          <input
+            type="number"
+            id="rate"
+            name="rate"
+            value={formData.rate}
+            onChange={handleFormChange}
+          />
+        </div>
+        <Container className="startRadio">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <StarBox
+              key={star}
+              className="startRadio__box"
+              onClick={() => handleStarClick(star)}
+            >
+              <input
+                type="radio"
+                name="star"
+                value={star}
+                checked={formData.rate === star} // Use formData.rate for checked state
+              />
+              <Flower
+                className={`startRadio__img ${
+                  formData.rate >= star ? "active" : ""
+                }`} // Use formData.rate for styling
+              />
+            </StarBox>
+          ))}
+        </Container>
+        <div>
+          <label htmlFor="content">내용:</label>
+          <textarea
+            id="content"
+            name="content"
+            value={formData.content}
+            onChange={handleFormChange}
+          />
+        </div>
 
-      {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
-      <button onClick={handleUpdate}>리뷰 등록</button>
-      <Link to={`/news/reviewDetail/${rev_postId}`}>
-        <button>취소</button>
-      </Link>
-    </div>
+        {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
+        <button onClick={handleUpdate}>리뷰 등록</button>
+        <Link to={`/news/reviewDetail/${rev_postId}`}>
+          <button>취소</button>
+        </Link>
+      </div>
+    </Permit>
   );
 };
 

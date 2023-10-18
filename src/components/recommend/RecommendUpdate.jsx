@@ -6,6 +6,7 @@ import axios from "axios";
 import * as S from "./RecommendUpdate.style";
 import SearchModal from "./SearchModal";
 import styled from "styled-components";
+import Permit from "../shared/comp/Permit";
 
 const RecommendUpdate = () => {
   const { recPostId } = useParams();
@@ -128,7 +129,7 @@ const RecommendUpdate = () => {
   };
 
   return (
-    <>
+    <Permit>
       <Input
         label="제목"
         inputType="post"
@@ -223,7 +224,7 @@ const RecommendUpdate = () => {
           </Link>
         </S.CenteredButtonGroup>
       </div>
-    </>
+    </Permit>
   );
 };
 

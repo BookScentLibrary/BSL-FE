@@ -37,7 +37,7 @@ export const BookInfo = styled.div`
 
   width: 100%;
   max-width: 876px;
-  height: 240px;
+  height: fit-content;
 `;
 
 export const BookImg = styled.div`

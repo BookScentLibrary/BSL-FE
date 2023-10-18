@@ -4,7 +4,7 @@ import styled from "styled-components";
 const BookInfoData = ({ book }) => {
   return (
     <BookInfoText>
-      <p>{book.bookname}</p>
+      <p className="title">{book.bookname}</p>
       <FlexContainer>
         <div className="columns">
           <p>저자사항</p>
@@ -14,13 +14,14 @@ const BookInfoData = ({ book }) => {
           <p>isbn</p>
         </div>
         <div className="data">
-          <p>
-            {book.author && book.author.map((cur, idx) => {
-              if (book.author.length - 1 === idx) {
-                return <span key={idx}>{cur}</span>;
-              }
-              return <span key={idx}>{cur} | </span>;
-            })}
+          <p className="author">
+            {book.author &&
+              book.author.map((cur, idx) => {
+                if (book.author.length - 1 === idx) {
+                  return <span key={idx}>{cur}</span>;
+                }
+                return <span key={idx}>{cur} | </span>;
+              })}
           </p>
           <p>
             {book.publisher}, {book.publicationYear}
@@ -59,6 +60,13 @@ const FlexContainer = styled.div`
 
   & > .data {
     font-weight: 500;
+  }
+
+  & > div > .author {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 

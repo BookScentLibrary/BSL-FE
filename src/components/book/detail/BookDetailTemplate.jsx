@@ -64,7 +64,11 @@ const BookDetailTemplate = (props) => {
             </Button>
           </div>
           <div>
-            <Button type="middle" color="green" onClick={() => addBookCart(book.bookNo)}>
+            <Button
+              type="middle"
+              color="green"
+              onClick={() => addBookCart(book.bookNo)}
+            >
               책 바구니 담기
             </Button>
           </div>

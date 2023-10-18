@@ -32,17 +32,18 @@ const MainNewBook = () => {
         <MoreButton onClick={goToNewBook} />
       </TitleSection>
       <BookSection>
-        {books && books.map((cur, idx) => {
-          return (
-            <BasicTemp
-              key={cur.bookNo}
-              img={cur.bookImageURL}
-              title={cur.bookname}
-              author={cur.author}
-              bookNo={cur.bookNo}
-            />
-          );
-        })}
+        {books &&
+          books.map((cur, idx) => {
+            return (
+              <BasicTemp
+                key={cur.bookNo}
+                img={cur.bookImageURL}
+                title={cur.bookname}
+                author={cur.author}
+                bookNo={cur.bookNo}
+              />
+            );
+          })}
       </BookSection>
     </Container>
   );

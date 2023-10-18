@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Permit from "../../components/shared/comp/Permit";
 
 const NoticeWritePage = () => {
   const navigate = useNavigate();
@@ -76,54 +77,58 @@ const NoticeWritePage = () => {
   // };
 
   return (
-    <div>
-      <h2>공지사항 작성</h2>
-      <form onSubmit={handleNoticeSubmit}>
-        <label htmlFor="userId">아이디</label>
-        <input
-          type="text"
-          name="userId"
-          id="userId"
-          value={formData.userId}
-          onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
-        />
-        <br />
-        <label htmlFor="postTitle">제목</label>
-        <input
-          type="text"
-          name="postTitle"
-          id="postTitle"
-          value={formData.postTitle}
-          onChange={(e) =>
-            setFormData({ ...formData, postTitle: e.target.value })
-          }
-        />
-        <div>
-          <label htmlFor="inputFile">
-            <strong>첨부 파일</strong>
-          </label>
+    <Permit>
+      <div>
+        <h2>공지사항 작성</h2>
+        <form onSubmit={handleNoticeSubmit}>
+          <label htmlFor="userId">아이디</label>
+          <input
+            type="text"
+            name="userId"
+            id="userId"
+            value={formData.userId}
+            onChange={(e) =>
+              setFormData({ ...formData, userId: e.target.value })
+            }
+          />
+          <br />
+          <label htmlFor="postTitle">제목</label>
+          <input
+            type="text"
+            name="postTitle"
+            id="postTitle"
+            value={formData.postTitle}
+            onChange={(e) =>
+              setFormData({ ...formData, postTitle: e.target.value })
+            }
+          />
           <div>
-            <div id="inputFile">
-              <input
-                name="file"
-                type="file"
-                id="customFile"
-                onChange={handleFileChange}
-              />
+            <label htmlFor="inputFile">
+              <strong>첨부 파일</strong>
+            </label>
+            <div>
+              <div id="inputFile">
+                <input
+                  name="file"
+                  type="file"
+                  id="customFile"
+                  onChange={handleFileChange}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <textarea
-          name="content"
-          id="content"
-          value={formData.content}
-          onChange={(e) =>
-            setFormData({ ...formData, content: e.target.value })
-          }
-        ></textarea>
-        <button type="submit">공지사항 등록</button>
-      </form>
-    </div>
+          <textarea
+            name="content"
+            id="content"
+            value={formData.content}
+            onChange={(e) =>
+              setFormData({ ...formData, content: e.target.value })
+            }
+          ></textarea>
+          <button type="submit">공지사항 등록</button>
+        </form>
+      </div>
+    </Permit>
   );
 };
 

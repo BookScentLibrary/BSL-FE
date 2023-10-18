@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { BookRecommendAPI } from "../../core/redux/bookSlice";
 import * as S from "./RecommendWrite.style";
 import SearchModal from "./SearchModal";
+import Permit from "../shared/comp/Permit";
 
 const RecommendWrite = () => {
   const [postTitle, setPostTitle] = useState(""); //게시글 제목
@@ -42,7 +43,7 @@ const RecommendWrite = () => {
     dispatch(BookRecommendAPI(data));
   };
   return (
-    <>
+    <Permit>
       <S.StyledWord>
         <h1>사서 추천 도서 작성</h1>
       </S.StyledWord>
@@ -156,7 +157,7 @@ const RecommendWrite = () => {
           <Button onClick={handleSubmit}>등록하기</Button>
         </div>
       </div>
-    </>
+    </Permit>
   );
 };
 

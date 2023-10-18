@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Permit from "../../components/shared/comp/Permit";
 
 const NoticeEditPage = () => {
   const formatDate = (dateString) => {
@@ -40,7 +41,7 @@ const NoticeEditPage = () => {
         setFormData({
           userId: response.data.userId,
           not_postId: response.data.not_postId,
-            postTitle: response.data.postTitle,
+          postTitle: response.data.postTitle,
           content: response.data.content,
         });
       } catch (error) {
@@ -73,7 +74,7 @@ const NoticeEditPage = () => {
 
       const response = await axios.put(
         `http://localhost:8080/news/noticeEdit/${not_postId}`,
-            updatednotice
+        updatednotice
       );
 
       if (response.status === 200) {
@@ -94,39 +95,41 @@ const NoticeEditPage = () => {
     return <p>Loading...</p>;
   }
   return (
-    <div>
-      <h2>리뷰 수정</h2>
-      <hr />
-      
-      <form>
-        <div>
-          <label htmlFor="postTitle">제목:</label>
-          <input
-            type="text"
-            id="postTitle"
-            name="postTitle"
-            value={formData.postTitle}
-            onChange={handleFormChange}
-          />
-          {/* <p>{formatDate(notice.createdAt)}</p> */}
-        </div>
-        <div>
-          <label htmlFor="content">내용:</label>
-          <textarea
-            id="content"
-            name="content"
-            value={formData.content}
-            onChange={handleFormChange}
-          />
-        </div>
-      </form>
+    <Permit>
+      <div>
+        <h2>리뷰 수정</h2>
+        <hr />
 
-      {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
-      <button onClick={handleUpdate}>리뷰 등록</button>
-      <Link to={`/news/noticeDetail/${not_postId}`}>
-        <button>취소</button>
-      </Link>
-    </div>
+        <form>
+          <div>
+            <label htmlFor="postTitle">제목:</label>
+            <input
+              type="text"
+              id="postTitle"
+              name="postTitle"
+              value={formData.postTitle}
+              onChange={handleFormChange}
+            />
+            {/* <p>{formatDate(notice.createdAt)}</p> */}
+          </div>
+          <div>
+            <label htmlFor="content">내용:</label>
+            <textarea
+              id="content"
+              name="content"
+              value={formData.content}
+              onChange={handleFormChange}
+            />
+          </div>
+        </form>
+
+        {/* 수정 버튼을 누르면 handleUpdate 함수 호출 */}
+        <button onClick={handleUpdate}>리뷰 등록</button>
+        <Link to={`/news/noticeDetail/${not_postId}`}>
+          <button>취소</button>
+        </Link>
+      </div>
+    </Permit>
   );
 };
 

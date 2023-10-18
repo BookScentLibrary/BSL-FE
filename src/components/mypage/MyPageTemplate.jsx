@@ -11,14 +11,7 @@ import MyPageHistory from "./MyPageHistory";
 import NotFunc from "./NotFunc";
 import MyPageReview from "./MyPageReview";
 import MyPageRentNow from "./MyPageRentNow";
-
-const user = {
-  username: "river123",
-  nickname: "유나룽야",
-  rent: 128,
-  review: 124,
-  program: 123,
-};
+import Permit from "../shared/comp/Permit";
 
 const MyPageTemplate = () => {
   const pathname = useLocation().pathname;
@@ -107,7 +100,7 @@ const MyPageTemplate = () => {
   }, [pathname]);
 
   return (
-    <>
+    <Permit>
       <UserSection>
         <Flex center gap="48px" margin="0 0 80px 0">
           <DefaultProfile width="100px" height="100px" />
@@ -127,7 +120,7 @@ const MyPageTemplate = () => {
             </Flex>
           </TitleArea>
         </Flex>
-        <CountInfoBlock user={user} setPageIdx={setPageIdx} />
+        <CountInfoBlock setPageIdx={setPageIdx} />
       </UserSection>
       <MenuSection idx={pageIdx}>
         {menuArr &&
@@ -148,7 +141,7 @@ const MyPageTemplate = () => {
           })}
       </MenuSection>
       {pages[pageIdx]}
-    </>
+    </Permit>
   );
 };
 
@@ -201,6 +194,8 @@ const TitleArea = styled.div`
   }
 
   & > .mypage_user__title {
+    display: flex;
+    align-items: center;
     margin: 4px 0 16px 0;
     font-size: 32px;
     cursor: pointer;

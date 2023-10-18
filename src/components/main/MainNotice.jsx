@@ -40,7 +40,7 @@ const MainNotice = () => {
             <MoreButton onClick={goToNotice} />
           </Title>
           <ContentContainer>
-            {notice ? (
+            {notice && notice.length > 0 ? (
               notice.map((cur, idx) => {
                 return (
                   <Content key={idx}>
@@ -60,7 +60,7 @@ const MainNotice = () => {
             <MoreButton onClick={goToProgram} />
           </Title>
           <ContentContainer>
-            {program ? (
+            {program && program.length > 0 ? (
               program.map((cur, idx) => {
                 const date = new Date(cur.createdAt);
                 const year = date.getFullYear();

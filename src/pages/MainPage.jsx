@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import MainPageTemplate from "../components/main/MainPageTemplate";
+import Permit from "../components/shared/comp/Permit";
 
 const MainPage = (props) => {
   return (
@@ -9,6 +10,5 @@ const MainPage = (props) => {
     </React.Fragment>
   );
 };
-
 
 export default MainPage;

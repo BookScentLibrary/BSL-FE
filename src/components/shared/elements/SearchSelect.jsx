@@ -67,6 +67,7 @@ const SelectBox = styled.div`
   border: 1px solid #000;
   border-right: none;
   text-align: center;
+  z-index: 10000;
 
   &::before {
     ${({ $show }) => ($show ? "transform: rotate(180deg)" : null)};
