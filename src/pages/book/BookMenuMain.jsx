@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Input from "../../components/shared/elements/Input";
 import RecommendList from "../../components/recommend/RecommendList";
 import RecommendDetail from "../../components/recommend/RecommendDetail";
+import BestSeller from "../../components/bestBookPage/BestSeller";
 
 const BookMenuMain = (props) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const BookMenuMain = (props) => {
   const page = {
     0: <SearchMain />,
     1: <NewBookMain />,
-    2: "",
+    2: <BestSeller/>,
     3: <RecommendList />,
     4: <BookDetail page={pageIdx} setPage={setPageIdx} />,
     5: <RecommendDetail recPostId={recPostId} setRecPostId={setRecPostId} />,
@@ -36,6 +37,7 @@ const BookMenuMain = (props) => {
 
   const goToBestseller = () => {
     setPageIdx(2);
+    navigate("/book/bestseller");
   };
 
   const goToRecommend = () => {
@@ -64,6 +66,8 @@ const BookMenuMain = (props) => {
       setPageIdx(3);
     } else if (pathname.split("/")[2] === "recommendDetail") {
       setPageIdx(5);
+    } else if (pathname.split("/")[1] === "bestseller"){
+      setPageIdx(2);
     }
   }, [pathname]);
 

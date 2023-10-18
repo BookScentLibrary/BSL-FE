@@ -162,7 +162,7 @@ export default [
   //인기도서 페이지
   {
     path: "/book/bestseller",
-    element: BestSeller,
+    element: BookMenuMain,
   },
   {
     path: "/book/newbook",
