@@ -47,6 +47,10 @@ export const Recommend = styled.div`
 
   & > div > .content {
     width: 152px;
+    height: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & > div > div > .book_temp__content {

@@ -260,8 +260,8 @@ export const addBookCartAPI = createAsyncThunk(
         bookNo: bookNo,
         userId: userId,
       };
-
       const response = await bookAPI.addBookCart(data);
+      window.alert("도서를 책바구니에 담았습니다.")
     } catch (error) {
       console.log("BOOK_ADD_BOOK_CART : error response", error.response.data);
     }

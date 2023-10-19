@@ -12,17 +12,16 @@ import {
 
 const MyPageBookCart = () => {
   const dispatch = useDispatch();
+  const [checkedList, setCheckedList] = React.useState([]);
+
   const booklist = useSelector((state) => state.mypage.bookcart);
+  
   const rentNow = useSelector((state) => state.mypage.rentnow);
 
-  const [checkedList, setCheckedList] = React.useState([]);
 
   const messages = {
     0: "도서 대출은 3권까지 가능합니다.",
-    1:
-      "도서 대출은 3권까지 가능합니다.\n 현재 " +
-      rentNow.length +
-      "권의 도서를 대출중입니다.",
+    1: "도서 대출은 3권까지 가능합니다.\n 현재 " + rentNow.length + "권의 도서를 대출중입니다.",
     2: "대출할 도서를 선택해주세요!",
     3: "대출이 완료되었습니다.",
   };
